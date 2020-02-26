@@ -6,6 +6,7 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AppBarHeaderProps } from './AppBarHeader.types';
 import { RouteNames } from '../../routes/routes';
+import { IApplicationStore } from '../../redux/store/store.types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,18 +32,31 @@ const AppBarHeader: React.FunctionComponent<AppBarHeaderProps> = (props: AppBarH
         <Typography variant="h6" className={classes.title}>
           Ceres
         </Typography>
-        <Button color="inherit" onClick={props.onNavigate}>Login</Button>
+        {props.firstName === undefined &&
+          <Button color="inherit" onClick={props.onSignUp}>Sign Up</Button>}
+        {props.firstName !== undefined &&
+          <Button color="inherit" onClick={props.onLogin}>Login</Button>}
+
       </Toolbar>
     </AppBar>
   )
 }
 
+const mapStateToProps = (store: IApplicationStore) => {
+  return {
+    firstName: store.ceres.signUp.firstName
+  }
+}
+
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    onNavigate: () => {
+    onSignUp: () => {
+      dispatch(actions.navigateTo(RouteNames.SignUp));
+    },
+    onLogin: () => {
       dispatch(actions.navigateTo(RouteNames.Login));
     },
   }
 }
 
-export default connect(null, mapDispatchToProps)(AppBarHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(AppBarHeader);

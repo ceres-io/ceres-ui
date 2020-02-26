@@ -1,7 +1,11 @@
 
-
-export interface IAppBarHeaderEvent {
-  onNavigate?: () => void;
+export interface IAppBarHeaderInput {
+  firstName?: string
 }
 
-export type AppBarHeaderProps = IAppBarHeaderEvent;
+export interface IAppBarHeaderEvent {
+  onLogin?: () => void;
+  onSignUp?: () => void;
+}
+
+export type AppBarHeaderProps = IAppBarHeaderInput & IAppBarHeaderEvent;

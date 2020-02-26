@@ -1,5 +1,8 @@
+import { IState } from "../reducers/reducers";
+
 export interface IApplicationStore {
-  route: IRouter5State
+  route: IRouter5State,
+  ceres: IState
 }
 
 

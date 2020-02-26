@@ -6,12 +6,13 @@ import Home from '../home/Home';
 import { createRouteNodeSelector } from 'redux-router5';
 import { connect } from 'react-redux';
 import { IApplicationStore } from '../../redux/store/store.types';
+import Signup from '../signup/Signup';
 
 
 const Main: React.FunctionComponent<MainProps> = props => {
   switch (props.currentRouteName) {
-    case RouteNames.Login: {
-      return <Login />;
+    case RouteNames.SignUp: {
+      return <Signup />
     }
     default:
       return <Home />;

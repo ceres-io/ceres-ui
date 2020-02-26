@@ -3,7 +3,8 @@ import { Route } from "router5";
 export enum RouteNames {
   Base = 'ceres',
   Home = 'ceres.home',
-  Login = 'ceres.login'
+  Login = 'ceres.login',
+  SignUp = 'ceres.signup'
 }
 
 export const routes: Route[] = [
@@ -12,12 +13,16 @@ export const routes: Route[] = [
     path: '/ceres'
   },
   {
-    name: 'ceres.home',
+    name: RouteNames.Home,
     path: '/home'
   },
   {
-    name: 'ceres.login',
+    name: RouteNames.Login,
     path: '/login'
+  },
+  {
+    name: RouteNames.SignUp,
+    path: '/signup'
   }
 ]
 

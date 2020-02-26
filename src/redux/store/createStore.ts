@@ -5,6 +5,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
 import { Router } from 'router5';
 import { IApplicationStore } from './store.types';
+import { ceresReducers } from '../reducers/reducers';
 
 export function createReduxStore(router: Router, initialState = {}) {
   const sagaMiddleware = createSagaMiddleware();
@@ -21,17 +22,17 @@ export function createReduxStore(router: Router, initialState = {}) {
 
   const reducers = combineReducers({
     router: router5Reducer,
+    ceres: ceresReducers
   })
 
   const store: Store = createStoreWithMiddleware(
     reducers,
-    // initialState
   )
 
   // sagaMiddleware.run()
 
   // @ts-ignore
-  // window.store = store
+  window.store = store
 
   return store;
 }
