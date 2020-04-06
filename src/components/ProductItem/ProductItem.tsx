@@ -1,7 +1,8 @@
-import React, { ChangeEvent, FocusEvent } from 'react';
+import React, { FunctionComponent, FocusEvent } from 'react';
 import { ProductItemProps } from './ProductItem.types';
 import { Card, makeStyles, CardMedia, Typography, CardContent, CardActions, ButtonGroup, Button, IconButton, TextField, Chip, Grid, Container } from '@material-ui/core';
 import { Add, Remove } from '@material-ui/icons';
+import { CategoryBar } from './CategoryBar/CategoryBar';
 
 const useStyles = makeStyles({
   root: {
@@ -24,15 +25,11 @@ const useStyles = makeStyles({
   numberInput: {
     maxWidth: 75
   },
-  productCategories: {
-    paddingTop: 10,
-    paddingBottom: 10
-  }
 })
 
 
 
-export const ProductItem: React.FunctionComponent<ProductItemProps> = (props) => {
+export const ProductItem: FunctionComponent<ProductItemProps> = (props) => {
   const classes = useStyles();
 
   const onIncrease = () => {
@@ -71,9 +68,7 @@ export const ProductItem: React.FunctionComponent<ProductItemProps> = (props) =>
       <img className={classes.image} src={props.productType.imageUrl} />
 
       <CardContent>
-        <Container className={classes.productCategories}>
-          <Chip label='Snacks' size='small' variant='outlined' />
-        </Container>
+        <CategoryBar categories={props.productType.categories} />
         <Typography variant='subtitle1' className={classes.name} align='center'>
           {props.productType.name}
         </Typography>

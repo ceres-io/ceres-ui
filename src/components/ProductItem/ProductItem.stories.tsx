@@ -10,7 +10,7 @@ let productType: ProductTypeVO = {
   name: 'Kroger Vitamin A & D Reduced Fat 2% Milk',
   price: 10,
   imageUrl: 'https://spoonacular.com/productImages/27693-312x231.jpg',
-  categories: ['Snacks']
+  categories: ['Snacks', 'Pizza', 'Junk Food']
 }
 
 export const normal = () => <ProductItem productType={productType} onQuantityChange={action('onQuantityChange')} />;
