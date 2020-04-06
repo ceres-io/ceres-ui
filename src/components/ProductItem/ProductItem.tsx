@@ -24,39 +24,58 @@ const useStyles = makeStyles({
   numberInput: {
     maxWidth: 75
   },
-  productTypes: {
+  productCategories: {
     paddingTop: 10,
     paddingBottom: 10
   }
 })
 
+
+
 export const ProductItem: React.FunctionComponent<ProductItemProps> = (props) => {
   const classes = useStyles();
 
   const onIncrease = () => {
-    // TODO - fire props onIncrease
+    if (props.onQuantityChange) {
+      let quantity: number = props.quantity ? props.quantity + 1 : 1
+      props.onQuantityChange(quantity)
+    }
   }
 
   const onDecrease = () => {
-    // TODO - fire props onDecrease
+    if (props.onQuantityChange) {
+      let quantity: number = props.quantity ? props.quantity - 1 : 0
+      props.onQuantityChange(quantity)
+    }
   }
 
   const onQuantityInputFinished = (event: FocusEvent<HTMLInputElement>) => {
-    // TODO - fire props onQuantityChange
-    console.log(event.currentTarget.value)
+    if (props.onQuantityChange) {
+      let quantity: number = parseInt(event.target.value)
+      props.onQuantityChange(quantity)
+    }
+  }
+
+  // TODO - extract to util
+  const getFormattedPrice = (): string => {
+    let formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    })
+    return formatter.format(props.productType.price)
   }
 
   return (
     <Card className={classes.root}>
 
-      <img className={classes.image} src='https://spoonacular.com/productImages/27693-312x231.jpg' />
+      <img className={classes.image} src={props.productType.imageUrl} />
 
       <CardContent>
-        <Container className={classes.productTypes}>
+        <Container className={classes.productCategories}>
           <Chip label='Snacks' size='small' variant='outlined' />
         </Container>
         <Typography variant='subtitle1' className={classes.name} align='center'>
-          {'Kroger Vitamin A & D Reduced Fat 2% Milk'}
+          {props.productType.name}
         </Typography>
       </CardContent>
 
@@ -69,8 +88,8 @@ export const ProductItem: React.FunctionComponent<ProductItemProps> = (props) =>
           alignItems='center'
         >
           <Typography variant='body1'>
-            $10.00
-        </Typography>
+            {getFormattedPrice()}
+          </Typography>
           <IconButton onClick={onIncrease}>
             <Add />
           </IconButton>
