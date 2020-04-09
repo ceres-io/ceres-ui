@@ -1,23 +1,27 @@
-import React, { FunctionComponent } from 'react';
-import { ProductSearchProps } from './ProductSearch.types';
+import React, { FunctionComponent, useReducer, useEffect } from 'react';
+import { ProductSearchProps, ProductSearchOption, ProductSearchOptionType } from './ProductSearch.types';
 
 import { Autocomplete } from '@material-ui/lab';
 import { ProductTypeVO } from '../../models/ProductTypeVO';
-import { TextField } from '@material-ui/core';
+import { TextField, InputAdornment, Chip } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
 
 import { debounce } from 'debounce';
 import matchSorter from 'match-sorter';
+import { reducer, getDefaultState, IProductSearchState } from './ProductSearch.reducer';
+import logger from 'use-reducer-logger';
+import { InputAction, SelectionAction } from './ProductSearch.action';
 
-enum ProductSearchOptionType {
-  Category = 'category',
-  Product = 'product'
-}
+// enum ProductSearchOptionType {
+//   Category = 'category',
+//   Product = 'product'
+// }
 
-interface ProductSearchOption {
-  group: ProductSearchOptionType
-  label: string
-  value: string | ProductTypeVO
-}
+// interface ProductSearchOption {
+//   group: ProductSearchOptionType
+//   label: string
+//   value: string | ProductTypeVO
+// }
 
 enum ProductSearchInputEventType {
   input = 'input',
@@ -31,21 +35,19 @@ interface ProductSearchInputEvent {
 
 
 export const ProductSearch: FunctionComponent<ProductSearchProps> = (props) => {
+  const initialState: IProductSearchState = getDefaultState(props.availableProducts);
+  const [state, dispatch] = useReducer(logger(reducer), initialState)
 
-  const dispatchOnChange = (event: ProductSearchInputEvent) => {
+  useEffect(() => {
+    debouncedDispatch(state.filtered)
+  }, [state.filtered])
+
+  // TODO - move event and this logic to reducer
+  // Add filteredProducts to reduced state
+  // Fire onChange event with state update using `useEffect`
+  const dispatchOnChange = () => {
     if (props.onChange) {
-      let products: ProductTypeVO[] = []
-      switch (event.type) {
-        case ProductSearchInputEventType.input: {
-          products = getMatchingProducts(event.value as string)
-          break;
-        }
-        case ProductSearchInputEventType.selection: {
-          products = getSelectionResult(event.value as ProductSearchOption)
-        }
-      }
-
-      props.onChange(products)
+      props.onChange(state.filtered)
     }
   }
 
@@ -56,24 +58,24 @@ export const ProductSearch: FunctionComponent<ProductSearchProps> = (props) => {
     return matchSorter(options, inputValue, { keys: ['label'] });
   }
 
-  const getMatchingProducts = (filter: string): ProductTypeVO[] => {
-    return matchSorter(props.availableProducts, filter, { keys: ['name'] })
-  }
+  // const getMatchingProducts = (filter: string): ProductTypeVO[] => {
+  //   return matchSorter(props.availableProducts, filter, { keys: ['name'] })
+  // }
 
-  const getSelectionResult = (selected: ProductSearchOption): ProductTypeVO[] => {
-    switch (selected.group) {
-      case ProductSearchOptionType.Category: {
-        let category: string = selected.value as string
-        let categoryProducts: ProductTypeVO[] = props.availableProducts.filter(pt => pt.categories.includes(category))
+  // const getSelectionResult = (selected: ProductSearchOption): ProductTypeVO[] => {
+  //   switch (selected.group) {
+  //     case ProductSearchOptionType.Category: {
+  //       let category: string = selected.value as string
+  //       let categoryProducts: ProductTypeVO[] = props.availableProducts.filter(pt => pt.categories.includes(category))
 
-        // TODO - set category as chip in search
-        return categoryProducts
-      }
-      case ProductSearchOptionType.Product: {
-        return [selected.value as ProductTypeVO]
-      }
-    }
-  }
+  //       // TODO - set category as chip in search
+  //       return categoryProducts
+  //     }
+  //     case ProductSearchOptionType.Product: {
+  //       return [selected.value as ProductTypeVO]
+  //     }
+  //   }
+  // }
 
 
   // Option can be a category OR a product
@@ -94,7 +96,7 @@ export const ProductSearch: FunctionComponent<ProductSearchProps> = (props) => {
   const onInputChange = (event: object, value: string, reason: string) => {
     switch (reason) {
       case 'input': {
-        debouncedDispatch({ type: ProductSearchInputEventType.input, value: value });
+        dispatch(new InputAction({ filter: value }));
         break;
       }
     }
@@ -103,7 +105,7 @@ export const ProductSearch: FunctionComponent<ProductSearchProps> = (props) => {
   const onOptionSelect = (event: object, value: ProductSearchOption, reason: string) => {
     switch (reason) {
       case 'select-option': {
-        dispatchOnChange({ type: ProductSearchInputEventType.selection, value: value })
+        dispatch(new SelectionAction({ selected: value }));
         break;
       }
     }
@@ -116,10 +118,16 @@ export const ProductSearch: FunctionComponent<ProductSearchProps> = (props) => {
       options={getSearchOptions()}
       groupBy={o => o.group}
       getOptionLabel={o => o.label}
+      // renderTags={(categories, getTagProps) =>
+      //   categories.map((category, index) => (
+      //     <Chip label={category} {...getTagProps({ index })} />
+      //   ))
+      // }
       renderInput={params => <TextField {...params} label='Search for a product or category' variant='filled' />}
       onInputChange={onInputChange}
       filterOptions={filterOptions}
       onChange={onOptionSelect}
+      autoHighlight={true}
     />
   )
 }
