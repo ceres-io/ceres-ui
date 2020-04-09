@@ -17,7 +17,7 @@ export class InputAction implements Action<ActionName> {
 }
 
 export interface ISelectionPayload {
-  selected: ProductSearchOption
+  selected: ProductSearchOption[]
 }
 
 export class SelectionAction implements Action<ActionName> {
