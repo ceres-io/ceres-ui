@@ -7,7 +7,7 @@ export interface IShoppingCartSidebartInput {
 
 
 export interface IShoppingCartSidebartEvent {
-
+  onCheckout?: () => void;
 }
 
 

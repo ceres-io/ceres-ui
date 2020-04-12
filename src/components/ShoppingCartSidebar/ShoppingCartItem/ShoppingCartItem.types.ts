@@ -7,7 +7,8 @@ export interface IShoppingCartItemInput {
 
 
 export interface IShoppingCartItemEvent {
-
+  onQuantityChange?: (quantity: number) => void;
+  onRemove?: () => void;
 }
 
 

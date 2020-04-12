@@ -27,8 +27,22 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+
+
 export const ShoppingCartItem: FunctionComponent<ShoppingCartItemProps> = (props) => {
   const classes = useStyles();
+
+  const onQuantityIncrement = (increment: number) => {
+    if (props.onQuantityChange) {
+      props.onQuantityChange(props.product.quantity + increment)
+    }
+  }
+
+  const onRemove = () => {
+    if (props.onRemove) {
+      props.onRemove();
+    }
+  }
 
   return (
     <TableRow key={props.product.type.name}>
@@ -52,17 +66,17 @@ export const ShoppingCartItem: FunctionComponent<ShoppingCartItemProps> = (props
         </Grid>
       </TableCell>
       <TableCell className={classes.button}>
-        <IconButton>
+        <IconButton onClick={() => onQuantityIncrement(1)}>
           <Add />
         </IconButton>
       </TableCell>
       <TableCell className={classes.button}>
-        <IconButton>
+        <IconButton onClick={() => onQuantityIncrement(-1)}>
           <Remove />
         </IconButton>
       </TableCell>
       <TableCell className={classes.button}>
-        <IconButton>
+        <IconButton onClick={onRemove}>
           <Delete />
         </IconButton>
       </TableCell >
