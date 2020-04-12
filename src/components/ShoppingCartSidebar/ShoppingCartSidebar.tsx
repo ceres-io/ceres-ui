@@ -1,9 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import { ShoppingCartSidebarProps } from './ShoppingCartSidebar.types';
 
-import { Paper, makeStyles, Typography, Container, Grid, Divider, createStyles, Theme, Table, TableBody, TableContainer } from '@material-ui/core';
+import { Paper, makeStyles, Typography, Container, Grid, Divider, createStyles, Theme, Table, TableBody, TableContainer, Button } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { ShoppingCartItem } from './ShoppingCartItem/ShoppingCartItem';
+import { CartTotal } from './CartTotal/CartTotal';
 
 const SIDEBAR_ELEVATION = 2;
 
@@ -13,19 +14,23 @@ const useStyles = makeStyles((theme: Theme) =>
       maxWidth: 450
     },
     content: {
-      paddingTop: 20,
-      paddingBottom: 20
+      paddingTop: theme.spacing(2),
+      paddingBottom: theme.spacing(2)
     },
     divider: {
-      paddingTop: 10,
-      paddingBottom: 10
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1)
     },
     table: {
       tableLayout: 'fixed',
-      width: '100%'
+      width: '92%'
     },
     tableContainer: {
-      paddingRight: theme.spacing(1)
+      paddingBottom: theme.spacing(2)
+    },
+    checkoutButton: {
+      paddingTop: theme.spacing(2),
+      textAlign: 'center'
     }
   })
 )
@@ -61,6 +66,12 @@ export const ShoppingCartSidebar: FunctionComponent<ShoppingCartSidebarProps> = 
             </TableBody>
           </Table>
         </TableContainer>
+        <CartTotal products={props.selectedProducts} />
+        <div className={classes.checkoutButton}>
+          <Button variant='contained' color='primary'>
+            Checkout
+        </Button>
+        </div>
       </Container>
     </Paper>
   );
