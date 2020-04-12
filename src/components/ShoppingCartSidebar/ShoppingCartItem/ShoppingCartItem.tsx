@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme: Theme) =>
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       overflow: 'auto'
+    },
+    buttons: {
+      display: 'inline-block'
     }
   })
 );
@@ -25,11 +28,11 @@ export const ShoppingCartItem: FunctionComponent<ShoppingCartItemProps> = (props
   const classes = useStyles();
 
   return (
-    <Container maxWidth='xs'>
+    <Container>
       <Box display='flex' alignItems='center' flexDirection='row' justifyContent='flex-start'>
         <Box className={classes.boxItem}>
-          <Typography variant='subtitle1'>
-            {`${props.product.quantity}x`}
+          <Typography variant='subtitle2'>
+            {props.product.quantity}
           </Typography>
         </Box>
         <Box
@@ -40,7 +43,6 @@ export const ShoppingCartItem: FunctionComponent<ShoppingCartItemProps> = (props
             <Grid item>
               <Typography variant='body1' className={classes.productDetails} noWrap>
                 {props.product.type.name}
-                {/* MILK */}
               </Typography>
             </Grid>
             <Grid item>
@@ -50,7 +52,7 @@ export const ShoppingCartItem: FunctionComponent<ShoppingCartItemProps> = (props
             </Grid>
           </Grid>
         </Box>
-        <Box className={classes.boxItem} flexGrow={1}>
+        <Box className={`${classes.boxItem} ${classes.buttons}`} flexGrow={1}>
           <Box display='flex' flexDirection='row'>
             <Box>
               <IconButton>

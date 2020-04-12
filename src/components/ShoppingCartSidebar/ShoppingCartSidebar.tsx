@@ -1,24 +1,27 @@
 import React, { FunctionComponent } from 'react';
 import { ShoppingCartSidebarProps } from './ShoppingCartSidebar.types';
 
-import { Paper, makeStyles, Typography, Container, Grid, Divider } from '@material-ui/core';
+import { Paper, makeStyles, Typography, Container, Grid, Divider, createStyles, Theme } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { ShoppingCartItem } from './ShoppingCartItem/ShoppingCartItem';
 
 const SIDEBAR_ELEVATION = 2;
 
-const useStyles = makeStyles({
-  root: {
-    // maxWidth: 200
-  },
-  content: {
-    paddingTop: 20,
-    paddingBottom: 20
-  },
-  divider: {
-    paddingTop: 10,
-    paddingBottom: 10
-  }
-})
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      maxWidth: 450
+    },
+    content: {
+      paddingTop: 20,
+      paddingBottom: 20
+    },
+    divider: {
+      paddingTop: 10,
+      paddingBottom: 10
+    }
+  })
+)
 
 export const ShoppingCartSidebar: FunctionComponent<ShoppingCartSidebarProps> = (props) => {
 
@@ -40,6 +43,12 @@ export const ShoppingCartSidebar: FunctionComponent<ShoppingCartSidebarProps> = 
         <div className={classes.divider}>
           <Divider />
         </div>
+        {
+          props.selectedProducts.map(p =>
+            <ShoppingCartItem product={p} />
+          )
+        }
+
       </Container>
     </Paper>
   );
