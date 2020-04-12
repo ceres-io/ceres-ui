@@ -26,7 +26,8 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '92%'
     },
     tableContainer: {
-      paddingBottom: theme.spacing(2)
+      paddingBottom: theme.spacing(2),
+      height: 720,
     },
     checkoutButton: {
       paddingTop: theme.spacing(2),
