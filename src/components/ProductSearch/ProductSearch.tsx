@@ -39,7 +39,7 @@ export const ProductSearch: FunctionComponent<ProductSearchProps> = (props) => {
   const [state, dispatch] = useReducer(logger(reducer), initialState)
 
   useEffect(() => {
-    debouncedDispatch(state.filtered)
+    debouncedDispatch()
   }, [state.filtered])
 
   const dispatchOnChange = () => {
@@ -51,7 +51,7 @@ export const ProductSearch: FunctionComponent<ProductSearchProps> = (props) => {
   const debouncedDispatch = debounce(dispatchOnChange, 400, false)
 
 
-  const filterOptions = (options: ProductSearchOption[], { inputValue }): ProductSearchOption[] => {
+  const filterOptions = (options: ProductSearchOption[], { inputValue }: { inputValue: string }): ProductSearchOption[] => {
     return matchSorter(options, inputValue, { keys: ['label'] });
   }
 
