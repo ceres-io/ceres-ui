@@ -33,3 +33,5 @@ let mockProductTypes: ProductTypeVO[] = [
 let duplicatedProducts = [...mockProductTypes, ...mockProductTypes, ...mockProductTypes, ...mockProductTypes, ...mockProductTypes, ...mockProductTypes, ...mockProductTypes, ...mockProductTypes, ...mockProductTypes]
 
 export const normal = () => <ProductList products={duplicatedProducts} />
+
+export const smallList = () => <ProductList products={mockProductTypes} />
