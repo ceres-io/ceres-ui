@@ -7,7 +7,7 @@ export interface IProductListInput {
 }
 
 export interface IProductListEvent {
-
+  onRefineSearch?: () => void;
 }
 
 export type ProductListProps = IProductListInput & IProductListEvent

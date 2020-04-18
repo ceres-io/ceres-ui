@@ -1,6 +1,7 @@
 import React from 'react';
 import { ProductList } from './ProductList';
 import { ProductTypeVO } from '../../models/ProductTypeVO';
+import { action } from '@storybook/addon-actions';
 
 export default { title: 'Product List' };
 
@@ -32,6 +33,6 @@ let mockProductTypes: ProductTypeVO[] = [
 ]
 let duplicatedProducts = [...mockProductTypes, ...mockProductTypes, ...mockProductTypes, ...mockProductTypes, ...mockProductTypes, ...mockProductTypes, ...mockProductTypes, ...mockProductTypes, ...mockProductTypes]
 
-export const normal = () => <ProductList products={duplicatedProducts} />
+export const normal = () => <ProductList products={duplicatedProducts} onRefineSearch={action('onRefine')} />
 
-export const smallList = () => <ProductList products={mockProductTypes} />
+export const smallList = () => <ProductList products={mockProductTypes} onRefineSearch={action('onRefine')} />

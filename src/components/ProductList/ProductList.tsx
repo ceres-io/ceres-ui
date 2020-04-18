@@ -59,11 +59,10 @@ export const ProductList: FunctionComponent<ProductListProps> = (props) => {
   }
 
   const onRefineSearchClicked = () => {
-
+    if (props.onRefineSearch) {
+      props.onRefineSearch()
+    }
   }
-
-
-  // TODO - add popup to say "Looks like you've been searching for a while... try narrowing down your search."
 
   return (
     <div
