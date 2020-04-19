@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { ShoppingCartItemProps } from './ShoppingCartItem.types';
 import { Container, Grid, Typography, IconButton, makeStyles, Box, Theme, createStyles, TableRow, TableCell } from '@material-ui/core';
-
+import { formatCurrency } from '../../../utils/currencyUtil';
 import { Add, Remove, Delete } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -60,7 +60,7 @@ export const ShoppingCartItem: FunctionComponent<ShoppingCartItemProps> = (props
           </Grid>
           <Grid item>
             <Typography variant='body1'>
-              {props.product.type.price}
+              {formatCurrency(props.product.type.price)} / unit
             </Typography>
           </Grid>
         </Grid>
