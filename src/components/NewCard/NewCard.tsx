@@ -183,8 +183,15 @@ const CreditCardField: FunctionComponent<any> = () => {
         }
     };
 
+    const tooltip = () => {
+        if(!isErroneous() && !hasFocus && userInput != prettyInput) {
+            return "Your input was formatted. Edit to see what you entered"
+        }
+        return "";
+    }
+
     return (
-        <Tooltip title={"Credit card #'s should be 16 digits (0-9)"}
+        <Tooltip title={tooltip()}
                  placement={"top-end"}>
             <TextField
                 className={classes.textInput}
