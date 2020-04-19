@@ -5,11 +5,4 @@ export interface INewCardInput {
     ccv?: string
 }
 
-export interface INewCardEvent {
-    onCardNumberChange?: (input: string) => void;
-    onNameChange?: (input: string) => void;
-    onExpirationDateChange?: (input: string) => void;
-    onCcvChange?: (input: string) => void;
-}
-
-export type NewCardProps = INewCardInput & INewCardInput
+export type NewCardProps = INewCardInput & INewCardCheck

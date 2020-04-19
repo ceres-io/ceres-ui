@@ -36,15 +36,27 @@ const useStyles = makeStyles({
         float: "right"
     },
     addButton: {
-        alignX: "right"
+        alignX: "right",
     },
     correctIcon: {
         color: "green"
     }
 });
 
-export const NewCreditCardForm: FunctionComponent<NewCardProps> = (props) => {
+export const NewCreditCardForm: FunctionComponent<NewCardProps> = () => {
     const classes = useStyles();
+    const [ccNumber, setCcNumber] = useState("");
+    const [userName, setUserName] = useState("");
+    const [expDate, setExpDate] = useState("");
+    const [ccvCode, setCcvCode] = useState("");
+
+    const formComplete = () => {
+        return ccNumber != "" &&
+            userName != "" &&
+            expDate != "" &&
+            ccvCode != "";
+    }
+
     return (
         <Card className={classes.root}>
             <CardHeader title={"Add a new card"}/>
@@ -58,33 +70,59 @@ export const NewCreditCardForm: FunctionComponent<NewCardProps> = (props) => {
                       alignContent="center"
                 >
                     <Grid item xs={12} key={"Credit Card #"}>
-                        <CreditCardField/>
+                        <ValidatedField {...CreditCardProps}
+                                        onValidatedChange={(c) => {
+                                            if (c.valid) {
+                                                setCcNumber(c.prettyInput)
+                                            } else {
+                                                setCcNumber("");
+                                            }
+                                        }}/>
                     </Grid>
 
                     <Grid item xs={12} key={'Name on Card'}>
-                        <Tooltip title={"The card owner's name"}
-                                 placement={"top-end"}>
-                            <TextField
-                                className={classes.textInput}
-                                label='Name on Card'
-                                value={props.nameOnCard}
-                                type='string'
-                                variant='outlined'
-                            />
-                        </Tooltip>
+                        <TextField
+                            className={classes.textInput}
+                            onChange={(event => {
+                                setUserName(event.target.value);
+                            })}
+                            label={"Name on Card"}
+                            type='string'
+                            variant='outlined'
+                        />
                     </Grid>
 
                     <Grid item xs={6} key={"Exp. Date"}>
-                        <ExpDateField/>
+                        <ValidatedField {...ExpDateProps}
+                                        onValidatedChange={(c) => {
+                                            if (c.valid) {
+                                                setExpDate(c.prettyInput)
+                                            } else {
+                                                setExpDate("");
+                                            }
+                                        }}/>
                     </Grid>
 
                     <Grid item xs={6} key={"CCV"}>
-                        <CcvField/>
+                        <ValidatedField {...CcvProps}
+                                        onValidatedChange={(c) => {
+                                            if (c.valid) {
+                                                setCcvCode(c.prettyInput)
+                                            } else {
+                                                setCcvCode("");
+                                            }
+                                        }}/>
                     </Grid>
                 </Grid>
             </CardContent>
             <CardActions className={classes.actions}>
-                <IconButton className={classes.addButton}>
+                <IconButton className={classes.addButton}
+                            disabled={!formComplete()}
+                            onClick={() => console.log({ccNumber,
+                                userName,
+                                expDate,
+                                ccvCode})}
+                >
                     <Add/>
                 </IconButton>
             </CardActions>
@@ -92,88 +130,78 @@ export const NewCreditCardForm: FunctionComponent<NewCardProps> = (props) => {
     );
 };
 
-const CreditCardField: FunctionComponent<any> = () => {
+interface IValidFieldProps {
+    label: string;
+    includeCheckMark: boolean;
+    helperText: string;
+    parse: (userInput: string) => string;
+    prettify: (parsedInput: string) => string;
+    isValid: (parsedInput: string) => boolean;
+}
+
+interface ValidatedChange {
+    prettyInput: string;
+    valid: boolean;
+}
+
+interface IValidFieldEvents {
+    onValidatedChange: (change: ValidatedChange) => void;
+}
+
+const ValidatedField: FunctionComponent<IValidFieldProps & IValidFieldEvents> = (props) => {
     const classes = useStyles();
     const [hasEdited, setEdited] = useState(false);
     const [hasFocus, setFocus] = useState(false);
+    const [wasWrong, setWrong] = useState(false);
     const [userInput, setUserInput] = useState("");
+    const [parsedInput, setParsedInput] = useState("");
     const [prettyInput, setPrettyInput] = useState("");
 
-    const onInput = (s: string) => {
-        setUserInput(s);
-        setPrettyInput(prettifyCardNumber(s));
-    };
+    const onInput = (useInput: string) => {
+        setUserInput(useInput);
 
-    const parse = (s: string) => {
-        return Array.from(s)
-            .filter(c => /\d/i.test(c))
-            .join("");
-    };
+        let parsed = props.parse(useInput);
+        setParsedInput(parsed);
+
+        let pretty = props.prettify(parsed);
+        setPrettyInput(pretty);
+
+        return {
+            prettyInput: pretty,
+            valid: props.isValid(parsed)
+        }
+    }
 
     const isErroneous = () => {
         if (hasFocus) {
-            return false;
+            return wasWrong && !props.isValid(parsedInput);
         }
 
         if (hasEdited) {
-            return !cardInputValid();
+            return !props.isValid(parsedInput);
         }
 
         return false;
-    };
+    }
 
-    const cardInputValid = () => {
-        let numbers = parse(userInput);
-        return numbers.length >= 16;
-    };
-
-    const prettifyCardNumber = (s: string) => {
-        let numbers = parse(s);
-        let size = numbers.length;
-        let pretty = numbers.substr(0, 4);
-
-        if (size <= 4) {
-            return pretty;
-        }
-
-        pretty += "-";
-        pretty += numbers.substr(4, 4);
-
-        if (size <= 8) {
-            return pretty;
-        }
-
-        pretty += "-";
-        pretty += numbers.substr(8, 4);
-
-        if (size <= 12) {
-            return pretty;
-        }
-
-        pretty += "-";
-        pretty += numbers.substr(12, 4);
-        return pretty;
-
-    };
-
-    const getDisplayValue = () => {
-        if (hasFocus || !cardInputValid()) {
+    const displayValue = () => {
+        if (hasFocus || !props.isValid(parsedInput)) {
             return userInput;
         } else {
             return prettyInput;
         }
-    };
+    }
 
     const helperText = () => {
         if (isErroneous()) {
-            return "Credit card numbers should be 16 digits (0-9)";
+            return props.helperText;
         } else {
             return "";
         }
-    };
+    }
 
     const adornment = () => {
-        if (cardInputValid() && hasEdited) {
+        if (props.isValid(parsedInput) && hasEdited && props.includeCheckMark) {
             return {
                 endAdornment:
                     <InputAdornment position="end">
@@ -181,14 +209,16 @@ const CreditCardField: FunctionComponent<any> = () => {
                     </InputAdornment>
             };
         }
-    };
+    }
 
     const tooltip = () => {
-        if(!isErroneous() && !hasFocus && userInput != prettyInput) {
-            return "Your input was formatted. Edit to see what you entered"
+        if (!isErroneous() && !hasFocus && userInput != prettyInput) {
+            return "Your input was formatted. Edit to see your original input."
         }
         return "";
     }
+
+    const label = () => props.label;
 
     return (
         <Tooltip title={tooltip()}
@@ -197,13 +227,23 @@ const CreditCardField: FunctionComponent<any> = () => {
                 className={classes.textInput}
                 error={isErroneous()}
                 onFocus={(() => setFocus(true))}
-                onBlur={() => setFocus(false)}
+                onBlur={() => {
+                    setFocus(false)
+                    if (hasEdited) {
+                        if (props.isValid(parsedInput)) {
+                            setWrong(false)
+                        } else {
+                            setWrong(true)
+                        }
+                    }
+                }}
                 onChange={(event => {
-                    onInput(event.target.value);
+                    let out: ValidatedChange = onInput(event.target.value);
                     setEdited(true);
+                    props.onValidatedChange(out);
                 })}
-                label='Credit Card #'
-                value={getDisplayValue()}
+                label={label()}
+                value={displayValue()}
                 type='string'
                 variant='outlined'
                 helperText={helperText()}
@@ -212,184 +252,91 @@ const CreditCardField: FunctionComponent<any> = () => {
         </Tooltip>
 
     );
-};
+}
 
-const CcvField: FunctionComponent<any> = () => {
-    const classes = useStyles();
-    const [hasEdited, setEdited] = useState(false);
-    const [hasFocus, setFocus] = useState(false);
-    const [userInput, setUserInput] = useState("");
-    const [prettyInput, setPrettyInput] = useState("");
+/* Some utility functions for parsing numbers and numbers+strings from user input */
+function extractNumbers(s: string): string {
+    return Array.from(s)
+        .filter(c => /\d/i.test(c))
+        .join("")
+}
 
-    const onInput = (s: string) => {
-        setUserInput(s);
-        setPrettyInput(prettifyCcv(s));
-    };
+function extractAlphaNum(s: string): string {
+    return Array.from(s)
+        .filter(c => /[0-9A-z]/i.test(c))
+        .join("")
+}
 
-    const parse = (s: string) => {
-        return Array.from(s)
-            .filter(c => /\d/i.test(c))
-            .join("");
-    };
-
-    const isErroneous = () => {
-        if (hasFocus) {
-            return false;
+const CreditCardProps: IValidFieldProps = {
+    label: "Credit Card #",
+    includeCheckMark: true,
+    helperText: "Credit card numbers should be 16 digits (0-9)",
+    parse: (userInput: string) => extractNumbers(userInput),
+    prettify: (parsedInput: string) => {
+        let result = parsedInput.substr(0, 4);
+        for (let i = 4; i < Math.min(16, parsedInput.length); i += 4) {
+            result += " - " + parsedInput.substr(i, 4);
         }
+        return result;
+    },
+    isValid: (parsedInput: string) => {
+        return (parsedInput.length >= 16);
+    }
+}
 
-        if (hasEdited) {
-            return !ccvInputValid();
+const CcvProps: IValidFieldProps = {
+    label: "CCV #",
+    includeCheckMark: true,
+    helperText: "The 3 digit security code on the back of your card",
+    parse: userInput => extractNumbers(userInput),
+    prettify: parsedInput => parsedInput.substr(0, 3),
+    isValid: parsedInput => {
+        return parsedInput.length >= 3;
+    }
+}
+
+const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+
+interface IParsedDateInput {
+    monthIndex: number,
+    remainingInput: string
+}
+
+function extractMonth(parsedInput: string): IParsedDateInput | undefined {
+    let upperTrim = extractAlphaNum(parsedInput).toUpperCase().trim();
+
+    for (let i = 0; i < months.length; i++) {
+        let month = months[i];
+        if (upperTrim.startsWith(month)) {
+            return {monthIndex: i, remainingInput: upperTrim.replace(month, "")};
         }
+    }
 
-        return false;
-    };
+    let numbers = extractNumbers(parsedInput);
+    if (numbers.length > 2) {
+        let month = parseInt(numbers.substr(0, 2)) - 1;
+        return {monthIndex: month, remainingInput: numbers.substr(2, numbers.length - 2)}
+    }
+}
 
-    const ccvInputValid = () => {
-        let numbers = parse(userInput);
-        return numbers.length >= 3;
-    };
-
-    const prettifyCcv = (s: string) => {
-        let numbers = parse(s);
-        return numbers.substr(0, 3);
-    };
-
-    const getDisplayValue = () => {
-        if (hasFocus || !ccvInputValid()) {
-            return userInput;
-        } else {
-            return prettyInput;
-        }
-    };
-
-    const helperText = () => {
-        if (isErroneous()) {
-            return "CCVs should be 3 digits";
-        } else {
-            return "";
-        }
-    };
-
-    const adornment = () => {
-        if (ccvInputValid() && hasEdited) {
-            return {
-                endAdornment:
-                    <InputAdornment position="end">
-                        <CheckCircle className={classes.correctIcon}/>
-                    </InputAdornment>
-            };
-        }
-    };
-
-    return (
-        <Tooltip title={"3 digit security code on the back of your card"}
-                 placement={"top-end"}>
-            <TextField
-                className={classes.textInput}
-                error={isErroneous()}
-                onFocus={(() => setFocus(true))}
-                onBlur={() => setFocus(false)}
-                onChange={(event => {
-                    onInput(event.target.value);
-                    setEdited(true);
-                })}
-                label='CCV'
-                value={getDisplayValue()}
-                type='string'
-                variant='outlined'
-                helperText={helperText()}
-                InputProps={adornment()}
-            />
-        </Tooltip>
-
-    );
-
-};
-
-const ExpDateField: FunctionComponent<any> = () => {
-    const classes = useStyles();
-    const [hasEdited, setEdited] = useState(false);
-    const [hasFocus, setFocus] = useState(false);
-    const [userInput, setUserInput] = useState("");
-    const [prettyInput, setPrettyInput] = useState("");
-    const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-
-    const onInput = (s: string) => {
-        setUserInput(s);
-        setPrettyInput(prettifyDate(s));
-    };
-
-    const extractAlphaNum = (s: string) => {
-        return Array.from(s)
-            .filter(c => /[0-9A-z]/i.test(c))
-            .join("");
-    };
-
-    const extractMonth = (s: string) => {
-        let upperTrim = extractAlphaNum(s).toUpperCase().trim();
-
-        for (let i = 0; i < months.length; i++) {
-            let month = months[i];
-            if (upperTrim.startsWith(month)) {
-                return {monthIdx: i, remainder: upperTrim.replace(month, "")};
-            }
-        }
-
-        let numbers = extractNumbers(s);
-        if (numbers.length > 2) {
-            let month = parseInt(numbers.substr(0, 2)) - 1;
-            return {monthIdx: month, remainder: numbers.substr(2, numbers.length - 2)}
-        }
-
-    };
-
-    const extractNumbers = (s: string) => {
-        return Array.from(s)
-            .filter(c => /\d/i.test(c))
-            .join("");
-    };
-
-    const isErroneous = () => {
-        if (hasFocus) {
-            return false;
-        }
-
-        if (hasEdited) {
-            return !dateFieldValid();
-        }
-
-        return false;
-    };
-
-    const dateFieldValid = () => {
-        let extractedMonth = extractMonth(userInput);
-        if (extractedMonth === undefined) {
-            return false;
-        }
-        let {monthIdx, remainder} = extractedMonth;
-
-        if (monthIdx < 0 || monthIdx >= 12) {
-            return false;
-        }
-
-        let maybeYear = extractNumbers(remainder);
-
-        return maybeYear.length == 2 || maybeYear.length >= 4;
-    };
-
-    const prettifyDate = (s: string) => {
-        let extractedMonth = extractMonth(s);
+const ExpDateProps: IValidFieldProps = {
+    label: "Exp. Date",
+    includeCheckMark: true,
+    helperText: "Date should be MM YY",
+    parse: userInput => extractAlphaNum(userInput),
+    prettify: parsedInput => {
+        let extractedMonth = extractMonth(parsedInput);
         if (extractedMonth === undefined) {
             return "";
         }
-        let {monthIdx, remainder} = extractedMonth;
+        let monthIdx = extractedMonth.monthIndex;
+        let remainder = extractedMonth.remainingInput;
 
         if (monthIdx < 0 || monthIdx >= 12) {
             return "";
         }
 
         let monthName = months[monthIdx];
-
         let numbers = extractNumbers(remainder);
 
         let year;
@@ -402,58 +349,22 @@ const ExpDateField: FunctionComponent<any> = () => {
         }
 
         return monthName.charAt(0).toUpperCase() + monthName.slice(1).toLowerCase() + ", " + year;
-    };
+    },
 
-
-
-    const getDisplayValue = () => {
-        if (hasFocus || !dateFieldValid()) {
-            return userInput;
-        } else {
-            return prettyInput;
+    isValid: parsedInput => {
+        let extractedMonth = extractMonth(parsedInput);
+        if (extractedMonth === undefined) {
+            return false;
         }
-    };
+        let monthIdx = extractedMonth.monthIndex;
+        let remainder = extractedMonth.remainingInput;
 
-    const helperText = () => {
-        if (isErroneous()) {
-            return "Date should be MM YY";
-        } else {
-            return "";
+        if (monthIdx < 0 || monthIdx >= 12) {
+            return false;
         }
-    };
 
-    const adornment = () => {
-        if (dateFieldValid() && hasEdited) {
-            return {
-                endAdornment:
-                    <InputAdornment position="end">
-                        <CheckCircle className={classes.correctIcon}/>
-                    </InputAdornment>
-            };
-        }
-    };
+        let maybeYear = extractNumbers(remainder);
 
-    return (
-        <Tooltip title={"Expiration date of your card (month, year)"}
-                 placement={"top-end"}>
-            <TextField
-                className={classes.textInput}
-                error={isErroneous()}
-                onFocus={(() => setFocus(true))}
-                onBlur={() => setFocus(false)}
-                onChange={(event => {
-                    onInput(event.target.value);
-                    setEdited(true);
-                })}
-                label='Exp. Date'
-                value={getDisplayValue()}
-                type='string'
-                variant='outlined'
-                helperText={helperText()}
-                InputProps={adornment()}
-            />
-        </Tooltip>
-
-    );
-
-};
+        return maybeYear.length == 2 || maybeYear.length >= 4;
+    }
+}
