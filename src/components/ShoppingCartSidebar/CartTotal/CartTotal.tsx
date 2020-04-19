@@ -2,6 +2,7 @@ import React, { FunctionComponent, useState, useEffect } from 'react';
 import { CartTotalProps } from './CartTotal.types';
 import { Paper, Box, Divider, Typography, makeStyles, Theme, createStyles, Container } from '@material-ui/core';
 import { ProductVO } from '../../../models/ProductVO';
+import { formatCurrency } from '../../../utils/currencyUtil';
 
 const TAX_PERCENTAGE = 4.3;
 
@@ -46,7 +47,7 @@ export const CartTotal: FunctionComponent<CartTotalProps> = (props) => {
             </Box>
             <Box alignContent='flex-end'>
               <Typography variant='subtitle1'>
-                ${subtotal}
+                {formatCurrency(subtotal)}
               </Typography>
             </Box>
           </Box>
@@ -58,7 +59,7 @@ export const CartTotal: FunctionComponent<CartTotalProps> = (props) => {
             </Box>
             <Box alignContent='flex-end'>
               <Typography variant='subtitle2'>
-                ${calculateTax()}
+                {formatCurrency(calculateTax())}
               </Typography>
             </Box>
           </Box>
@@ -75,7 +76,7 @@ export const CartTotal: FunctionComponent<CartTotalProps> = (props) => {
             </Box>
             <Box alignContent='flex-end'>
               <Typography variant='h6'>
-                ${subtotal + calculateTax()}
+                {formatCurrency(subtotal + calculateTax())}
               </Typography>
             </Box>
           </Box>

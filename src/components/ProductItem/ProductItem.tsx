@@ -3,6 +3,7 @@ import { ProductItemProps } from './ProductItem.types';
 import { Card, makeStyles, CardMedia, Typography, CardContent, CardActions, ButtonGroup, Button, IconButton, TextField, Chip, Grid, Container } from '@material-ui/core';
 import { Add, Remove } from '@material-ui/icons';
 import { CategoryBar } from './CategoryBar/CategoryBar';
+import { formatCurrency } from '../../utils/currencyUtil';
 
 const useStyles = makeStyles({
   root: {
@@ -83,7 +84,7 @@ export const ProductItem: FunctionComponent<ProductItemProps> = (props) => {
           alignItems='center'
         >
           <Typography variant='body1'>
-            {getFormattedPrice()}
+            {formatCurrency(props.productType.price)}
           </Typography>
           <IconButton onClick={onIncrease}>
             <Add />
