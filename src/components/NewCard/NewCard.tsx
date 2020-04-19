@@ -134,6 +134,7 @@ interface IValidFieldProps {
     label: string;
     includeCheckMark: boolean;
     helperText: string;
+    filter: (userInput: string) => string;
     parse: (userInput: string) => string;
     prettify: (parsedInput: string) => string;
     isValid: (parsedInput: string) => boolean;
@@ -157,10 +158,11 @@ const ValidatedField: FunctionComponent<IValidFieldProps & IValidFieldEvents> = 
     const [parsedInput, setParsedInput] = useState("");
     const [prettyInput, setPrettyInput] = useState("");
 
-    const onInput = (useInput: string) => {
-        setUserInput(useInput);
+    const onInput = (userInput: string) => {
+        let filtered = props.filter(userInput);
+        setUserInput(filtered);
 
-        let parsed = props.parse(useInput);
+        let parsed = props.parse(filtered);
         setParsedInput(parsed);
 
         let pretty = props.prettify(parsed);
@@ -267,11 +269,18 @@ function extractAlphaNum(s: string): string {
         .join("")
 }
 
+function removeAlphas(s: string): string {
+    return Array.from(s)
+        .filter(c => /[^A-z]/i.test(c))
+        .join("")
+}
+
 const CreditCardProps: IValidFieldProps = {
     label: "Credit Card #",
     includeCheckMark: true,
     helperText: "Credit card numbers should be 16 digits (0-9)",
-    parse: (userInput: string) => extractNumbers(userInput),
+    filter: (userInput) => removeAlphas(userInput),
+    parse: (filtered: string) => extractNumbers(filtered),
     prettify: (parsedInput: string) => {
         let result = parsedInput.substr(0, 4);
         for (let i = 4; i < Math.min(16, parsedInput.length); i += 4) {
@@ -288,7 +297,8 @@ const CcvProps: IValidFieldProps = {
     label: "CCV #",
     includeCheckMark: true,
     helperText: "The 3 digit security code on the back of your card",
-    parse: userInput => extractNumbers(userInput),
+    filter: userInput => removeAlphas(userInput),
+    parse: filtered => extractNumbers(filtered),
     prettify: parsedInput => parsedInput.substr(0, 3),
     isValid: parsedInput => {
         return parsedInput.length >= 3;
@@ -323,7 +333,8 @@ const ExpDateProps: IValidFieldProps = {
     label: "Exp. Date",
     includeCheckMark: true,
     helperText: "Date should be MM YY",
-    parse: userInput => extractAlphaNum(userInput),
+    filter: userInput => userInput,
+    parse: filtered => extractAlphaNum(filtered),
     prettify: parsedInput => {
         let extractedMonth = extractMonth(parsedInput);
         if (extractedMonth === undefined) {
