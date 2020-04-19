@@ -6,8 +6,8 @@ import { CategoryBar } from './CategoryBar/CategoryBar';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 300,
-    // height: 324
+    width: 300,
+    height: 400
   },
   image: {
     // height: 162
