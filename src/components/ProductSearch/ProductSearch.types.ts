@@ -1,4 +1,5 @@
 import { ProductTypeVO } from '../../models/ProductTypeVO';
+import { Ref } from 'react';
 
 export enum ProductSearchOptionType {
   Category = 'category',
@@ -13,6 +14,7 @@ export interface ProductSearchOption {
 
 export interface IProductSearchInput {
   availableProducts: ProductTypeVO[];
+  inputRef: Ref<HTMLInputElement>;
 }
 
 export interface IProductSearchEvent {

@@ -1,12 +1,10 @@
 import React from 'react';
 import { ProductTypeVO } from '../../models/ProductTypeVO';
-import { ProductSearch } from './ProductSearch';
-import { action } from '@storybook/addon-actions';
+import { Shop } from './Shop';
 
 
-export default { title: 'Product Search' };
 
-const ref = React.createRef<HTMLInputElement>();
+export default { title: 'Shop' };
 
 let mockProductTypes: ProductTypeVO[] = [
   {
@@ -18,21 +16,21 @@ let mockProductTypes: ProductTypeVO[] = [
   {
     name: 'Eggs',
     price: 2,
-    imageUrl: '',
+    imageUrl: 'https://spoonacular.com/productImages/27693-312x231.jpg',
     categories: ['Dairy']
   },
   {
     name: 'Milk',
     price: 6,
-    imageUrl: '',
+    imageUrl: 'https://spoonacular.com/productImages/27693-312x231.jpg',
     categories: ['Dairy', 'Cow']
   },
   {
     name: 'Pizza',
     price: 6,
-    imageUrl: '',
+    imageUrl: 'https://spoonacular.com/productImages/27693-312x231.jpg',
     categories: ['Dairy', 'Cow']
   },
 ]
 
-export const normal = () => <ProductSearch availableProducts={mockProductTypes} onChange={action('onChange')} inputRef={ref} />
+export const normal = () => <Shop productTypes={mockProductTypes} />

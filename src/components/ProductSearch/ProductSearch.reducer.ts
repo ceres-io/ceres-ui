@@ -9,13 +9,15 @@ export interface IProductSearchState {
   options: ProductTypeVO[]
   filtered: ProductTypeVO[]
   selectedFilters: ProductSearchOption[]
+  inputFilter: string
 }
 
 export const getDefaultState = (availableProducts: ProductTypeVO[]): IProductSearchState => {
   return {
     options: availableProducts,
     filtered: [],
-    selectedFilters: []
+    selectedFilters: [],
+    inputFilter: ''
   }
 }
 
@@ -24,6 +26,7 @@ export const reducer = (state: IProductSearchState, action: ProductSearchAction)
     switch (action.type) {
       case ActionName.Input: {
         let inputAction: InputAction = action as InputAction
+        next.inputFilter = inputAction.payload.filter
         next.filtered = filterProducts(inputAction.payload.filter, state.selectedFilters, state.options)
         break;
       }
@@ -53,5 +56,5 @@ const filterProducts = (inputFilter: string, selectedFilters: ProductSearchOptio
     })
   })
 
-  return matchSorter(filteredBasedOnSelected, inputFilter, { keys: ['name'] })
+  return matchSorter(filteredBasedOnSelected, inputFilter, { keys: ['name', 'categories'] })
 }

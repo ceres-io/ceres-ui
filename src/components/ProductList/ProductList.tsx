@@ -24,8 +24,13 @@ const useStyles = makeStyles((theme: Theme) =>
 export const ProductList: FunctionComponent<ProductListProps> = (props) => {
   const classes = useStyles();
 
-  const [moreElements, setMoreElements] = useState(props.products.length > MAX_PRODUCTS_PER_PAGE);
-  const [currentProducts, setCurrentProducts] = useState<ProductTypeVO[]>(props.products.slice(0, MAX_PRODUCTS_PER_PAGE));
+  const [moreElements, setMoreElements] = useState(true);
+  const [currentProducts, setCurrentProducts] = useState<ProductTypeVO[]>([]);
+
+  useEffect(() => {
+    setMoreElements(props.products.length > MAX_PRODUCTS_PER_PAGE)
+    setCurrentProducts(props.products.slice(0, MAX_PRODUCTS_PER_PAGE));
+  }, [props.products])
 
 
   const [popOverOpen, setPopOverOpen] = useState(false);
@@ -64,6 +69,7 @@ export const ProductList: FunctionComponent<ProductListProps> = (props) => {
     }
   }
 
+  // TODO - add zero state for empty product list - prompt user with "no results found change your search"
   return (
     <div
       ref={rootElement}
