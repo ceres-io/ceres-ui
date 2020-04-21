@@ -34,6 +34,8 @@ export const reducer = (state: IProductSearchState, action: ProductSearchAction)
         let selectionAction: SelectionAction = action as SelectionAction
         next.selectedFilters = selectionAction.payload.selected
         next.filtered = filterProducts('', selectionAction.payload.selected, state.options)
+        // Clear input filter
+        next.inputFilter = ''
         break;
       }
     }

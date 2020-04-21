@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     popOverContent: {
       padding: theme.spacing(2),
+    },
+    productGrid: {
+      justifyContent: 'center'
     }
   })
 )
@@ -120,7 +123,7 @@ export const ProductList: FunctionComponent<ProductListProps> = (props) => {
         }
         scrollThreshold={0.9}
       >
-        <Grid container spacing={2}>
+        <Grid container className={classes.productGrid} spacing={2}>
           {currentProducts.map(pt =>
             <Grid item>
               <ProductItem productType={pt} />

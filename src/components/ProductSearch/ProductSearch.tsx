@@ -32,7 +32,6 @@ export const ProductSearch: FunctionComponent<ProductSearchProps> = (props) => {
   }, [state.filtered])
 
 
-  // TODO dispatch onchange on clear as well
   const dispatchOnChange = () => {
     if (props.onChange) {
       props.onChange(state.filtered)
@@ -71,10 +70,11 @@ export const ProductSearch: FunctionComponent<ProductSearchProps> = (props) => {
 
   const onOptionSelect = (event: object, values: ProductSearchOption[], reason: string) => {
     switch (reason) {
-      case 'select-option': {
+      case 'select-option':
+      case 'remove-option':
+      case 'clear':
         dispatch(new SelectionAction({ selected: values }));
         break;
-      }
     }
   }
 
