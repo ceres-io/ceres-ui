@@ -42,14 +42,14 @@ export const Shop: FunctionComponent<ShopProps> = (props) => {
     <React.Fragment>
       <Box display='flex' flexDirection='row'>
         <Box flexGrow={1}>
-          <ProductSearch availableProducts={props.productTypes} onChange={onSearchChange} inputRef={inputRef} />
+          <ProductSearch availableProducts={props.availableProducts} onChange={onSearchChange} inputRef={inputRef} />
 
           <div className={classes.productList}>
             <ProductList products={filteredProducts} onRefineSearch={onRefineSearch} />
           </div>
         </Box>
         <Box className={classes.sidebar}>
-          <ShoppingCartSidebar selectedProducts={[]} />
+          <ShoppingCartSidebar selectedProducts={props.products} />
         </Box>
       </Box>
     </React.Fragment>

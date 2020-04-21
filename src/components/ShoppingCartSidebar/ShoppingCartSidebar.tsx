@@ -11,7 +11,7 @@ const SIDEBAR_ELEVATION = 2;
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      maxWidth: 450
+      width: 450
     },
     content: {
       paddingTop: theme.spacing(2),
@@ -61,7 +61,7 @@ export const ShoppingCartSidebar: FunctionComponent<ShoppingCartSidebarProps> = 
             <TableBody>
               {
                 props.selectedProducts.map(p =>
-                  <ShoppingCartItem product={p} />
+                  <ShoppingCartItem key={p.type.name} product={p} />
                 )
               }
             </TableBody>

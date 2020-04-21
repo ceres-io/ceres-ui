@@ -1,7 +1,9 @@
 import { ProductTypeVO } from '../../models/ProductTypeVO';
+import { ProductVO } from '../../models/ProductVO';
 
 export interface IShopInput {
-  productTypes: ProductTypeVO[]
+  availableProducts: ProductTypeVO[],
+  products: ProductVO[]
 }
 
 export interface IShopEvent {
