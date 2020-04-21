@@ -54,15 +54,6 @@ export const ProductItem: FunctionComponent<ProductItemProps> = (props) => {
     }
   }
 
-  // TODO - extract to util
-  const getFormattedPrice = (): string => {
-    let formatter = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    })
-    return formatter.format(props.productType.price)
-  }
-
   return (
     <Card className={classes.root}>
 
