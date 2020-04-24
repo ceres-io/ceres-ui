@@ -26,7 +26,7 @@ export const Shop: FunctionComponent<ShopProps> = (props) => {
 
   const [filteredProducts, setFilteredProducts] = useState<ProductTypeVO[]>([]);
 
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onSearchChange = (productTypes: ProductTypeVO[]) => {
     // let products: ProductVO[] = productTypes.map(pt => ({ quantity: Math.floor(Math.random() * 10), type: pt }))
@@ -35,7 +35,9 @@ export const Shop: FunctionComponent<ShopProps> = (props) => {
   }
 
   const onRefineSearch = () => {
-    inputRef.current.focus();
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   }
 
   return (
