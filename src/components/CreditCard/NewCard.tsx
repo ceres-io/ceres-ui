@@ -1,19 +1,11 @@
 import React, {FunctionComponent, useState} from "react";
-import {NewCardProps} from "./NewCard.types";
-import {
-    Card,
-    CardActions,
-    CardContent,
-    CardHeader,
-    Grid,
-    IconButton, InputAdornment,
-    makeStyles,
-    TextField,
-    Tooltip
-} from "@material-ui/core";
-import {Add, CheckCircle} from "@material-ui/icons";
+import {Card, CardActions, CardContent, CardHeader, Grid, IconButton, makeStyles, TextField} from "@material-ui/core";
+import {Add} from "@material-ui/icons";
+import {ICreditCard, NewCardProps} from "./CreditCard.types";
+import {IValidFieldProps} from "../ResponsiveTextField/ResponsiveTextField.types";
+import {extractNumbers, ValidatedField} from "../ResponsiveTextField/ResponsiveTextField";
 
-const useStyles = makeStyles({
+export const useStyles = makeStyles({
     root: {
         maxWidth: 400,
     },
@@ -43,7 +35,7 @@ const useStyles = makeStyles({
     }
 });
 
-export const NewCreditCardForm: FunctionComponent<NewCardProps> = () => {
+export const NewCreditCardForm: FunctionComponent<NewCardProps> = (props) => {
     const classes = useStyles();
     const [ccNumber, setCcNumber] = useState("");
     const [userName, setUserName] = useState("");
@@ -118,10 +110,16 @@ export const NewCreditCardForm: FunctionComponent<NewCardProps> = () => {
             <CardActions className={classes.actions}>
                 <IconButton className={classes.addButton}
                             disabled={!formComplete()}
-                            onClick={() => console.log({ccNumber,
-                                userName,
-                                expDate,
-                                ccvCode})}
+                            onClick={() => {
+                                let newCard: ICreditCard = {
+                                    ccNumber: ccNumber,
+                                    nameOnCard: userName,
+                                    ccvCode: ccvCode,
+                                    expDate: expDate
+                                }
+
+                                props.onCardAdded(newCard)
+                            }}
                 >
                     <Add/>
                 </IconButton>
@@ -129,139 +127,6 @@ export const NewCreditCardForm: FunctionComponent<NewCardProps> = () => {
         </Card>
     );
 };
-
-interface IValidFieldProps {
-    label: string;
-    includeCheckMark: boolean;
-    helperText: string;
-    filter: (userInput: string) => string;
-    parse: (userInput: string) => string;
-    prettify: (parsedInput: string) => string;
-    isValid: (parsedInput: string) => boolean;
-}
-
-interface ValidatedChange {
-    prettyInput: string;
-    valid: boolean;
-}
-
-interface IValidFieldEvents {
-    onValidatedChange: (change: ValidatedChange) => void;
-}
-
-const ValidatedField: FunctionComponent<IValidFieldProps & IValidFieldEvents> = (props) => {
-    const classes = useStyles();
-    const [hasEdited, setEdited] = useState(false);
-    const [hasFocus, setFocus] = useState(false);
-    const [wasWrong, setWrong] = useState(false);
-    const [userInput, setUserInput] = useState("");
-    const [parsedInput, setParsedInput] = useState("");
-    const [prettyInput, setPrettyInput] = useState("");
-
-    const onInput = (userInput: string) => {
-        let filtered = props.filter(userInput);
-        setUserInput(filtered);
-
-        let parsed = props.parse(filtered);
-        setParsedInput(parsed);
-
-        let pretty = props.prettify(parsed);
-        setPrettyInput(pretty);
-
-        return {
-            prettyInput: pretty,
-            valid: props.isValid(parsed)
-        }
-    }
-
-    const isErroneous = () => {
-        if (hasFocus) {
-            return wasWrong && !props.isValid(parsedInput);
-        }
-
-        if (hasEdited) {
-            return !props.isValid(parsedInput);
-        }
-
-        return false;
-    }
-
-    const displayValue = () => {
-        if (hasFocus || !props.isValid(parsedInput)) {
-            return userInput;
-        } else {
-            return prettyInput;
-        }
-    }
-
-    const helperText = () => {
-        if (isErroneous()) {
-            return props.helperText;
-        } else {
-            return "";
-        }
-    }
-
-    const adornment = () => {
-        if (props.isValid(parsedInput) && hasEdited && props.includeCheckMark) {
-            return {
-                endAdornment:
-                    <InputAdornment position="end">
-                        <CheckCircle className={classes.correctIcon}/>
-                    </InputAdornment>
-            };
-        }
-    }
-
-    const tooltip = () => {
-        if (!isErroneous() && !hasFocus && userInput != prettyInput) {
-            return "Your input was formatted. Edit to see your original input."
-        }
-        return "";
-    }
-
-    const label = () => props.label;
-
-    return (
-        <Tooltip title={tooltip()}
-                 placement={"top-end"}>
-            <TextField
-                className={classes.textInput}
-                error={isErroneous()}
-                onFocus={(() => setFocus(true))}
-                onBlur={() => {
-                    setFocus(false)
-                    if (hasEdited) {
-                        if (props.isValid(parsedInput)) {
-                            setWrong(false)
-                        } else {
-                            setWrong(true)
-                        }
-                    }
-                }}
-                onChange={(event => {
-                    let out: ValidatedChange = onInput(event.target.value);
-                    setEdited(true);
-                    props.onValidatedChange(out);
-                })}
-                label={label()}
-                value={displayValue()}
-                type='string'
-                variant='outlined'
-                helperText={helperText()}
-                InputProps={adornment()}
-            />
-        </Tooltip>
-
-    );
-}
-
-/* Some utility functions for parsing numbers and numbers+strings from user input */
-function extractNumbers(s: string): string {
-    return Array.from(s)
-        .filter(c => /\d/i.test(c))
-        .join("")
-}
 
 function extractAlphaNum(s: string): string {
     return Array.from(s)
