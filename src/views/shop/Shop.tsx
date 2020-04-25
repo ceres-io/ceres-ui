@@ -4,17 +4,20 @@ import { ShopProps } from './Shop.types';
 import { ProductList } from '../../components/ProductList/ProductList';
 import { ProductTypeVO } from '../../models/ProductTypeVO';
 import { ProductVO } from '../../models/ProductVO';
-import { makeStyles, Theme, createStyles, Box } from '@material-ui/core';
+import { makeStyles, Theme, createStyles, Box, Paper } from '@material-ui/core';
 import { ShoppingCartSidebar } from '../../components/ShoppingCartSidebar/ShoppingCartSidebar';
-
+import Joyride, { ACTIONS, EVENTS } from 'react-joyride';
 
 const useStyles = makeStyles((theme: Theme) => createStyles(
   {
+    container: {
+      padding: theme.spacing(2)
+    },
     productList: {
       paddingTop: theme.spacing(2),
     },
     sidebar: {
-      paddingLeft: theme.spacing(2)
+      paddingLeft: theme.spacing(2),
     }
   }
 ))
@@ -40,12 +43,26 @@ export const Shop: FunctionComponent<ShopProps> = (props) => {
     }
   }
 
+  const steps = [
+    {
+      title: 'Hey',
+      target: '#product-search',
+      content: 'Test hey',
+      spotlightClicks: true
+    }
+  ]
+
   return (
     <React.Fragment>
-      <Box display='flex' flexDirection='row'>
+      <Joyride
+        steps={steps}
+        run={true}
+      />
+      <Box display='flex' flexDirection='row' className={classes.container}>
         <Box flexGrow={1}>
-          <ProductSearch availableProducts={props.availableProducts} onChange={onSearchChange} inputRef={inputRef} />
-
+          <div id="product-search">
+            <ProductSearch availableProducts={props.availableProducts} onChange={onSearchChange} inputRef={inputRef} />
+          </div>
           <div className={classes.productList}>
             <ProductList products={filteredProducts} onRefineSearch={onRefineSearch} />
           </div>

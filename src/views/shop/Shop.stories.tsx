@@ -2,6 +2,7 @@ import React from 'react';
 import { ProductTypeVO } from '../../models/ProductTypeVO';
 import { Shop } from './Shop';
 import { ProductVO } from '../../models/ProductVO';
+import { Paper } from '@material-ui/core';
 
 
 
@@ -37,4 +38,4 @@ let mockProductTypes: ProductTypeVO[] = [
 
 let products: ProductVO[] = mockProductTypes.map(pt => ({ quantity: Math.floor(Math.random() * 10), type: pt }))
 
-export const normal = () => <Shop availableProducts={mockProductTypes} products={products} />
+export const normal = () => <div style={{ background: 'white' }}><Shop availableProducts={mockProductTypes} products={products} /></div>
