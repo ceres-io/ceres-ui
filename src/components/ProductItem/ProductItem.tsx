@@ -83,9 +83,9 @@ export const ProductItem: FunctionComponent<ProductItemProps> = (props) => {
               <Add />
             </IconButton>
             <TextField
+              value={props.quantity || ''}
               className={classes.numberInput}
               onChange={onQuantityInputChange}
-              // onBlur={onQuantityInputFinished}
               type='number'
               label='qty'
               variant='outlined'
