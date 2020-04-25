@@ -3,6 +3,8 @@ import { CartTotalProps } from './CartTotal.types';
 import { Paper, Box, Divider, Typography, makeStyles, Theme, createStyles, Container } from '@material-ui/core';
 import { ProductVO } from '../../../models/ProductVO';
 import { formatCurrency } from '../../../utils/currencyUtil';
+import { useSelector } from 'react-redux';
+import { IApplicationStore } from '../../../redux/store/store.types';
 
 const TAX_PERCENTAGE = 4.3;
 
@@ -20,20 +22,9 @@ const useStyles = makeStyles((theme: Theme) =>
 export const CartTotal: FunctionComponent<CartTotalProps> = (props) => {
   const classes = useStyles();
 
-  const calculateSubtotal = (products: ProductVO[]): number => {
-    return products.reduce((subtotal, p) => subtotal + p.type.price, 0)
-  }
-
-  const [subtotal, setSubtotal] = useState(calculateSubtotal(props.products));
-
-  // Re-calculate subtotal when products are changed
-  useEffect(() => {
-    setSubtotal(calculateSubtotal(props.products))
-  }, [props.products])
-
-  const calculateTax = (): number => {
-    return subtotal * (TAX_PERCENTAGE / 100);
-  }
+  const subtotal = useSelector((store: IApplicationStore) => store.ceres.shopping.subtotal);
+  const tax = useSelector((store: IApplicationStore) => store.ceres.shopping.tax);
+  const total = useSelector((store: IApplicationStore) => store.ceres.shopping.total);
 
   return (
     <Paper variant='elevation' className='cart-total'>
@@ -59,7 +50,7 @@ export const CartTotal: FunctionComponent<CartTotalProps> = (props) => {
             </Box>
             <Box alignContent='flex-end'>
               <Typography variant='subtitle2'>
-                {formatCurrency(calculateTax())}
+                {formatCurrency(tax)}
               </Typography>
             </Box>
           </Box>
@@ -76,7 +67,7 @@ export const CartTotal: FunctionComponent<CartTotalProps> = (props) => {
             </Box>
             <Box alignContent='flex-end'>
               <Typography variant='h6'>
-                {formatCurrency(subtotal + calculateTax())}
+                {formatCurrency(total)}
               </Typography>
             </Box>
           </Box>

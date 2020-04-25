@@ -4,13 +4,20 @@ import { ShoppingActions, ActionName, ProductDecreaseAction, ProductIncreaseActi
 import { ProductTypeVO } from '../../models/ProductTypeVO';
 import { remove } from 'lodash';
 
+const TAX_PERCENTAGE = 4.3;
 
 export interface IShoppingState {
   products: ProductVO[]
+  subtotal: number
+  tax: number
+  total: number
 }
 
 const initialShoppingState: IShoppingState = {
-  products: []
+  products: [],
+  subtotal: 0,
+  tax: 0,
+  total: 0
 }
 
 export const shoppingReducer = (state: IShoppingState = initialShoppingState, action: ShoppingActions): IShoppingState => {
@@ -33,6 +40,9 @@ export const shoppingReducer = (state: IShoppingState = initialShoppingState, ac
       }
     }
     removeZeroQuantityProducts(next.products)
+    next.subtotal = calculateSubtotal(next.products)
+    next.tax = calculateTax(next.subtotal)
+    next.total = next.subtotal + next.tax
   })
 }
 
@@ -61,9 +71,20 @@ const updateProductQuantity = (quantity: number, productType: ProductTypeVO, pro
   if (product) {
     product.quantity = quantity
   }
+  else {
+    products.push({ quantity: quantity, type: productType })
+  }
 }
 
 const removeZeroQuantityProducts = (products: ProductVO[]) => {
   remove(products, p => p.quantity === 0)
 }
 
+const calculateSubtotal = (products: ProductVO[]): number => {
+  return products.reduce((subtotal, p) => subtotal + (p.quantity * p.type.price), 0)
+}
+
+
+const calculateTax = (subtotal: number): number => {
+  return subtotal * (TAX_PERCENTAGE / 100);
+}
