@@ -74,7 +74,13 @@ export const ShoppingCartSidebar: FunctionComponent<ShoppingCartSidebarProps> = 
         </TableContainer>
         <CartTotal products={selectedProducts} />
         <div className={classes.checkoutButton}>
-          <Button variant='contained' color='primary' className='checkout-button'>
+          {/* TODO onClick for Checkout button should route to next page */}
+          <Button
+            disabled={selectedProducts.length == 0}
+            variant='contained'
+            color='primary'
+            className='checkout-button'
+          >
             Checkout
         </Button>
         </div>
