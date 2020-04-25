@@ -7,8 +7,6 @@ import { Provider } from 'react-redux';
 const router = configureRouter();
 const store = createReduxStore(router);
 
-console.log('ran')
-
 addDecorator(s =>
   <Provider store={store}>
     {s()}

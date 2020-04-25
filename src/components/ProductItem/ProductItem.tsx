@@ -4,6 +4,8 @@ import { Card, makeStyles, CardMedia, Typography, CardContent, CardActions, Butt
 import { Add, Remove } from '@material-ui/icons';
 import { CategoryBar } from './CategoryBar/CategoryBar';
 import { formatCurrency } from '../../utils/currencyUtil';
+import { useDispatch } from 'react-redux';
+import { ProductIncreaseAction, ProductDecreaseAction, ProductQuantityChangeAction } from '../../redux/actions/ShoppingAction';
 
 const useStyles = makeStyles({
   root: {
@@ -33,25 +35,34 @@ const useStyles = makeStyles({
 export const ProductItem: FunctionComponent<ProductItemProps> = (props) => {
   const classes = useStyles();
 
+  const dispatch = useDispatch();
+
   const onIncrease = () => {
-    if (props.onQuantityChange) {
-      let quantity: number = props.quantity ? props.quantity + 1 : 1
-      props.onQuantityChange(quantity)
-    }
+    // if (props.onQuantityChange) {
+    //   let quantity: number = props.quantity ? props.quantity + 1 : 1
+    //   props.onQuantityChange(quantity)
+    // }
+
+    dispatch(new ProductIncreaseAction({ productType: props.productType }))
   }
 
   const onDecrease = () => {
-    if (props.onQuantityChange) {
-      let quantity: number = props.quantity ? props.quantity - 1 : 0
-      props.onQuantityChange(quantity)
-    }
+    // if (props.onQuantityChange) {
+    //   let quantity: number = props.quantity ? props.quantity - 1 : 0
+    //   props.onQuantityChange(quantity)
+    // }
+
+    dispatch(new ProductDecreaseAction({ productType: props.productType }))
   }
 
   const onQuantityInputFinished = (event: FocusEvent<HTMLInputElement>) => {
-    if (props.onQuantityChange) {
-      let quantity: number = parseInt(event.target.value)
-      props.onQuantityChange(quantity)
-    }
+    // if (props.onQuantityChange) {
+    //   let quantity: number = parseInt(event.target.value)
+    //   props.onQuantityChange(quantity)
+    // }
+
+    let quantity: number = parseInt(event.target.value)
+    dispatch(new ProductQuantityChangeAction({ quantity, productType: props.productType }))
   }
 
   return (

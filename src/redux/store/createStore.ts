@@ -6,13 +6,14 @@ import { createLogger } from 'redux-logger';
 import { Router } from 'router5';
 import { IApplicationStore } from './store.types';
 import { ceresReducers } from '../reducers/reducers';
+import { actionClassMiddleware } from '../middlewares/actionClassMiddleware';
 
 export function createReduxStore(router: Router, initialState = {}) {
   const sagaMiddleware = createSagaMiddleware();
   const routerMiddleware = router5Middleware(router);
   const loggerMiddleware = createLogger();
 
-  const middlewares = [routerMiddleware, loggerMiddleware];
+  const middlewares = [actionClassMiddleware, routerMiddleware, loggerMiddleware];
 
   const createStoreWithMiddleware = composeWithDevTools(
     applyMiddleware(
@@ -24,6 +25,7 @@ export function createReduxStore(router: Router, initialState = {}) {
     router: router5Reducer,
     ceres: ceresReducers
   })
+
 
   const store: Store = createStoreWithMiddleware(
     reducers,

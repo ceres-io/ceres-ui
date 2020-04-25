@@ -5,6 +5,8 @@ import { Paper, makeStyles, Typography, Container, Grid, Divider, createStyles, 
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { ShoppingCartItem } from './ShoppingCartItem/ShoppingCartItem';
 import { CartTotal } from './CartTotal/CartTotal';
+import { useSelector } from 'react-redux';
+import { IApplicationStore } from '../../redux/store/store.types';
 
 const SIDEBAR_ELEVATION = 2;
 
@@ -41,6 +43,8 @@ export const ShoppingCartSidebar: FunctionComponent<ShoppingCartSidebarProps> = 
 
   const classes = useStyles();
 
+  const selectedProducts = useSelector((store: IApplicationStore) => store.ceres.shopping.products);
+
   return (
     <Paper className={classes.root} elevation={SIDEBAR_ELEVATION}>
       <Container className={classes.content} maxWidth="lg" >
@@ -61,14 +65,14 @@ export const ShoppingCartSidebar: FunctionComponent<ShoppingCartSidebarProps> = 
           <Table className={classes.table}>
             <TableBody>
               {
-                props.selectedProducts.map(p =>
+                selectedProducts.map(p =>
                   <ShoppingCartItem key={p.type.name} product={p} />
                 )
               }
             </TableBody>
           </Table>
         </TableContainer>
-        <CartTotal products={props.selectedProducts} />
+        <CartTotal products={selectedProducts} />
         <div className={classes.checkoutButton}>
           <Button variant='contained' color='primary' className='checkout-button'>
             Checkout
