@@ -77,19 +77,21 @@ export const ProductItem: FunctionComponent<ProductItemProps> = (props) => {
           <Typography variant='body1'>
             {formatCurrency(props.productType.price)}
           </Typography>
-          <IconButton onClick={onIncrease}>
-            <Add />
-          </IconButton>
-          <TextField
-            className={classes.numberInput}
-            onBlur={onQuantityInputFinished}
-            type='number'
-            label='qty'
-            variant='outlined'
-          />
-          <IconButton onClick={onDecrease}>
-            <Remove />
-          </IconButton>
+          <div className='quantity-actions'>
+            <IconButton onClick={onIncrease}>
+              <Add />
+            </IconButton>
+            <TextField
+              className={classes.numberInput}
+              onBlur={onQuantityInputFinished}
+              type='number'
+              label='qty'
+              variant='outlined'
+            />
+            <IconButton onClick={onDecrease}>
+              <Remove />
+            </IconButton>
+          </div>
         </Grid>
       </CardActions>
     </Card >

@@ -36,7 +36,7 @@ export const CartTotal: FunctionComponent<CartTotalProps> = (props) => {
   }
 
   return (
-    <Paper variant='elevation'>
+    <Paper variant='elevation' className='cart-total'>
       <Container className={classes.content}>
         <Box display='flex' flexDirection='column'>
           <Box className={classes.row} display='flex' flexDirection='row'>

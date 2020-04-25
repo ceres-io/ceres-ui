@@ -6,7 +6,7 @@ import { ProductTypeVO } from '../../models/ProductTypeVO';
 import { ProductVO } from '../../models/ProductVO';
 import { makeStyles, Theme, createStyles, Box, Paper } from '@material-ui/core';
 import { ShoppingCartSidebar } from '../../components/ShoppingCartSidebar/ShoppingCartSidebar';
-import Joyride, { ACTIONS, EVENTS } from 'react-joyride';
+import { ShopJoyride } from '../../components/ShopJoyride/ShopJoyride';
 
 const useStyles = makeStyles((theme: Theme) => createStyles(
   {
@@ -43,26 +43,12 @@ export const Shop: FunctionComponent<ShopProps> = (props) => {
     }
   }
 
-  const steps = [
-    {
-      title: 'Hey',
-      target: '#product-search',
-      content: 'Test hey',
-      spotlightClicks: true
-    }
-  ]
-
   return (
     <React.Fragment>
-      <Joyride
-        steps={steps}
-        run={true}
-      />
+      <ShopJoyride />
       <Box display='flex' flexDirection='row' className={classes.container}>
         <Box flexGrow={1}>
-          <div id="product-search">
-            <ProductSearch availableProducts={props.availableProducts} onChange={onSearchChange} inputRef={inputRef} />
-          </div>
+          <ProductSearch availableProducts={props.availableProducts} onChange={onSearchChange} inputRef={inputRef} />
           <div className={classes.productList}>
             <ProductList products={filteredProducts} onRefineSearch={onRefineSearch} />
           </div>

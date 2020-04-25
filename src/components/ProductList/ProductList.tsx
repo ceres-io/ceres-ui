@@ -125,7 +125,7 @@ export const ProductList: FunctionComponent<ProductListProps> = (props) => {
       >
         <Grid container className={classes.productGrid} spacing={2}>
           {currentProducts.map(pt =>
-            <Grid item>
+            <Grid item className='product-item'>
               <ProductItem key={pt.name} productType={pt} />
             </Grid>
           )}

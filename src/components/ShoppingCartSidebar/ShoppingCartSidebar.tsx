@@ -11,7 +11,8 @@ const SIDEBAR_ELEVATION = 2;
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: 450
+      width: 450,
+      // height: '90vh'
     },
     content: {
       paddingTop: theme.spacing(2),
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     tableContainer: {
       paddingBottom: theme.spacing(2),
-      height: 720,
+      height: 570,
     },
     checkoutButton: {
       paddingTop: theme.spacing(2),
@@ -69,7 +70,7 @@ export const ShoppingCartSidebar: FunctionComponent<ShoppingCartSidebarProps> = 
         </TableContainer>
         <CartTotal products={props.selectedProducts} />
         <div className={classes.checkoutButton}>
-          <Button variant='contained' color='primary'>
+          <Button variant='contained' color='primary' className='checkout-button'>
             Checkout
         </Button>
         </div>

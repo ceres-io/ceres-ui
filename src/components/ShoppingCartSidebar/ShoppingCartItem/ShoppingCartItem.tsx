@@ -45,7 +45,7 @@ export const ShoppingCartItem: FunctionComponent<ShoppingCartItemProps> = (props
   }
 
   return (
-    <TableRow key={props.product.type.name}>
+    <TableRow key={props.product.type.name} className='shopping-cart-item'>
       <TableCell className={classes.quantity}>
         <Typography variant='subtitle2'>
           {props.product.quantity}
