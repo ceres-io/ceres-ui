@@ -5,13 +5,16 @@ import { Paper, makeStyles, Typography, Container, Grid, Divider, createStyles, 
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { ShoppingCartItem } from './ShoppingCartItem/ShoppingCartItem';
 import { CartTotal } from './CartTotal/CartTotal';
+import { useSelector } from 'react-redux';
+import { IApplicationStore } from '../../redux/store/store.types';
 
 const SIDEBAR_ELEVATION = 2;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      maxWidth: 450
+      width: 450,
+      // height: '90vh'
     },
     content: {
       paddingTop: theme.spacing(2),
@@ -27,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     tableContainer: {
       paddingBottom: theme.spacing(2),
-      height: 720,
+      height: 570,
     },
     checkoutButton: {
       paddingTop: theme.spacing(2),
@@ -39,6 +42,8 @@ const useStyles = makeStyles((theme: Theme) =>
 export const ShoppingCartSidebar: FunctionComponent<ShoppingCartSidebarProps> = (props) => {
 
   const classes = useStyles();
+
+  const selectedProducts = useSelector((store: IApplicationStore) => store.ceres.shopping.products);
 
   return (
     <Paper className={classes.root} elevation={SIDEBAR_ELEVATION}>
@@ -60,16 +65,22 @@ export const ShoppingCartSidebar: FunctionComponent<ShoppingCartSidebarProps> = 
           <Table className={classes.table}>
             <TableBody>
               {
-                props.selectedProducts.map(p =>
-                  <ShoppingCartItem product={p} />
+                selectedProducts.map(p =>
+                  <ShoppingCartItem key={p.type.name} product={p} />
                 )
               }
             </TableBody>
           </Table>
         </TableContainer>
-        <CartTotal products={props.selectedProducts} />
+        <CartTotal products={selectedProducts} />
         <div className={classes.checkoutButton}>
-          <Button variant='contained' color='primary'>
+          {/* TODO onClick for Checkout button should route to next page */}
+          <Button
+            disabled={selectedProducts.length == 0}
+            variant='contained'
+            color='primary'
+            className='checkout-button'
+          >
             Checkout
         </Button>
         </div>

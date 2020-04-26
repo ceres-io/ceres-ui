@@ -1,9 +1,11 @@
-import React, { FunctionComponent, FocusEvent } from 'react';
+import React, { FunctionComponent, FocusEvent, ChangeEvent } from 'react';
 import { ProductItemProps } from './ProductItem.types';
 import { Card, makeStyles, CardMedia, Typography, CardContent, CardActions, ButtonGroup, Button, IconButton, TextField, Chip, Grid, Container } from '@material-ui/core';
 import { Add, Remove } from '@material-ui/icons';
 import { CategoryBar } from './CategoryBar/CategoryBar';
 import { formatCurrency } from '../../utils/currencyUtil';
+import { useDispatch } from 'react-redux';
+import { ProductIncreaseAction, ProductDecreaseAction, ProductQuantityChangeAction } from '../../redux/actions/ShoppingAction';
 
 const useStyles = makeStyles({
   root: {
@@ -33,34 +35,24 @@ const useStyles = makeStyles({
 export const ProductItem: FunctionComponent<ProductItemProps> = (props) => {
   const classes = useStyles();
 
+  const dispatch = useDispatch();
+
   const onIncrease = () => {
-    if (props.onQuantityChange) {
-      let quantity: number = props.quantity ? props.quantity + 1 : 1
-      props.onQuantityChange(quantity)
-    }
+    dispatch(new ProductIncreaseAction({ productType: props.productType }))
   }
 
   const onDecrease = () => {
-    if (props.onQuantityChange) {
-      let quantity: number = props.quantity ? props.quantity - 1 : 0
-      props.onQuantityChange(quantity)
-    }
+    dispatch(new ProductDecreaseAction({ productType: props.productType }))
   }
 
-  const onQuantityInputFinished = (event: FocusEvent<HTMLInputElement>) => {
-    if (props.onQuantityChange) {
+  const onQuantityInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value) {
       let quantity: number = parseInt(event.target.value)
-      props.onQuantityChange(quantity)
+      dispatch(new ProductQuantityChangeAction({ quantity, productType: props.productType }))
     }
-  }
-
-  // TODO - extract to util
-  const getFormattedPrice = (): string => {
-    let formatter = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    })
-    return formatter.format(props.productType.price)
+    else {
+      dispatch(new ProductQuantityChangeAction({ quantity: 0, productType: props.productType }))
+    }
   }
 
   return (
@@ -86,19 +78,22 @@ export const ProductItem: FunctionComponent<ProductItemProps> = (props) => {
           <Typography variant='body1'>
             {formatCurrency(props.productType.price)}
           </Typography>
-          <IconButton onClick={onIncrease}>
-            <Add />
-          </IconButton>
-          <TextField
-            className={classes.numberInput}
-            onBlur={onQuantityInputFinished}
-            type='number'
-            label='qty'
-            variant='outlined'
-          />
-          <IconButton onClick={onDecrease}>
-            <Remove />
-          </IconButton>
+          <div className='quantity-actions'>
+            <IconButton onClick={onIncrease}>
+              <Add />
+            </IconButton>
+            <TextField
+              value={props.quantity || ''}
+              className={classes.numberInput}
+              onChange={onQuantityInputChange}
+              type='number'
+              label='qty'
+              variant='outlined'
+            />
+            <IconButton onClick={onDecrease}>
+              <Remove />
+            </IconButton>
+          </div>
         </Grid>
       </CardActions>
     </Card >

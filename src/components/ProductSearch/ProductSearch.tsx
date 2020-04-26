@@ -12,17 +12,6 @@ import { reducer, getDefaultState, IProductSearchState } from './ProductSearch.r
 import logger from 'use-reducer-logger';
 import { InputAction, SelectionAction } from './ProductSearch.action';
 
-// enum ProductSearchOptionType {
-//   Category = 'category',
-//   Product = 'product'
-// }
-
-// interface ProductSearchOption {
-//   group: ProductSearchOptionType
-//   label: string
-//   value: string | ProductTypeVO
-// }
-
 enum ProductSearchInputEventType {
   input = 'input',
   selection = 'selection'
@@ -41,6 +30,7 @@ export const ProductSearch: FunctionComponent<ProductSearchProps> = (props) => {
   useEffect(() => {
     debouncedDispatch()
   }, [state.filtered])
+
 
   const dispatchOnChange = () => {
     if (props.onChange) {
@@ -80,14 +70,16 @@ export const ProductSearch: FunctionComponent<ProductSearchProps> = (props) => {
 
   const onOptionSelect = (event: object, values: ProductSearchOption[], reason: string) => {
     switch (reason) {
-      case 'select-option': {
+      case 'select-option':
+      case 'remove-option':
+      case 'clear':
         dispatch(new SelectionAction({ selected: values }));
         break;
-      }
     }
   }
 
   // TODO - look into using `MultipleValues` type to persist category tags
+  // TODO - clear selected filters etc
   return (
     <Autocomplete<ProductSearchOption>
       multiple
@@ -100,7 +92,8 @@ export const ProductSearch: FunctionComponent<ProductSearchProps> = (props) => {
           <Chip label={`${option.group}: ${option.label}`} {...getTagProps({ index })} />
         ))
       }
-      renderInput={params => <TextField {...params} label='Search for a product or category' variant='filled' />}
+      renderInput={params => <TextField inputRef={props.inputRef} {...params} label='Search for a product or category' variant='filled' />}
+      inputValue={state.inputFilter}
       onInputChange={onInputChange}
       filterOptions={filterOptions}
       onChange={onOptionSelect}

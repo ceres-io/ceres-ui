@@ -3,6 +3,8 @@ import { ShoppingCartItemProps } from './ShoppingCartItem.types';
 import { Container, Grid, Typography, IconButton, makeStyles, Box, Theme, createStyles, TableRow, TableCell } from '@material-ui/core';
 import { formatCurrency } from '../../../utils/currencyUtil';
 import { Add, Remove, Delete } from '@material-ui/icons';
+import { useDispatch } from 'react-redux';
+import { ProductIncreaseAction, ProductDecreaseAction, ProductQuantityChangeAction } from '../../../redux/actions/ShoppingAction';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,20 +34,22 @@ const useStyles = makeStyles((theme: Theme) =>
 export const ShoppingCartItem: FunctionComponent<ShoppingCartItemProps> = (props) => {
   const classes = useStyles();
 
-  const onQuantityIncrement = (increment: number) => {
-    if (props.onQuantityChange) {
-      props.onQuantityChange(props.product.quantity + increment)
-    }
+  const dispatch = useDispatch();
+
+  const onIncrease = () => {
+    dispatch(new ProductIncreaseAction({ productType: props.product.type }))
+  }
+
+  const onDecrease = () => {
+    dispatch(new ProductDecreaseAction({ productType: props.product.type }))
   }
 
   const onRemove = () => {
-    if (props.onRemove) {
-      props.onRemove();
-    }
+    dispatch(new ProductQuantityChangeAction({ quantity: 0, productType: props.product.type }))
   }
 
   return (
-    <TableRow key={props.product.type.name}>
+    <TableRow key={props.product.type.name} className='shopping-cart-item'>
       <TableCell className={classes.quantity}>
         <Typography variant='subtitle2'>
           {props.product.quantity}
@@ -66,17 +70,17 @@ export const ShoppingCartItem: FunctionComponent<ShoppingCartItemProps> = (props
         </Grid>
       </TableCell>
       <TableCell className={classes.button}>
-        <IconButton onClick={() => onQuantityIncrement(1)}>
+        <IconButton onClick={() => onIncrease()}>
           <Add />
         </IconButton>
       </TableCell>
       <TableCell className={classes.button}>
-        <IconButton onClick={() => onQuantityIncrement(-1)}>
+        <IconButton onClick={() => onDecrease()}>
           <Remove />
         </IconButton>
       </TableCell>
       <TableCell className={classes.button}>
-        <IconButton onClick={onRemove}>
+        <IconButton onClick={() => onRemove()}>
           <Delete />
         </IconButton>
       </TableCell >

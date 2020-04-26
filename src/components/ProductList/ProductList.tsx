@@ -5,6 +5,9 @@ import { Grid, Typography, makeStyles, Theme, createStyles, Link, Popover, Box }
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ProductTypeVO } from '../../models/ProductTypeVO';
 import { InfoOutlined } from '@material-ui/icons';
+import { useSelector } from 'react-redux';
+import { IApplicationStore } from '../../redux/store/store.types';
+import { ProductVO } from '../../models/ProductVO';
 
 
 const MAX_PRODUCTS_PER_PAGE = 9;
@@ -17,6 +20,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     popOverContent: {
       padding: theme.spacing(2),
+    },
+    productGrid: {
+      justifyContent: 'center'
     }
   })
 )
@@ -24,8 +30,15 @@ const useStyles = makeStyles((theme: Theme) =>
 export const ProductList: FunctionComponent<ProductListProps> = (props) => {
   const classes = useStyles();
 
-  const [moreElements, setMoreElements] = useState(props.products.length > MAX_PRODUCTS_PER_PAGE);
-  const [currentProducts, setCurrentProducts] = useState<ProductTypeVO[]>(props.products.slice(0, MAX_PRODUCTS_PER_PAGE));
+  const [moreElements, setMoreElements] = useState(true);
+  const [currentProducts, setCurrentProducts] = useState<ProductTypeVO[]>([]);
+
+  const selectedProducts = useSelector((store: IApplicationStore) => store.ceres.shopping.products);
+
+  useEffect(() => {
+    setMoreElements(props.products.length > MAX_PRODUCTS_PER_PAGE)
+    setCurrentProducts(props.products.slice(0, MAX_PRODUCTS_PER_PAGE));
+  }, [props.products])
 
 
   const [popOverOpen, setPopOverOpen] = useState(false);
@@ -64,6 +77,15 @@ export const ProductList: FunctionComponent<ProductListProps> = (props) => {
     }
   }
 
+
+  const getProductQuantity = (productType: ProductTypeVO): number | undefined => {
+    let product = selectedProducts.find(p => p.type.id == productType.id)
+    if (product) {
+      return product.quantity
+    }
+  }
+
+  // TODO - add zero state for empty product list - prompt user with "no results found change your search"
   return (
     <div
       ref={rootElement}
@@ -114,10 +136,10 @@ export const ProductList: FunctionComponent<ProductListProps> = (props) => {
         }
         scrollThreshold={0.9}
       >
-        <Grid container spacing={2}>
+        <Grid container className={classes.productGrid} spacing={2}>
           {currentProducts.map(pt =>
-            <Grid item>
-              <ProductItem productType={pt} />
+            <Grid item className='product-item'>
+              <ProductItem key={pt.name} productType={pt} quantity={getProductQuantity(pt)} />
             </Grid>
           )}
         </Grid>

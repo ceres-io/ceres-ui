@@ -4,8 +4,9 @@ import { ProductSearch } from './ProductSearch';
 import { action } from '@storybook/addon-actions';
 
 
-
 export default { title: 'Product Search' };
+
+const ref = React.createRef<HTMLInputElement>();
 
 let mockProductTypes: ProductTypeVO[] = [
   {
@@ -34,4 +35,4 @@ let mockProductTypes: ProductTypeVO[] = [
   },
 ]
 
-export const normal = () => <ProductSearch availableProducts={mockProductTypes} onChange={action('onChange')} />
+export const normal = () => <ProductSearch availableProducts={mockProductTypes} onChange={action('onChange')} inputRef={ref} />
