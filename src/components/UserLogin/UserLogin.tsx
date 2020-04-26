@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, Grid, makeStyles, TextField, Container, Avatar, LockOutlinedIcon, Button, FormControlLabel, Checkbox} from "@material-ui/core"
+import { Card, CardContent, CardHeader, Grid, makeStyles, TextField, Container, Avatar, LockOutlinedIcon, Button, FormControlLabel, Checkbox, Link} from "@material-ui/core"
 import LockIcon from '@material-ui/icons/Lock';
 
 const useStyles = makeStyles({
@@ -62,13 +62,21 @@ const classes = useStyles()
               justify="space-evenly"
               alignItems="center"
             >
-            <Button variant="contained" color="primary" onClick={onClickLoginHandler}>
+            <Button variant="contained" fullWidth color="primary" onClick={onClickLoginHandler}>
               Login
             </Button>
-             <Button variant="contained" color="primary" onClick={onClickSignUpHandler}>
-              Sign Up
-             </Button>
-
+            <Grid container>
+                        <Grid item xs>
+                          <Link href="#" variant="body2">
+                            Forgot password?
+                          </Link>
+                        </Grid>
+                        <Grid item>
+                          <Link href="#" variant="body2">
+                            {"Don't have an account? Sign Up"}
+                          </Link>
+                        </Grid>
+                      </Grid>
             </Grid>
     </Container>
     </Grid>
