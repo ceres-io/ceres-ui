@@ -6,7 +6,7 @@ const useStyles = makeStyles({
 
     root:{
            maxWidth:500,
-           minHeight: 300,
+           minHeight: 275,
            background: 'linear-gradient(60deg, #EEEEEE 30%, #E0E0E0 100%)'
         },
     grid: {
@@ -63,16 +63,13 @@ const classes = useStyles()
               alignItems="center"
             >
             <Button variant="contained" color="primary" onClick={onClickLoginHandler}>
-              Sign In
+              Login
             </Button>
              <Button variant="contained" color="primary" onClick={onClickSignUpHandler}>
-                          New Here? Sign Up Now!
+              Sign Up
              </Button>
 
             </Grid>
-            <FormControlLabel
-                           control={<Checkbox value="remember" color="primary" onChange={onChangeRememberMeHandler}/>}
-                           label="Remember me"/>
     </Container>
     </Grid>
   </Card>
