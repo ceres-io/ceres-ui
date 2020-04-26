@@ -42,7 +42,9 @@ export const ProductSearch: FunctionComponent<ProductSearchProps> = (props) => {
 
 
   const filterOptions = (options: ProductSearchOption[], { inputValue }: { inputValue: string }): ProductSearchOption[] => {
-    return matchSorter(options, inputValue, { keys: ['label'] });
+    let result = matchSorter(options, inputValue, { keys: ['label'] });
+    // result.sort((a, b) => a.group !== b.group)
+    return result;
   }
 
   const getSearchOptions = (): ProductSearchOption[] => {

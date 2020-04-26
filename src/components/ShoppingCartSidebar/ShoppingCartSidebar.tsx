@@ -14,7 +14,9 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: 450,
-      // height: '90vh'
+      position: 'sticky',
+      top: theme.spacing(1),
+      alignSelf: 'flex-start'
     },
     content: {
       paddingTop: theme.spacing(2),
