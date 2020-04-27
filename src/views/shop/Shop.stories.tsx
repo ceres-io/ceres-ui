@@ -45,4 +45,4 @@ let mockProductTypes: ProductTypeVO[] = [
 
 
 
-export const normal = () => <div style={{ background: 'white' }}><Shop availableProducts={products.products.slice(0, 1000)} products={[]} /></div>
+export const normal = () => <div style={{ background: 'white' }}><Shop /></div>

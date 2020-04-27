@@ -7,6 +7,7 @@ import { ProductVO } from '../../models/ProductVO';
 import { makeStyles, Theme, createStyles, Box, Paper } from '@material-ui/core';
 import { ShoppingCartSidebar } from '../../components/ShoppingCartSidebar/ShoppingCartSidebar';
 import { ShopJoyride } from '../../components/ShopJoyride/ShopJoyride';
+import products from '../../resources/products.json';
 
 const useStyles = makeStyles((theme: Theme) => createStyles(
   {
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles(
   }
 ))
 
+const availableProducts = products.products.filter(p => p.imageUrl).slice(0, 200)
 
 export const Shop: FunctionComponent<ShopProps> = (props) => {
 
@@ -48,13 +50,13 @@ export const Shop: FunctionComponent<ShopProps> = (props) => {
       <ShopJoyride />
       <Box display='flex' flexDirection='row' className={classes.container}>
         <Box flexGrow={1}>
-          <ProductSearch availableProducts={props.availableProducts} onChange={onSearchChange} inputRef={inputRef} />
+          <ProductSearch availableProducts={availableProducts} onChange={onSearchChange} inputRef={inputRef} />
           <div className={classes.productList}>
             <ProductList products={filteredProducts} onRefineSearch={onRefineSearch} />
           </div>
         </Box>
         <Box className={classes.sidebar}>
-          <ShoppingCartSidebar selectedProducts={props.products} />
+          <ShoppingCartSidebar />
         </Box>
       </Box>
     </React.Fragment>
