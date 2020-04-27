@@ -22,7 +22,6 @@ interface ProductSearchInputEvent {
   value: string | ProductSearchOption
 }
 
-
 export const ProductSearch: FunctionComponent<ProductSearchProps> = (props) => {
   const initialState: IProductSearchState = getDefaultState(props.availableProducts);
   const [state, dispatch] = useReducer(logger(reducer), initialState)
@@ -43,7 +42,7 @@ export const ProductSearch: FunctionComponent<ProductSearchProps> = (props) => {
 
   const filterOptions = (options: ProductSearchOption[], { inputValue }: { inputValue: string }): ProductSearchOption[] => {
     let result = matchSorter(options, inputValue, { keys: ['label'] });
-    // result.sort((a, b) => a.group !== b.group)
+    result.sort((a, b) => a.group.localeCompare(b.group))
     return result;
   }
 
