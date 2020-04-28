@@ -13,10 +13,11 @@ const useStyles = makeStyles({
     height: 400
   },
   image: {
-    // height: 162
     display: 'block',
-    marginLeft: 'auto',
-    marginRight: 'auto'
+    margin: 'auto'
+  },
+  imageDiv: {
+    height: 230
   },
   name: {
     lineHeight: 1
@@ -57,8 +58,9 @@ export const ProductItem: FunctionComponent<ProductItemProps> = (props) => {
 
   return (
     <Card className={classes.root}>
-
-      <img className={classes.image} src={props.productType.imageUrl} />
+      <div className={classes.imageDiv}>
+        <img className={classes.image} src={props.productType.imageUrl} />
+      </div>
 
       <CardContent>
         <CategoryBar categories={props.productType.categories} />
