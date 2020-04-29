@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useRef } from 'react';
+import React, { FunctionComponent, useState, useRef, useEffect } from 'react';
 import { ProductSearch } from '../../components/ProductSearch/ProductSearch';
 import { ShopProps } from './Shop.types';
 import { ProductList } from '../../components/ProductList/ProductList';
@@ -38,6 +38,13 @@ export const Shop: FunctionComponent<ShopProps> = (props) => {
 
     setFilteredProducts(productTypes)
   }
+
+  // Autofocus search box upon page entry
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [inputRef.current])
 
   const onRefineSearch = () => {
     if (inputRef.current) {
