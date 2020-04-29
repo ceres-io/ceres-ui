@@ -7,6 +7,7 @@ import { action } from '@storybook/addon-actions';
 export default { title: 'Product Item' };
 
 let productType: ProductTypeVO = {
+  id: 0,
   name: 'Kroger Vitamin A & D Reduced Fat 2% Milk',
   price: 10,
   imageUrl: 'https://spoonacular.com/productImages/27693-312x231.jpg',
