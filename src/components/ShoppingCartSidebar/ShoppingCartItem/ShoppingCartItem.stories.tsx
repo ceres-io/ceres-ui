@@ -6,6 +6,7 @@ export default { title: 'Shopping Cart Sidebar/Shopping Cart Item' };
 
 
 let krogerMilk: ProductTypeVO = {
+  id: 0,
   name: 'Kroger Vitamin A & D Reduced Fat 2% Milk',
   price: 10,
   imageUrl: 'https://spoonacular.com/productImages/27693-312x231.jpg',
@@ -13,6 +14,7 @@ let krogerMilk: ProductTypeVO = {
 }
 
 let pizza: ProductTypeVO = {
+  id: 1,
   name: 'Uno Frozen Pizza',
   price: 6,
   imageUrl: '',
