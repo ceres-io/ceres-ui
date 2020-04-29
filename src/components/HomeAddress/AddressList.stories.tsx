@@ -30,10 +30,15 @@ let mockAddressList: IAddress[] = [
     }
 ]
 
-export const normal = () => <AddressList selectedItem={mockAddressList[0]} items={mockAddressList}
-                                            onItemSelected={action("Address selected")}/>
+export const normal = () => <AddressList selectedItem={mockAddressList[0]}
+                                         items={mockAddressList}
+                                         onItemSelected={action("Address selected")}
+                                         onItemRemoved={action("Address removed")}/>
 
 export const withoutDefaultAddress = () => <AddressList items={mockAddressList}
-                                                        onItemSelected={action("Address selected")}/>
+                                                        onItemSelected={action("Address selected")}
+                                                        onItemRemoved={action("Address removed")}/>
 
-export const noAddressesEntered = () => <AddressList items={[]} onItemSelected={action("Address selected")}/>
+export const noAddressesEntered = () => <AddressList items={[]}
+                                                     onItemSelected={action("Address selected")}
+                                                     onItemRemoved={action("Address removed")}/>

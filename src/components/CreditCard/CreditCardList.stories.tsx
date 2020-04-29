@@ -27,9 +27,13 @@ let mockCardList: ICreditCard[] = [
 ]
 
 export const normal = () => <CreditCardList selectedItem={mockCardList[0]} items={mockCardList}
-                                            onItemSelected={action("Credit card selected")}/>
+                                            onItemSelected={action("Credit card selected")}
+                                            onItemRemoved={action("Credit card removed")}/>
 
 export const withoutDefaultCard = () => <CreditCardList items={mockCardList}
-                                                        onItemSelected={action("Credit card selected")}/>
+                                                        onItemSelected={action("Credit card selected")}
+                                                        onItemRemoved={action("Credit card removed")}/>
 
-export const noCardsEntered = () => <CreditCardList items={[]} onItemSelected={action("Credit card selected")}/>
+export const noCardsEntered = () => <CreditCardList items={[]}
+                                                    onItemSelected={action("Credit card selected")}
+                                                    onItemRemoved={action("Credit card removed")}/>
