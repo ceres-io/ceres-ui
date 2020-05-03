@@ -14,7 +14,7 @@ import { useRouter } from "react-router5";
 import { RouteNames } from "../../routes/routes";
 import { useSelector, useDispatch } from "react-redux";
 import { IApplicationStore } from "../../redux/store/store.types";
-import { CardAddedAction, CardRemovedAction, AddressAddedAction, AddressRemovedAction } from "../../redux/actions/CheckoutAction";
+import { CardAddedAction, CardRemovedAction, AddressAddedAction, AddressRemovedAction, CardSelectedAction, AddressSelectedAction } from "../../redux/actions/CheckoutAction";
 
 
 const useStyles = makeStyles((theme: Theme) => createStyles(
@@ -51,39 +51,41 @@ export const Checkout: FunctionComponent<CheckoutProps> = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  // const [cards, setCards] = useState<ICreditCard[]>(props.cards)
-  const [selectedCard, setSelectedCard] = useState<ICreditCard | undefined>(props.selectedCard)
-  // const [addresses, setAddresses] = useState<IAddress[]>(props.addresses)
-  const [selectedAddress, setSelectedAddress] = useState<IAddress | undefined>(props.selectedAddress)
-
-
   const cards = useSelector((store: IApplicationStore) => store.ceres.checkout.cards)
+  const selectedCard = useSelector((store: IApplicationStore) => store.ceres.checkout.selectedCard)
   const addresses = useSelector((store: IApplicationStore) => store.ceres.checkout.addresses)
+  const selectedAddress = useSelector((store: IApplicationStore) => store.ceres.checkout.selectedBillingAddress)
 
   const handleNewAddress = (newAddress: IAddress) => {
     dispatch(new AddressAddedAction({ address: { id: addresses.length + 1, ...newAddress } }))
-    // setSelectedAddress(newAddress);
   }
 
   const handleAddressRemoved = (address?: IAddress) => {
-    // setAddresses(newList)
     if (address) {
       dispatch(new AddressRemovedAction({ address: { id: addresses.length + 1, ...address } }))
     }
   }
 
-  const handleNewCard = (newCard: ICreditCard) => {
-    // let newList = [newCard, ...cards];
-    // setCards(newList);
+  const handleAddressSelected = (address?: IAddress) => {
+    if (address) {
+      dispatch(new AddressSelectedAction({ address: { id: 0, ...address } }))
+    }
+  }
 
+  const handleNewCard = (newCard: ICreditCard) => {
     dispatch(new CardAddedAction({ card: newCard }));
-    // setSelectedCard(newCard);
   }
 
   // TODO why is card optional
   const handleCardRemoved = (card?: ICreditCard) => {
     if (card) {
       dispatch(new CardRemovedAction({ card }))
+    }
+  }
+
+  const handleCardSelected = (card?: ICreditCard) => {
+    if (card) {
+      dispatch(new CardSelectedAction({ card }))
     }
   }
 
@@ -107,7 +109,7 @@ export const Checkout: FunctionComponent<CheckoutProps> = (props) => {
               <div className={classes.listCell}>
                 <CreditCardList items={cards}
                   selectedItem={selectedCard}
-                  onItemSelected={card => setSelectedCard(card)}
+                  onItemSelected={handleCardSelected}
                   onItemRemoved={(l, c) => handleCardRemoved(c)} />
               </div>
             </Grid>
@@ -121,7 +123,7 @@ export const Checkout: FunctionComponent<CheckoutProps> = (props) => {
               <div className={classes.listCell}>
                 <AddressList addressType="Billing" items={addresses}
                   selectedItem={selectedAddress}
-                  onItemSelected={address => setSelectedAddress(address)}
+                  onItemSelected={handleAddressSelected}
                   onItemRemoved={(l, a) => handleAddressRemoved(a)} />
               </div>
             </Grid>

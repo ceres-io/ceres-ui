@@ -5,8 +5,10 @@ import { CreditCardVO } from '../../models/CreditCardVO';
 export enum ActionName {
   AddressAdded = '@Checkout/address/added',
   AddressRemoved = '@Checkout/address/removed',
+  AddressSelected = '@Checkout/address/selected',
   CardAdded = '@Checkout/card/added',
-  CardRemoved = '@Checkout/card/removed'
+  CardRemoved = '@Checkout/card/removed',
+  CardSelected = '@Checkout/card/selected'
 }
 
 export interface IAddressPayload {
@@ -21,6 +23,12 @@ export class AddressAddedAction implements Action<ActionName> {
 
 export class AddressRemovedAction implements Action<ActionName> {
   type = ActionName.AddressRemoved;
+  constructor(public payload: IAddressPayload) {
+  }
+}
+
+export class AddressSelectedAction implements Action<ActionName> {
+  type = ActionName.AddressSelected;
   constructor(public payload: IAddressPayload) {
   }
 }
@@ -41,4 +49,16 @@ export class CardRemovedAction implements Action<ActionName> {
   }
 }
 
-export type CheckoutActions = AddressAddedAction | AddressRemovedAction | CardAddedAction | CardRemovedAction;
+export class CardSelectedAction implements Action<ActionName> {
+  type = ActionName.CardSelected;
+  constructor(public payload: ICardPayload) {
+  }
+}
+
+export type CheckoutActions =
+  AddressAddedAction |
+  AddressRemovedAction |
+  CardSelectedAction |
+  CardAddedAction |
+  CardRemovedAction |
+  CardSelectedAction;
