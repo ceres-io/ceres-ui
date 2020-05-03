@@ -23,7 +23,7 @@ export const Main: FunctionComponent<MainProps> = props => {
       return <Shop />
     }
     case RouteNames.Checkout: {
-      return <Checkout products={[]} cards={[]} addresses={[]} />
+      return <Checkout cards={[]} addresses={[]} />
     }
     default:
       return <Home />;
