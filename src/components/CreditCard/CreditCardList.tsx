@@ -1,9 +1,9 @@
-import {makeStyles} from "@material-ui/core/styles";
-import React, {FunctionComponent, useEffect, useState} from "react";
-import {Button, Card, CardContent, CardHeader, Grid, IconButton, Radio, Snackbar, Typography} from "@material-ui/core";
-import {ICreditCard} from "./CreditCard.types";
-import {Close, Payment} from "@material-ui/icons";
-import {SelectionListProps} from "../SelectionList/SelectionList.Types";
+import { makeStyles } from "@material-ui/core/styles";
+import React, { FunctionComponent, useEffect, useState } from "react";
+import { Button, Card, CardContent, CardHeader, Grid, IconButton, Radio, Snackbar, Typography } from "@material-ui/core";
+import { ICreditCard } from "./CreditCard.types";
+import { Close, Payment } from "@material-ui/icons";
+import { SelectionListProps } from "../SelectionList/SelectionList.Types";
 
 const useStyles = makeStyles({
     root: {
@@ -73,17 +73,17 @@ export const CreditCardList: FunctionComponent<SelectionListProps<ICreditCard>> 
     }
 
     const handleRemoval = (creditCard: ICreditCard) => {
-        let newList = cards.filter(c => c !== creditCard);
-        setCards(newList);
+        // let newList = cards.filter(c => c !== creditCard);
+        // setCards(newList);
         if (creditCard === selectedCard) {
             setSelectedCard(undefined)
             props.onItemSelected(undefined)
         }
-        props.onItemRemoved(newList, creditCard)
-        setMemory({card: creditCard, wasSelected: creditCard === selectedCard, index: cards.indexOf(creditCard)})
+        props.onItemRemoved([], creditCard)
+        setMemory({ card: creditCard, wasSelected: creditCard === selectedCard, index: cards.indexOf(creditCard) })
     }
 
-    const handleToastClose = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) =>{
+    const handleToastClose = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
@@ -92,13 +92,13 @@ export const CreditCardList: FunctionComponent<SelectionListProps<ICreditCard>> 
     }
 
     const handleCardUndo = () => {
-        if(memory === undefined) {
+        if (memory === undefined) {
             return;
         }
 
         let newList = [...(cards.slice(0, memory.index)), memory.card, ...(cards.slice(memory.index, cards.length))];
         setCards(newList);
-        if(memory.wasSelected) {
+        if (memory.wasSelected) {
             setSelectedCard(memory.card);
             props.onItemSelected(memory.card);
         }
@@ -109,12 +109,12 @@ export const CreditCardList: FunctionComponent<SelectionListProps<ICreditCard>> 
         if (cards.length > 0) {
             return (
                 <Grid container xs={12}
-                      className={classes.grid}
-                      direction='column'
-                      spacing={0}
-                      justify="center"
-                      alignItems="stretch"
-                      alignContent="center"
+                    className={classes.grid}
+                    direction='column'
+                    spacing={0}
+                    justify="center"
+                    alignItems="stretch"
+                    alignContent="center"
                 >
                     {cards.map(creditCard => ccRow(creditCard))}
                 </Grid>
@@ -132,10 +132,10 @@ export const CreditCardList: FunctionComponent<SelectionListProps<ICreditCard>> 
         let ccType = detectType(creditCard.ccNumber)
         return (
             <Grid container item
-                  className={classes.gridRow}
-                  direction="row"
-                  spacing={1}
-                  alignItems="stretch"
+                className={classes.gridRow}
+                direction="row"
+                spacing={1}
+                alignItems="stretch"
             >
                 <Grid item>
                     <div className={classes.rowItem}>
@@ -148,7 +148,7 @@ export const CreditCardList: FunctionComponent<SelectionListProps<ICreditCard>> 
                 </Grid>
                 <Grid item>
                     <div className={classes.rowItem}>
-                        <Payment htmlColor={ccType.color}/>
+                        <Payment htmlColor={ccType.color} />
                     </div>
                 </Grid>
                 <Grid item xs zeroMinWidth alignItems={"center"}>
@@ -175,7 +175,7 @@ export const CreditCardList: FunctionComponent<SelectionListProps<ICreditCard>> 
                 <Grid item>
                     <div className={classes.rowItem}>
                         <IconButton onClick={() => handleRemoval(creditCard)}>
-                            <Close/>
+                            <Close />
                         </IconButton>
                     </div>
                 </Grid>
@@ -185,7 +185,7 @@ export const CreditCardList: FunctionComponent<SelectionListProps<ICreditCard>> 
 
     return (
         <Card className={classes.root}>
-            <CardHeader title={"Your cards"}/>
+            <CardHeader title={"Your cards"} />
             <CardContent className={classes.cardContent}>
                 {ccRadioGroup()}
             </CardContent>
