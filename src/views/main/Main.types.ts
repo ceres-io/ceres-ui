@@ -1,6 +1,6 @@
 
 export interface IMainInput {
-  currentRouteName: string;
+
 }
 
 export interface IMainEvent {
