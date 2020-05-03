@@ -4,7 +4,8 @@ export interface SelectionListState<T> {
 }
 
 export interface SelectionListEvents<T> {
-    onItemSelected: (item: T) => void;
+    onItemSelected: (item?: T) => void;
+    onItemRemoved: (list: T[], itemRemoved?: T) => void;
 }
 
 export type SelectionListProps<T> = SelectionListState<T> & SelectionListEvents<T>

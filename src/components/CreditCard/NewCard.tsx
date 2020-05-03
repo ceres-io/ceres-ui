@@ -8,6 +8,7 @@ import {extractNumbers, ValidatedField} from "../ResponsiveTextField/ResponsiveT
 export const useStyles = makeStyles({
     root: {
         maxWidth: 400,
+        width: "100%"
     },
     cardContent: {
         paddingLeft: 16,
@@ -161,7 +162,7 @@ const CreditCardProps: IValidFieldProps = {
 const CcvProps: IValidFieldProps = {
     label: "CCV #",
     includeCheckMark: true,
-    helperText: "The 3 digit security code on the back of your card",
+    helperText: "CCVs should be 3 digits",
     filter: userInput => removeAlphas(userInput),
     parse: filtered => extractNumbers(filtered),
     prettify: parsedInput => parsedInput.substr(0, 3),

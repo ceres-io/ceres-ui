@@ -21,6 +21,7 @@ import {extractNumbers, ValidatedField} from "../ResponsiveTextField/ResponsiveT
 const useStyles = makeStyles({
     root: {
         maxWidth: 400,
+        width: "100%"
     },
     cardContent: {
         paddingLeft: 16,
