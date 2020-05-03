@@ -4,6 +4,7 @@ import {Button, Card, CardContent, CardHeader, Grid, IconButton, Radio, Snackbar
 import {IAddress} from "./Address.types";
 import {SelectionListProps} from "../SelectionList/SelectionList.Types";
 import {Close} from "@material-ui/icons";
+import {AddressListProps} from "./AddressList.types";
 
 const useStyles = makeStyles({
     root: {
@@ -55,7 +56,7 @@ interface AddressMemory {
     index: number
 }
 
-export const AddressList: FunctionComponent<SelectionListProps<IAddress>> = (props) => {
+export const AddressList: FunctionComponent<AddressListProps> = (props) => {
     const classes = useStyles();
     const [selectedAddress, setSelectedAddress] = useState<IAddress | undefined>(undefined)
     const [addresses, setAddresses] = useState<IAddress[]>([])
@@ -84,7 +85,7 @@ export const AddressList: FunctionComponent<SelectionListProps<IAddress>> = (pro
     }
 
 
-    const handleToastClose = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) =>{
+    const handleToastClose = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
@@ -93,7 +94,7 @@ export const AddressList: FunctionComponent<SelectionListProps<IAddress>> = (pro
     }
 
     const handleAddressUndo = () => {
-        if(memory === undefined) {
+        if (memory === undefined) {
             return;
         }
 
@@ -103,7 +104,7 @@ export const AddressList: FunctionComponent<SelectionListProps<IAddress>> = (pro
             ...(addresses.slice(memory.index, addresses.length))
         ];
         setAddresses(newList);
-        if(memory.wasSelected) {
+        if (memory.wasSelected) {
             setSelectedAddress(memory.address);
             props.onItemSelected(memory.address);
         }
@@ -176,7 +177,7 @@ export const AddressList: FunctionComponent<SelectionListProps<IAddress>> = (pro
                     <Grid item>
                         <div className={classes.rowItem}>
                             <IconButton onClick={() => handleRemoval(address)}>
-                                <Close />
+                                <Close/>
                             </IconButton>
                         </div>
                     </Grid>
@@ -215,7 +216,7 @@ export const AddressList: FunctionComponent<SelectionListProps<IAddress>> = (pro
                     <Grid item>
                         <div className={classes.rowItem}>
                             <IconButton onClick={() => handleRemoval(address)}>
-                                <Close />
+                                <Close/>
                             </IconButton>
                         </div>
                     </Grid>
@@ -236,9 +237,17 @@ export const AddressList: FunctionComponent<SelectionListProps<IAddress>> = (pro
         return address.city + ", " + address.state + " " + address.zip
     }
 
+    function getTitle() {
+        if (props.addressType === undefined) {
+            return "Your Addresses";
+        } else {
+            return "Your " + props.addressType + " Addresses";
+        }
+    }
+
     return (
         <Card className={classes.root}>
-            <CardHeader title={"Your Addresses"}/>
+            <CardHeader title={getTitle()}/>
             <CardContent className={classes.cardContent}>
                 {addressRadioGroup()}
             </CardContent>
@@ -257,7 +266,7 @@ export const AddressList: FunctionComponent<SelectionListProps<IAddress>> = (pro
                             UNDO
                         </Button>
                         <IconButton size="small" aria-label="close" color="inherit" onClick={handleToastClose}>
-                            <Close fontSize="small" />
+                            <Close fontSize="small"/>
                         </IconButton>
                     </React.Fragment>
                 }
