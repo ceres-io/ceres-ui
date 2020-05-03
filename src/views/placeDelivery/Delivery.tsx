@@ -1,13 +1,10 @@
-import {Box, Button, createStyles, Grid, makeStyles, Theme} from "@material-ui/core";
+import {Box, Button, Card, CardMedia, createStyles, Grid, makeStyles, Theme} from "@material-ui/core";
 import React, {FunctionComponent, useState} from "react";
 import {ShoppingCartSidebar} from "../../components/ShoppingCartSidebar/ShoppingCartSidebar";
-import {CheckoutProps} from "./Checkout.types";
-import {ICreditCard} from "../../components/CreditCard/CreditCard.types";
 import {IAddress} from "../../components/HomeAddress/Address.types";
-import {CreditCardList} from "../../components/CreditCard/CreditCardList";
-import {NewCreditCardForm} from "../../components/CreditCard/NewCard";
 import {AddressList} from "../../components/HomeAddress/AddressList";
 import {NewAddressForm} from "../../components/HomeAddress/NewAddress";
+import {DeliveryProps} from "./Delivery.types";
 
 const useStyles = makeStyles((theme: Theme) => createStyles(
     {
@@ -35,14 +32,20 @@ const useStyles = makeStyles((theme: Theme) => createStyles(
             alignItems: "stretch",
             justifyContent: "center"
         },
+        mediaCard: {
+            width: "100%",
+            height: "100%",
+        },
+        media: {
+            height: "100%",
+            width: "100%",
+        }
     }
 ))
 
-export const Checkout: FunctionComponent<CheckoutProps> = (props) => {
+export const Delivery: FunctionComponent<DeliveryProps> = (props) => {
     const classes = useStyles();
 
-    const [cards, setCards] = useState<ICreditCard[]>(props.cards)
-    const [selectedCard, setSelectedCard] = useState<ICreditCard | undefined>(props.selectedCard)
     const [addresses, setAddresses] = useState<IAddress[]>(props.addresses)
     const [selectedAddress, setSelectedAddress] = useState<IAddress | undefined>(props.selectedAddress)
 
@@ -56,17 +59,6 @@ export const Checkout: FunctionComponent<CheckoutProps> = (props) => {
         setAddresses(newList)
     }
 
-    const handleNewCard = (newCard: ICreditCard) => {
-        let newList = [newCard, ...cards];
-        setCards(newList);
-        setSelectedCard(newCard);
-    }
-
-    const handleCardRemoved = (newList: ICreditCard[], cardRemoved?: ICreditCard) => {
-        setCards(newList)
-    }
-
-
     return (
         <React.Fragment>
             <Box display={"flex"} flexDirection={"row"} className={classes.container}>
@@ -78,23 +70,22 @@ export const Checkout: FunctionComponent<CheckoutProps> = (props) => {
                           justify={"space-around"}
                           alignItems={"stretch"}
                     >
-                        <Grid item xs={6}>
+                        <Grid item xs={12}>
                             <div className={classes.listCell}>
-                                <CreditCardList items={cards}
-                                                selectedItem={selectedCard}
-                                                onItemSelected={card => setSelectedCard(card)}
-                                                onItemRemoved={(l, c) => handleCardRemoved(l, c)}/>
-                            </div>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <div className={classes.formCell}>
-                                <NewCreditCardForm onCardAdded={card => handleNewCard(card)}/>
+                                <Card className={classes.mediaCard}>
+                                    <CardMedia className={classes.media}
+                                               component="img"
+                                               alt="Map view"
+                                               image={require("../../resources/map.png")}
+                                               title="Map"
+                                    />
+                                </Card>
                             </div>
                         </Grid>
 
                         <Grid item xs={6}>
                             <div className={classes.listCell}>
-                                <AddressList addressType="Billing"
+                                <AddressList addressType="Delivery"
                                              items={addresses}
                                              selectedItem={selectedAddress}
                                              onItemSelected={address => setSelectedAddress(address)}
@@ -111,10 +102,10 @@ export const Checkout: FunctionComponent<CheckoutProps> = (props) => {
                                 <Button color="primary"
                                         variant='contained'
                                         size="large"
-                                        disabled={selectedCard === undefined || selectedAddress === undefined}
+                                        disabled={selectedAddress === undefined}
                                         onClick={() => {/*TODO*/
                                         }}>
-                                    CONTINUE
+                                    PLACE YOUR ORDER
                                 </Button>
                             </div>
                         </Grid>
