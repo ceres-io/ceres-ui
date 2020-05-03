@@ -7,12 +7,20 @@ import { createRouteNodeSelector } from 'redux-router5';
 import { connect } from 'react-redux';
 import { IApplicationStore } from '../../redux/store/store.types';
 import Signup from '../signup/Signup';
+import { Shop } from '../shop/Shop';
+import { Checkout } from '../checkout/Checkout';
 
 
 const Main: React.FunctionComponent<MainProps> = props => {
   switch (props.currentRouteName) {
     case RouteNames.SignUp: {
       return <Signup />
+    }
+    case RouteNames.Shop: {
+      return <Shop />
+    }
+    case RouteNames.Checkout: {
+      return <Checkout products={[]} cards={[]} addresses={[]} />
     }
     default:
       return <Home />;
