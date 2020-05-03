@@ -82,17 +82,19 @@ export const ShoppingCartSidebar: FunctionComponent<ShoppingCartSidebarProps> = 
           </Table>
         </TableContainer>
         <CartTotal products={selectedProducts} />
-        <div className={classes.checkoutButton}>
-          <Button
-            disabled={selectedProducts.length == 0}
-            variant='contained'
-            color='primary'
-            className='checkout-button'
-            onClick={onCheckoutClick}
-          >
-            Checkout
-        </Button>
-        </div>
+        {props.showCheckoutButton &&
+          <div className={classes.checkoutButton}>
+            <Button
+              disabled={selectedProducts.length == 0}
+              variant='contained'
+              color='primary'
+              className='checkout-button'
+              onClick={onCheckoutClick}
+            >
+              Checkout
+            </Button>
+          </div>
+        }
       </Container>
     </Paper>
   );

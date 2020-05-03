@@ -54,7 +54,7 @@ export const Shop: FunctionComponent<ShopProps> = (props) => {
           </div>
         </Box>
         <Box className={classes.sidebar}>
-          <ShoppingCartSidebar />
+          <ShoppingCartSidebar showCheckoutButton />
         </Box>
       </Box>
     </React.Fragment>

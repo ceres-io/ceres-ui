@@ -1,11 +1,11 @@
 import React from 'react';
-import {ProductTypeVO} from '../../models/ProductTypeVO';
-import {ProductVO} from '../../models/ProductVO';
-import {IAddress} from "../../components/HomeAddress/Address.types";
-import {Delivery} from "./Delivery";
+import { ProductTypeVO } from '../../models/ProductTypeVO';
+import { ProductVO } from '../../models/ProductVO';
+import { IAddress } from "../../components/HomeAddress/Address.types";
+import { Delivery } from "./Delivery";
 
 
-export default {title: 'Delivery'};
+export default { title: 'Delivery' };
 
 let mockProductTypes: ProductTypeVO[] = [
     {
@@ -64,14 +64,14 @@ let mockAddressList: IAddress[] = [
 ]
 
 
-let products: ProductVO[] = mockProductTypes.map(pt => ({quantity: Math.floor(Math.random() * 10), type: pt}))
+let products: ProductVO[] = mockProductTypes.map(pt => ({ quantity: Math.floor(Math.random() * 10), type: pt }))
 
 export const noData = () =>
-    <div style={{background: 'white'}}>
-        <Delivery products={products} addresses={[]}/>
+    <div style={{ background: 'white' }}>
+        <Delivery addresses={[]} />
     </div>
 
 export const withData = () =>
-    <div style={{background: 'white'}}>
-        <Delivery products={products} addresses={mockAddressList}/>
+    <div style={{ background: 'white' }}>
+        <Delivery addresses={mockAddressList} />
     </div>

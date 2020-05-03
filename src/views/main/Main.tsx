@@ -3,12 +3,10 @@ import Login from '../login/Login';
 import { MainProps, IMainInput } from './Main.types';
 import { RouteNames } from '../../routes/routes';
 import Home from '../home/Home';
-import { createRouteNodeSelector } from 'redux-router5';
-import { connect } from 'react-redux';
-import { IApplicationStore } from '../../redux/store/store.types';
 import Signup from '../signup/Signup';
 import { Shop } from '../shop/Shop';
 import { Checkout } from '../checkout/Checkout';
+import { Delivery } from '../placeDelivery/Delivery';
 import { useRoute } from 'react-router5';
 
 
@@ -24,6 +22,9 @@ export const Main: FunctionComponent<MainProps> = props => {
     }
     case RouteNames.Checkout: {
       return <Checkout cards={[]} addresses={[]} />
+    }
+    case RouteNames.Delivery: {
+      return <Delivery addresses={[]} />;
     }
     default:
       return <Home />;

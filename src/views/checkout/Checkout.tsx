@@ -130,7 +130,7 @@ export const Checkout: FunctionComponent<CheckoutProps> = (props) => {
           </Grid>
         </Box>
         <Box className={classes.sidebar}>
-          <ShoppingCartSidebar />
+          <ShoppingCartSidebar showCheckoutButton={false} />
         </Box>
       </Box>
 
