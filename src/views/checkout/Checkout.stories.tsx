@@ -1,12 +1,12 @@
 import React from 'react';
-import {ProductTypeVO} from '../../models/ProductTypeVO';
-import {ProductVO} from '../../models/ProductVO';
-import {Checkout} from "./Checkout";
-import {ICreditCard} from "../../components/CreditCard/CreditCard.types";
-import {IAddress} from "../../components/HomeAddress/Address.types";
+import { ProductTypeVO } from '../../models/ProductTypeVO';
+import { ProductVO } from '../../models/ProductVO';
+import { Checkout } from "./Checkout";
+import { ICreditCard } from "../../components/CreditCard/CreditCard.types";
+import { IAddress } from "../../components/HomeAddress/Address.types";
 
 
-export default {title: 'Checkout'};
+export default { title: 'Checkout' };
 
 let mockProductTypes: ProductTypeVO[] = [
     {
@@ -86,19 +86,19 @@ let mockAddressList: IAddress[] = [
 ]
 
 
-let products: ProductVO[] = mockProductTypes.map(pt => ({quantity: Math.floor(Math.random() * 10), type: pt}))
+let products: ProductVO[] = mockProductTypes.map(pt => ({ quantity: Math.floor(Math.random() * 10), type: pt }))
 
 export const noData = () =>
-    <div style={{background: 'white'}}>
-        <Checkout products={products} cards={[]} addresses={[]}/>
+    <div style={{ background: 'white' }}>
+        <Checkout cards={[]} addresses={[]} />
     </div>
 
 export const withData = () =>
-    <div style={{background: 'white'}}>
-        <Checkout products={products} cards={mockCardList} addresses={mockAddressList}/>
+    <div style={{ background: 'white' }}>
+        <Checkout cards={mockCardList} addresses={mockAddressList} />
     </div>
 
 export const withDefaults = () =>
-    <div style={{background: 'white'}}>
-        <Checkout products={products} cards={mockCardList} selectedCard={mockCardList[1]} addresses={mockAddressList} selectedAddress={mockAddressList[1]}/>
+    <div style={{ background: 'white' }}>
+        <Checkout cards={mockCardList} selectedCard={mockCardList[1]} addresses={mockAddressList} selectedAddress={mockAddressList[1]} />
     </div>

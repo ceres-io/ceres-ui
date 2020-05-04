@@ -34,8 +34,6 @@ export const Shop: FunctionComponent<ShopProps> = (props) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onSearchChange = (productTypes: ProductTypeVO[]) => {
-    // let products: ProductVO[] = productTypes.map(pt => ({ quantity: Math.floor(Math.random() * 10), type: pt }))
-
     setFilteredProducts(productTypes)
   }
 
@@ -56,7 +54,7 @@ export const Shop: FunctionComponent<ShopProps> = (props) => {
           </div>
         </Box>
         <Box className={classes.sidebar}>
-          <ShoppingCartSidebar />
+          <ShoppingCartSidebar showCheckoutButton />
         </Box>
       </Box>
     </React.Fragment>

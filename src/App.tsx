@@ -1,7 +1,7 @@
 import React from 'react';
-import AppBarHeader from './components/AppBarHeader/AppBarHeader';
+import { AppBarHeader } from './components/AppBarHeader/AppBarHeader';
 import { Container, ThemeProvider, createMuiTheme } from '@material-ui/core';
-import Main from './views/main/Main';
+import { Main } from './views/main/Main';
 
 const theme = createMuiTheme({
   palette: {
@@ -17,10 +17,10 @@ const theme = createMuiTheme({
 const App: React.FunctionComponent = () => {
   return (
     <ThemeProvider theme={theme}>
-      <Container >
-        <AppBarHeader />
+      <AppBarHeader />
+      <div>
         <Main />
-      </Container>
+      </div>
     </ThemeProvider>
   );
 }

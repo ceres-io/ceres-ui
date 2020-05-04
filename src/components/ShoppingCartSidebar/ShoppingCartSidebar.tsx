@@ -7,6 +7,8 @@ import { ShoppingCartItem } from './ShoppingCartItem/ShoppingCartItem';
 import { CartTotal } from './CartTotal/CartTotal';
 import { useSelector } from 'react-redux';
 import { IApplicationStore } from '../../redux/store/store.types';
+import { useRouter } from 'react-router5';
+import { RouteNames } from '../../routes/routes';
 
 const SIDEBAR_ELEVATION = 2;
 
@@ -44,8 +46,13 @@ const useStyles = makeStyles((theme: Theme) =>
 export const ShoppingCartSidebar: FunctionComponent<ShoppingCartSidebarProps> = (props) => {
 
   const classes = useStyles();
+  const router = useRouter();
 
   const selectedProducts = useSelector((store: IApplicationStore) => store.ceres.shopping.products);
+
+  const onCheckoutClick = () => {
+    router.navigate(RouteNames.Checkout)
+  }
 
   return (
     <Paper className={classes.root} elevation={SIDEBAR_ELEVATION}>
@@ -75,17 +82,19 @@ export const ShoppingCartSidebar: FunctionComponent<ShoppingCartSidebarProps> = 
           </Table>
         </TableContainer>
         <CartTotal products={selectedProducts} />
-        <div className={classes.checkoutButton}>
-          {/* TODO onClick for Checkout button should route to next page */}
-          <Button
-            disabled={selectedProducts.length == 0}
-            variant='contained'
-            color='primary'
-            className='checkout-button'
-          >
-            Checkout
-        </Button>
-        </div>
+        {props.showCheckoutButton &&
+          <div className={classes.checkoutButton}>
+            <Button
+              disabled={selectedProducts.length == 0}
+              variant='contained'
+              color='primary'
+              className='checkout-button'
+              onClick={onCheckoutClick}
+            >
+              Checkout
+            </Button>
+          </div>
+        }
       </Container>
     </Paper>
   );

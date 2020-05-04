@@ -1,28 +1,36 @@
-import React from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import Login from '../login/Login';
 import { MainProps, IMainInput } from './Main.types';
 import { RouteNames } from '../../routes/routes';
-import Home from '../home/Home';
-import { createRouteNodeSelector } from 'redux-router5';
-import { connect } from 'react-redux';
-import { IApplicationStore } from '../../redux/store/store.types';
+import { Home } from '../home/Home';
 import Signup from '../signup/Signup';
+import { Shop } from '../shop/Shop';
+import { Checkout } from '../checkout/Checkout';
+import { Delivery } from '../placeDelivery/Delivery';
+import { Track } from '../trackDelivery/Track';
+import { useRoute } from 'react-router5';
 
 
-const Main: React.FunctionComponent<MainProps> = props => {
-  switch (props.currentRouteName) {
+export const Main: FunctionComponent<MainProps> = props => {
+  const route = useRoute();
+
+  switch (route.route.name) {
     case RouteNames.SignUp: {
       return <Signup />
+    }
+    case RouteNames.Shop: {
+      return <Shop />
+    }
+    case RouteNames.Checkout: {
+      return <Checkout />
+    }
+    case RouteNames.Delivery: {
+      return <Delivery />;
+    }
+    case RouteNames.Track: {
+      return <Track estTimeMinutes={26474510 + 40000} trackingId="74Q#ThvB#r" />;
     }
     default:
       return <Home />;
   }
 }
-
-function mapStateToProps(store: IApplicationStore): IMainInput {
-  return {
-    currentRouteName: createRouteNodeSelector('')(store).route.name
-  }
-}
-
-export default connect(mapStateToProps)(Main);

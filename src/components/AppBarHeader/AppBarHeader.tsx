@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { AppBar, Toolbar, IconButton, Typography, Button, Theme, makeStyles, createStyles } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { actions } from 'redux-router5';
@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { AppBarHeaderProps } from './AppBarHeader.types';
 import { RouteNames } from '../../routes/routes';
 import { IApplicationStore } from '../../redux/store/store.types';
+import { useRouter } from 'react-router5';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,9 +20,16 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const AppBarHeader: React.FunctionComponent<AppBarHeaderProps> = (props: AppBarHeaderProps) => {
+// TODO - hide on scroll maybe
+export const AppBarHeader: FunctionComponent<AppBarHeaderProps> = (props: AppBarHeaderProps) => {
 
   const classes = useStyles();
+
+  const router = useRouter();
+
+  const onShopClick = () => {
+    router.navigate(RouteNames.Shop);
+  }
 
   return (
     <AppBar position="static">
@@ -32,31 +40,15 @@ const AppBarHeader: React.FunctionComponent<AppBarHeaderProps> = (props: AppBarH
         <Typography variant="h6" className={classes.title}>
           Ceres
         </Typography>
-        {props.firstName === undefined &&
+
+        <Button color='inherit' onClick={onShopClick}>Shop Now</Button>
+
+        {/* {props.firstName === undefined &&
           <Button color="inherit" onClick={props.onSignUp}>Sign Up</Button>}
         {props.firstName !== undefined &&
-          <Button color="inherit" onClick={props.onLogin}>Login</Button>}
+          <Button color="inherit" onClick={props.onLogin}>Login</Button>} */}
 
       </Toolbar>
     </AppBar>
   )
 }
-
-const mapStateToProps = (store: IApplicationStore) => {
-  return {
-    firstName: store.ceres.signUp.firstName
-  }
-}
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    onSignUp: () => {
-      dispatch(actions.navigateTo(RouteNames.SignUp));
-    },
-    onLogin: () => {
-      dispatch(actions.navigateTo(RouteNames.Login));
-    },
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AppBarHeader);

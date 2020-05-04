@@ -10,11 +10,11 @@ import {
     Theme,
     Typography
 } from "@material-ui/core";
-import React, {FunctionComponent, useEffect, useState} from "react";
-import {TrackingProps} from "./Track.types";
-import {GpsFixed} from "@material-ui/icons";
-import {IValidFieldProps} from "../../components/ResponsiveTextField/ResponsiveTextField.types";
-import {ValidatedField} from "../../components/ResponsiveTextField/ResponsiveTextField";
+import React, { FunctionComponent, useEffect, useState } from "react";
+import { TrackingProps } from "./Track.types";
+import { GpsFixed } from "@material-ui/icons";
+import { IValidFieldProps } from "../../components/ResponsiveTextField/ResponsiveTextField.types";
+import { ValidatedField } from "../../components/ResponsiveTextField/ResponsiveTextField";
 
 const useStyles = makeStyles((theme: Theme) => createStyles(
     {
@@ -97,7 +97,7 @@ export const Track: FunctionComponent<TrackingProps> = (props) => {
         if (trackingNumber === "") {
             return "Enter a tracking number";
         }
-        return "Tracking#: " + trackingNumber;
+        return "Tracking Number: " + trackingNumber;
     }
 
     const formatEstimatedTime = () => {
@@ -122,19 +122,19 @@ export const Track: FunctionComponent<TrackingProps> = (props) => {
     return (
         <React.Fragment>
             <Box display={"flex"} flexDirection={"row"} className={classes.container}
-                 justifyContent={"center"}>
+                justifyContent={"center"}>
                 <Grid container className={classes.gridRoot}
-                      xs={12}
-                      spacing={1}
-                      direction={"row"}
-                      justify={"flex-start"}
-                      alignItems={"stretch"}
+                    xs={12}
+                    spacing={1}
+                    direction={"row"}
+                    justify={"flex-start"}
+                    alignItems={"stretch"}
                 >
                     <Grid item xs={6}>
                         <div className={classes.gridCell}>
                             <Typography className={classes.text}
-                                        variant={"h4"}
-                                        noWrap>
+                                variant={"h4"}
+                                noWrap>
                                 Track your delivery
                             </Typography>
                         </div>
@@ -145,7 +145,7 @@ export const Track: FunctionComponent<TrackingProps> = (props) => {
                                 if (e.valid) {
                                     setPendingNumber(e.prettyInput)
                                 }
-                            }}/>
+                            }} />
                         </div>
                     </Grid>
                     <Grid item xs={1}>
@@ -158,17 +158,17 @@ export const Track: FunctionComponent<TrackingProps> = (props) => {
                                         setPendingNumber("");
                                     }
                                 }}>
-                                <GpsFixed/>
+                                <GpsFixed />
                             </IconButton>
                         </div>
                     </Grid>
                     <Grid item xs={12}>
-                        <Divider/>
+                        <Divider />
                     </Grid>
                     <Grid item xs={6}>
                         <div className={classes.gridCell}>
                             <Typography className={classes.text}
-                                        noWrap>
+                                noWrap>
                                 {formatTrackingNumber()}
                             </Typography>
                         </div>
@@ -176,8 +176,8 @@ export const Track: FunctionComponent<TrackingProps> = (props) => {
                     <Grid item xs={6}>
                         <div className={classes.gridCell}>
                             <Typography className={classes.text}
-                                        noWrap
-                                        align={"right"}>
+                                noWrap
+                                align={"right"}>
                                 {formatEstimatedTime()}
                             </Typography>
                         </div>

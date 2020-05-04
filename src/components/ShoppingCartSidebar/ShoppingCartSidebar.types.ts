@@ -2,6 +2,7 @@ import { ProductVO } from '../../models/ProductVO';
 
 
 export interface IShoppingCartSidebartInput {
+  showCheckoutButton: boolean
 }
 
 

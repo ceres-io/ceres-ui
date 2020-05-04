@@ -40,4 +40,4 @@ let mockProductTypes: ProductTypeVO[] = [
 let mockProducts: ProductVO[] = mockProductTypes.map(pt => ({ quantity: 0, type: pt }))
 mockProducts = mockProducts.concat(mockProducts).concat(mockProducts)
 
-export const normal = () => <ShoppingCartSidebar />
+export const normal = () => <ShoppingCartSidebar showCheckoutButton />

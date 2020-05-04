@@ -1,12 +1,11 @@
-import {ProductVO} from "../../models/ProductVO";
-import {SelectionListProps, SelectionListState} from "../../components/SelectionList/SelectionList.Types";
-import {ICreditCard} from "../../components/CreditCard/CreditCard.types";
-import {IAddress} from "../../components/HomeAddress/Address.types";
+import { ProductVO } from "../../models/ProductVO";
+import { SelectionListProps, SelectionListState } from "../../components/SelectionList/SelectionList.Types";
+import { ICreditCard } from "../../components/CreditCard/CreditCard.types";
+import { IAddress } from "../../components/HomeAddress/Address.types";
 
 export interface ICheckoutInput {
-    products: ProductVO[]
-    cards: ICreditCard[]
-    addresses: IAddress[]
+    cards?: ICreditCard[]
+    addresses?: IAddress[]
     selectedCard?: ICreditCard
     selectedAddress?: IAddress
     zip?: string
