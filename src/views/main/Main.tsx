@@ -7,6 +7,7 @@ import Signup from '../signup/Signup';
 import { Shop } from '../shop/Shop';
 import { Checkout } from '../checkout/Checkout';
 import { Delivery } from '../placeDelivery/Delivery';
+import { Track } from '../trackDelivery/Track';
 import { useRoute } from 'react-router5';
 
 
@@ -21,10 +22,13 @@ export const Main: FunctionComponent<MainProps> = props => {
       return <Shop />
     }
     case RouteNames.Checkout: {
-      return <Checkout cards={[]} addresses={[]} />
+      return <Checkout />
     }
     case RouteNames.Delivery: {
-      return <Delivery addresses={[]} />;
+      return <Delivery />;
+    }
+    case RouteNames.Track: {
+      return <Track estTimeMinutes={26474510 + 40000} trackingId="74Q#ThvB#r" />;
     }
     default:
       return <Home />;

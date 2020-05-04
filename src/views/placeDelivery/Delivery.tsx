@@ -8,6 +8,8 @@ import { DeliveryProps } from "./Delivery.types";
 import { useSelector, useDispatch } from "react-redux";
 import { IApplicationStore } from "../../redux/store/store.types";
 import { AddressAddedAction, AddressRemovedAction, CheckoutPage, AddressSelectedAction } from "../../redux/actions/CheckoutAction";
+import { useRouter } from "react-router5";
+import { RouteNames } from "../../routes/routes";
 
 const useStyles = makeStyles((theme: Theme) => createStyles(
   {
@@ -49,12 +51,10 @@ const useStyles = makeStyles((theme: Theme) => createStyles(
 export const Delivery: FunctionComponent<DeliveryProps> = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  // const [addresses, setAddresses] = useState<IAddress[]>(props.addresses)
+  const router = useRouter();
 
   const addresses = useSelector((store: IApplicationStore) => store.ceres.checkout.addresses)
   const selectedAddress = useSelector((store: IApplicationStore) => store.ceres.checkout.selectedDeliveryAddress)
-  // const [selectedAddress, setSelectedAddress] = useState<IAddress | undefined>(props.selectedAddress)
 
   const handleNewAddress = (newAddress: IAddress) => {
     dispatch(new AddressAddedAction({ address: newAddress, page: CheckoutPage.Delivery }))
@@ -70,6 +70,10 @@ export const Delivery: FunctionComponent<DeliveryProps> = (props) => {
     if (address) {
       dispatch(new AddressSelectedAction({ address, page: CheckoutPage.Delivery }))
     }
+  }
+
+  const handleOrderClicked = () => {
+    router.navigate(RouteNames.Track)
   }
 
   return (
@@ -116,10 +120,10 @@ export const Delivery: FunctionComponent<DeliveryProps> = (props) => {
                   variant='contained'
                   size="large"
                   disabled={selectedAddress === undefined}
-                  onClick={() => {/*TODO*/
-                  }}>
-                  PLACE YOUR ORDER
-                                </Button>
+                  onClick={handleOrderClicked}
+                >
+                  Place Your Order
+                </Button>
               </div>
             </Grid>
           </Grid>
