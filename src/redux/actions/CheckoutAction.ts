@@ -11,8 +11,14 @@ export enum ActionName {
   CardSelected = '@Checkout/card/selected'
 }
 
+export enum CheckoutPage {
+  Checkout = 'checkout',
+  Delivery = 'delivery'
+}
+
 export interface IAddressPayload {
   address: AddressVO
+  page: CheckoutPage
 }
 
 export class AddressAddedAction implements Action<ActionName> {

@@ -5,6 +5,9 @@ import { IAddress } from "../../components/HomeAddress/Address.types";
 import { AddressList } from "../../components/HomeAddress/AddressList";
 import { NewAddressForm } from "../../components/HomeAddress/NewAddress";
 import { DeliveryProps } from "./Delivery.types";
+import { useSelector, useDispatch } from "react-redux";
+import { IApplicationStore } from "../../redux/store/store.types";
+import { AddressAddedAction, AddressRemovedAction, CheckoutPage, AddressSelectedAction } from "../../redux/actions/CheckoutAction";
 
 const useStyles = makeStyles((theme: Theme) => createStyles(
   {
@@ -45,18 +48,28 @@ const useStyles = makeStyles((theme: Theme) => createStyles(
 
 export const Delivery: FunctionComponent<DeliveryProps> = (props) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
-  const [addresses, setAddresses] = useState<IAddress[]>(props.addresses)
-  const [selectedAddress, setSelectedAddress] = useState<IAddress | undefined>(props.selectedAddress)
+  // const [addresses, setAddresses] = useState<IAddress[]>(props.addresses)
+
+  const addresses = useSelector((store: IApplicationStore) => store.ceres.checkout.addresses)
+  const selectedAddress = useSelector((store: IApplicationStore) => store.ceres.checkout.selectedDeliveryAddress)
+  // const [selectedAddress, setSelectedAddress] = useState<IAddress | undefined>(props.selectedAddress)
 
   const handleNewAddress = (newAddress: IAddress) => {
-    let newList = [newAddress, ...addresses]
-    setAddresses(newList);
-    setSelectedAddress(newAddress);
+    dispatch(new AddressAddedAction({ address: newAddress, page: CheckoutPage.Delivery }))
   }
 
-  const handleAddressRemoved = (newList: IAddress[], addressRemoved?: IAddress) => {
-    setAddresses(newList)
+  const handleAddressRemoved = (address?: IAddress) => {
+    if (address) {
+      dispatch(new AddressRemovedAction({ address, page: CheckoutPage.Delivery }))
+    }
+  }
+
+  const handleAddressSelected = (address?: IAddress) => {
+    if (address) {
+      dispatch(new AddressSelectedAction({ address, page: CheckoutPage.Delivery }))
+    }
   }
 
   return (
@@ -88,13 +101,13 @@ export const Delivery: FunctionComponent<DeliveryProps> = (props) => {
                 <AddressList addressType="Delivery"
                   items={addresses}
                   selectedItem={selectedAddress}
-                  onItemSelected={address => setSelectedAddress(address)}
-                  onItemRemoved={(l, a) => handleAddressRemoved(l, a)} />
+                  onItemSelected={handleAddressSelected}
+                  onItemRemoved={(l, a) => handleAddressRemoved(a)} />
               </div>
             </Grid>
             <Grid item xs={6}>
               <div className={classes.formCell}>
-                <NewAddressForm onAddressAdded={address => handleNewAddress(address)} />
+                <NewAddressForm onAddressAdded={handleNewAddress} />
               </div>
             </Grid>
             <Grid item xs={12}>

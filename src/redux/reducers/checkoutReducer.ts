@@ -2,7 +2,7 @@ import produce from 'immer';
 
 import { AddressVO } from '../../models/AddressVO';
 import { CreditCardVO } from '../../models/CreditCardVO';
-import { CheckoutActions, ActionName, AddressAddedAction, AddressRemovedAction, CardAddedAction, CardRemovedAction, AddressSelectedAction, CardSelectedAction } from '../actions/CheckoutAction';
+import { CheckoutActions, ActionName, AddressAddedAction, AddressRemovedAction, CardAddedAction, CardRemovedAction, AddressSelectedAction, CardSelectedAction, CheckoutPage } from '../actions/CheckoutAction';
 
 import { remove } from 'lodash';
 
@@ -12,6 +12,7 @@ export interface ICheckoutState {
   addresses: AddressVO[]
   zip?: string
   selectedBillingAddress?: AddressVO
+  selectedDeliveryAddress?: AddressVO
   selectedCard?: CreditCardVO
 }
 
@@ -26,7 +27,7 @@ export const checkoutReducer = (state: ICheckoutState = initialCheckoutState, ac
       case ActionName.AddressAdded: {
         let addressAction = action as AddressAddedAction;
         addAddress(addressAction.payload.address, next.addresses)
-        next.selectedBillingAddress = addressAction.payload.address;
+        selectAddress(addressAction.payload.address, addressAction.payload.page, next)
         break;
       }
       case ActionName.AddressRemoved: {
@@ -36,7 +37,7 @@ export const checkoutReducer = (state: ICheckoutState = initialCheckoutState, ac
       }
       case ActionName.AddressSelected: {
         let addressAction = action as AddressSelectedAction;
-        next.selectedBillingAddress = addressAction.payload.address
+        selectAddress(addressAction.payload.address, addressAction.payload.page, next)
         break;
       }
       case ActionName.CardAdded: {
@@ -64,7 +65,23 @@ const addAddress = (address: AddressVO, addresses: AddressVO[]) => {
 }
 
 const removeAddress = (address: AddressVO, addresses: AddressVO[]) => {
-  remove(addresses, a => a.id === address.id)
+  remove(addresses, a => a.streetAddress === address.streetAddress)
+}
+
+const selectAddress = (address: AddressVO, page: CheckoutPage, state: ICheckoutState) => {
+  switch (page) {
+    case CheckoutPage.Checkout: {
+      state.selectedBillingAddress = address
+      if (!state.selectedDeliveryAddress) {
+        state.selectedDeliveryAddress = address
+      }
+      break;
+    }
+    case CheckoutPage.Delivery: {
+      state.selectedDeliveryAddress = address
+      break;
+    }
+  }
 }
 
 const addCard = (card: CreditCardVO, cards: CreditCardVO[]) => {

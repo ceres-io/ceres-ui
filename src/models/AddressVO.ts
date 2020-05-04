@@ -1,7 +1,6 @@
 
 
 export class AddressVO {
-  id: number = 0;
   name: string = '';
   streetAddress: string = '';
   line2?: string;

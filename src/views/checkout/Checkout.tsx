@@ -14,7 +14,7 @@ import { useRouter } from "react-router5";
 import { RouteNames } from "../../routes/routes";
 import { useSelector, useDispatch } from "react-redux";
 import { IApplicationStore } from "../../redux/store/store.types";
-import { CardAddedAction, CardRemovedAction, AddressAddedAction, AddressRemovedAction, CardSelectedAction, AddressSelectedAction } from "../../redux/actions/CheckoutAction";
+import { CardAddedAction, CardRemovedAction, AddressAddedAction, AddressRemovedAction, CardSelectedAction, AddressSelectedAction, CheckoutPage } from "../../redux/actions/CheckoutAction";
 
 
 const useStyles = makeStyles((theme: Theme) => createStyles(
@@ -57,18 +57,18 @@ export const Checkout: FunctionComponent<CheckoutProps> = (props) => {
   const selectedAddress = useSelector((store: IApplicationStore) => store.ceres.checkout.selectedBillingAddress)
 
   const handleNewAddress = (newAddress: IAddress) => {
-    dispatch(new AddressAddedAction({ address: { id: addresses.length + 1, ...newAddress } }))
+    dispatch(new AddressAddedAction({ address: newAddress, page: CheckoutPage.Checkout }))
   }
 
   const handleAddressRemoved = (address?: IAddress) => {
     if (address) {
-      dispatch(new AddressRemovedAction({ address: { id: addresses.length + 1, ...address } }))
+      dispatch(new AddressRemovedAction({ address, page: CheckoutPage.Checkout }))
     }
   }
 
   const handleAddressSelected = (address?: IAddress) => {
     if (address) {
-      dispatch(new AddressSelectedAction({ address: { id: 0, ...address } }))
+      dispatch(new AddressSelectedAction({ address, page: CheckoutPage.Checkout }))
     }
   }
 
