@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect } from 'react';
 import Login from '../login/Login';
 import { MainProps, IMainInput } from './Main.types';
 import { RouteNames } from '../../routes/routes';
-import Home from '../home/Home';
+import { Home } from '../home/Home';
 import Signup from '../signup/Signup';
 import { Shop } from '../shop/Shop';
 import { Checkout } from '../checkout/Checkout';
