@@ -15,6 +15,7 @@ import { RouteNames } from "../../routes/routes";
 import { useSelector, useDispatch } from "react-redux";
 import { IApplicationStore } from "../../redux/store/store.types";
 import { CardAddedAction, CardRemovedAction, AddressAddedAction, AddressRemovedAction, CardSelectedAction, AddressSelectedAction, CheckoutPage } from "../../redux/actions/CheckoutAction";
+import { CheckoutStepper } from "../../components/CheckoutStepper/CheckoutStepper";
 
 
 const useStyles = makeStyles((theme: Theme) => createStyles(
@@ -96,6 +97,7 @@ export const Checkout: FunctionComponent<CheckoutProps> = (props) => {
 
   return (
     <React.Fragment>
+      <CheckoutStepper />
       <Box display={"flex"} flexDirection={"row"} className={classes.container}>
         <Box flexGrow={1}>
           <Grid container

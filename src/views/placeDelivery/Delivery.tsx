@@ -10,6 +10,7 @@ import { IApplicationStore } from "../../redux/store/store.types";
 import { AddressAddedAction, AddressRemovedAction, CheckoutPage, AddressSelectedAction } from "../../redux/actions/CheckoutAction";
 import { useRouter } from "react-router5";
 import { RouteNames } from "../../routes/routes";
+import { CheckoutStepper } from "../../components/CheckoutStepper/CheckoutStepper";
 
 const useStyles = makeStyles((theme: Theme) => createStyles(
   {
@@ -78,6 +79,7 @@ export const Delivery: FunctionComponent<DeliveryProps> = (props) => {
 
   return (
     <React.Fragment>
+      <CheckoutStepper />
       <Box display={"flex"} flexDirection={"row"} className={classes.container}>
         <Box flexGrow={1}>
           <Grid container

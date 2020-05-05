@@ -176,7 +176,7 @@ export const Home: React.FunctionComponent<HomeProps> = (props) => {
                 >
                   Start a New Cart
                 </Button>
-              </div>s
+              </div>
             </Grid>
           </Grid>
         </Box>

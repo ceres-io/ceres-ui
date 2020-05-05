@@ -1,5 +1,5 @@
 import React from 'react'
-import {SignIn} from './UserLogin'
+import { UserLogin } from './UserLogin'
 
-export default {title: 'Login Card'}
-export const login = () => <SignIn/>
+export default { title: 'Login Card' }
+export const login = () => <UserLogin />
