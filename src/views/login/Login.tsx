@@ -6,11 +6,10 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    height: '75vh'
   },
-  loginCard: {
-
-  }
+  loginCard: {}
 }))
 
 export const Login: FunctionComponent = () => {

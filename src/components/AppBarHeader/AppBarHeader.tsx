@@ -6,6 +6,8 @@ import { RouteNames } from '../../routes/routes';
 import { useRouter } from 'react-router5';
 import HomeIcon from '@material-ui/icons/Home';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { IApplicationStore } from '../../redux/store/store.types';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,9 +51,14 @@ export const AppBarHeader: FunctionComponent<AppBarHeaderProps> = (props: AppBar
   const router = useRouter();
 
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const loggedIn = useSelector((store: IApplicationStore) => store.ceres.account.loggedIn);
 
   const onShopClick = () => {
     router.navigate(RouteNames.Shop);
+  }
+
+  const onLoginClick = () => {
+    router.navigate(RouteNames.Login);
   }
 
   const onNavigationOptionClick = (option: NavigationOption) => {
@@ -75,7 +82,7 @@ export const AppBarHeader: FunctionComponent<AppBarHeaderProps> = (props: AppBar
           Ceres
         </Typography>
 
-        <Button color='inherit' onClick={onShopClick}>Shop Now</Button>
+        {!loggedIn && <Button color="inherit" onClick={onLoginClick}>Login</Button>}
 
         <Drawer
           open={drawerOpen}
@@ -99,12 +106,6 @@ export const AppBarHeader: FunctionComponent<AppBarHeaderProps> = (props: AppBar
             </List>
           </div>
         </Drawer>
-
-        {/* {props.firstName === undefined &&
-          <Button color="inherit" onClick={props.onSignUp}>Sign Up</Button>}
-        {props.firstName !== undefined &&
-          <Button color="inherit" onClick={props.onLogin}>Login</Button>} */}
-
       </Toolbar>
     </AppBar>
   )
