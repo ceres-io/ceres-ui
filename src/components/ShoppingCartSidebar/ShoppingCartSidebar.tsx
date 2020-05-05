@@ -18,11 +18,13 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 450,
       position: 'sticky',
       top: theme.spacing(1),
-      alignSelf: 'flex-start'
+      alignSelf: 'flex-start',
+      height: '88vh'
     },
     content: {
       paddingTop: theme.spacing(2),
-      paddingBottom: theme.spacing(2)
+      paddingBottom: theme.spacing(2),
+      height: '100%'
     },
     divider: {
       paddingTop: theme.spacing(1),
@@ -33,8 +35,10 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '92%'
     },
     tableContainer: {
+      margin: 0,
       paddingBottom: theme.spacing(2),
-      height: 570,
+      // height: 570,
+      height: '65%'
     },
     checkoutButton: {
       paddingTop: theme.spacing(2),
