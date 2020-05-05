@@ -4,6 +4,7 @@ import { configureRouter } from '../src/routes/configureRouter';
 import { addDecorator } from '@storybook/react';
 import { Provider } from 'react-redux';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
+import { RouterProvider } from 'react-router5';
 
 const router = configureRouter();
 const store = createReduxStore(router);
@@ -22,8 +23,10 @@ const theme = createMuiTheme({
 
 addDecorator(s =>
   <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      {s()}
-    </ThemeProvider>
+    <RouterProvider router={router}>
+      <ThemeProvider theme={theme}>
+        {s()}
+      </ThemeProvider>
+    </RouterProvider>
   </Provider>
 );
