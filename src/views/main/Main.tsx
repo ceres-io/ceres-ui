@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import Login from '../login/Login';
+import { Login } from '../login/Login';
 import { MainProps, IMainInput } from './Main.types';
 import { RouteNames } from '../../routes/routes';
 import { Home } from '../home/Home';
@@ -29,6 +29,9 @@ export const Main: FunctionComponent<MainProps> = props => {
     }
     case RouteNames.Track: {
       return <Track estTimeMinutes={26474510 + 40000} trackingId="74Q#ThvB#r" />;
+    }
+    case RouteNames.Login: {
+      return <Login />
     }
     default:
       return <Home />;
