@@ -2,7 +2,7 @@ import produce from 'immer';
 
 import { AddressVO } from '../../models/AddressVO';
 import { CreditCardVO } from '../../models/CreditCardVO';
-import { CheckoutActions, ActionName, AddressAddedAction, AddressRemovedAction, CardAddedAction, CardRemovedAction, AddressSelectedAction, CardSelectedAction, CheckoutPage } from '../actions/CheckoutAction';
+import { CheckoutActions, ActionName, AddressAddedAction, AddressRemovedAction, CardAddedAction, CardRemovedAction, AddressSelectedAction, CardSelectedAction, CheckoutPage, ZipAddedAction } from '../actions/CheckoutAction';
 
 import { remove } from 'lodash';
 
@@ -55,6 +55,10 @@ export const checkoutReducer = (state: ICheckoutState = initialCheckoutState, ac
         let cardAction = action as CardSelectedAction;
         next.selectedCard = cardAction.payload.card
         break;
+      }
+      case ActionName.ZipAdded: {
+        let zipAction = action as ZipAddedAction;
+        next.zip = zipAction.payload.zip
       }
     }
   })
