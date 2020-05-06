@@ -98,6 +98,12 @@ export const Home: React.FunctionComponent<HomeProps> = (props) => {
     // TODO - dispatch action for zip code
   }
 
+  const onEnterPressed = () => {
+    if (zipCode) {
+      router.navigate(RouteNames.Shop)
+    }
+  }
+
   return (
     <React.Fragment>
       <Box display={"flex"}
@@ -163,7 +169,9 @@ export const Home: React.FunctionComponent<HomeProps> = (props) => {
                       } else {
                         setZipCode("")
                       }
-                    }} />
+                    }}
+                    onEnterPressed={onEnterPressed}
+                  />
                 </div>
               </div>
             </Grid>
