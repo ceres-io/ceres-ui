@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Box, Button, createStyles, Grid, makeStyles, Theme, Typography } from '@material-ui/core';
 import { IApplicationStore } from '../../redux/store/store.types';
 import { HomeProps } from './Home.types';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { IValidFieldProps } from "../../components/ResponsiveTextField/ResponsiveTextField.types";
 import { extractNumbers, ValidatedField } from "../../components/ResponsiveTextField/ResponsiveTextField";
 import { EcoTwoTone } from "@material-ui/icons";
 import { useRouter } from 'react-router5';
 import { RouteNames } from '../../routes/routes';
+import { ZipAddedAction } from '../../redux/actions/CheckoutAction';
 
 const useStyles = makeStyles((theme: Theme) => createStyles(
   {
@@ -89,13 +90,20 @@ const ZipProps: IValidFieldProps = {
 export const Home: React.FunctionComponent<HomeProps> = (props) => {
   const classes = useStyles();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [zipCode, setZipCode] = useState("")
 
   const onStartClicked = () => {
     router.navigate(RouteNames.Shop)
+    dispatch(new ZipAddedAction({ zip: zipCode }))
+  }
 
-    // TODO - dispatch action for zip code
+  const onEnterPressed = () => {
+    if (zipCode) {
+      router.navigate(RouteNames.Shop)
+      dispatch(new ZipAddedAction({ zip: zipCode }))
+    }
   }
 
   return (
@@ -163,7 +171,9 @@ export const Home: React.FunctionComponent<HomeProps> = (props) => {
                       } else {
                         setZipCode("")
                       }
-                    }} />
+                    }}
+                    onEnterPressed={onEnterPressed}
+                  />
                 </div>
               </div>
             </Grid>

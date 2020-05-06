@@ -3,6 +3,7 @@ import { AddressVO } from '../../models/AddressVO';
 import { CreditCardVO } from '../../models/CreditCardVO';
 
 export enum ActionName {
+  ZipAdded = '@Checkout/zip/added',
   AddressAdded = '@Checkout/address/added',
   AddressRemoved = '@Checkout/address/removed',
   AddressSelected = '@Checkout/address/selected',
@@ -61,10 +62,21 @@ export class CardSelectedAction implements Action<ActionName> {
   }
 }
 
+export interface IZipPayload {
+  zip: string
+}
+
+export class ZipAddedAction implements Action<ActionName> {
+  type = ActionName.ZipAdded;
+  constructor(public payload: IZipPayload) {
+  }
+}
+
 export type CheckoutActions =
   AddressAddedAction |
   AddressRemovedAction |
   CardSelectedAction |
   CardAddedAction |
   CardRemovedAction |
-  CardSelectedAction;
+  CardSelectedAction |
+  ZipAddedAction;
