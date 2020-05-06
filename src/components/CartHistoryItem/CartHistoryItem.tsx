@@ -12,8 +12,6 @@ export const CartHistoryItem: FunctionComponent<CartHistoryItemProps> = (props) 
   const getRows = (): ProductVO[][] => {
     let allRows: ProductVO[][] = []
 
-
-
     const numRows = props.cart.products.length / PRODUCT_COLUMNS;
 
     for (var i = 0; i < numRows; i++) {
@@ -24,6 +22,19 @@ export const CartHistoryItem: FunctionComponent<CartHistoryItemProps> = (props) 
     }
 
     return allRows
+  }
+
+  const calculateTotal = (): number => {
+    return props.cart.products.reduce((subtotal, p) => subtotal + (p.quantity * p.type.price), 0)
+  }
+
+  const getAddress = (): string => {
+    let address = props.cart.deliveryAddress
+    return `${address.streetAddress}, ${address.city} ${address.state}, ${address.zip}`
+  }
+
+  const getDateString = (): string => {
+    return props.cart.date.toDateString()
   }
 
   return (
@@ -41,9 +52,9 @@ export const CartHistoryItem: FunctionComponent<CartHistoryItemProps> = (props) 
           </TableHead>
           <TableBody>
             <TableRow>
-              <TableCell>February 20, 2020</TableCell>
-              <TableCell>$100.00</TableCell>
-              <TableCell>1234 Fake Address Ln, Alexandria VA, 22310</TableCell>
+              <TableCell>{getDateString()}</TableCell>
+              <TableCell>${calculateTotal()}</TableCell>
+              <TableCell>{getAddress()}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
