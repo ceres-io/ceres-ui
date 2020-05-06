@@ -8,7 +8,8 @@ export enum RouteNames {
   Shop = 'ceres.shop',
   Checkout = 'ceres.checkout',
   Delivery = 'ceres.delivery',
-  Track = 'ceres.track'
+  Track = 'ceres.track',
+  History = 'ceres.history'
 }
 
 export const routes: Route[] = [
@@ -43,6 +44,10 @@ export const routes: Route[] = [
   {
     name: RouteNames.Track,
     path: '/delivery/track'
+  },
+  {
+    name: RouteNames.History,
+    path: '/history'
   }
 ]
 

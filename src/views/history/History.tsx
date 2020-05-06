@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Button, Box, makeStyles, Theme, createStyles, Typography } from '@material-ui/core';
+import { Button, Box, makeStyles, Theme, createStyles, Typography, Container } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { HistoryProps } from './History.types';
 import products from '../../resources/products.json';
@@ -51,7 +51,7 @@ export const History: FunctionComponent<HistoryProps> = () => {
   const classes = useStyles();
 
   return (
-    <React.Fragment>
+    <Container>
       <Box flexDirection='column'>
         <Box className={classes.item}>
           <Typography variant='h4'>
@@ -79,6 +79,6 @@ export const History: FunctionComponent<HistoryProps> = () => {
           )
         }
       </Box>
-    </React.Fragment>
+    </Container>
   )
 }
