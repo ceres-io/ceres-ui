@@ -1,14 +1,31 @@
-import React, { FunctionComponent } from 'react';
-import { ShoppingCartSidebarProps } from './ShoppingCartSidebar.types';
+import React, {FunctionComponent} from 'react';
+import {ShoppingCartSidebarProps} from './ShoppingCartSidebar.types';
 
-import { Paper, makeStyles, Typography, Container, Grid, Divider, createStyles, Theme, Table, TableBody, TableContainer, Button } from '@material-ui/core';
+import {
+  Button,
+  Container,
+  createStyles,
+  Divider,
+  Grid,
+  IconButton,
+  makeStyles,
+  Paper,
+  Snackbar,
+  Table,
+  TableBody,
+  TableContainer,
+  Theme,
+  Typography
+} from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import { ShoppingCartItem } from './ShoppingCartItem/ShoppingCartItem';
-import { CartTotal } from './CartTotal/CartTotal';
-import { useSelector } from 'react-redux';
-import { IApplicationStore } from '../../redux/store/store.types';
-import { useRouter } from 'react-router5';
-import { RouteNames } from '../../routes/routes';
+import {ShoppingCartItem} from './ShoppingCartItem/ShoppingCartItem';
+import {CartTotal} from './CartTotal/CartTotal';
+import {useDispatch, useSelector} from 'react-redux';
+import {IApplicationStore} from '../../redux/store/store.types';
+import {useRouter} from 'react-router5';
+import {RouteNames} from '../../routes/routes';
+import {Close} from "@material-ui/icons";
+import {ProductDeletionUndoAction, ProductDeletionUndoExpirationAction} from "../../redux/actions/ShoppingAction";
 
 const SIDEBAR_ELEVATION = 2;
 
@@ -51,11 +68,25 @@ export const ShoppingCartSidebar: FunctionComponent<ShoppingCartSidebarProps> = 
 
   const classes = useStyles();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const selectedProducts = useSelector((store: IApplicationStore) => store.ceres.shopping.products);
+  const dory = useSelector((store: IApplicationStore) => store.ceres.shopping.dory);
 
   const onCheckoutClick = () => {
     router.navigate(RouteNames.Checkout)
+  }
+
+  const onToastClose = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    dispatch(new ProductDeletionUndoExpirationAction())
+  }
+
+  const onUndo = () => {
+    dispatch(new ProductDeletionUndoAction())
   }
 
   return (
@@ -100,6 +131,26 @@ export const ShoppingCartSidebar: FunctionComponent<ShoppingCartSidebarProps> = 
           </div>
         }
       </Container>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right"
+        }}
+        open={dory !== undefined}
+        autoHideDuration={3000}
+        onClose={onToastClose}
+        message={"Product removed"}
+        action={
+          <React.Fragment>
+            <Button color="secondary" size="small" onClick={onUndo}>
+              UNDO
+            </Button>
+            <IconButton size="small" aria-label="close" color="inherit" onClick={onToastClose}>
+              <Close fontSize="small"/>
+            </IconButton>
+          </React.Fragment>
+        }
+      />
     </Paper>
   );
 }

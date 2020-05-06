@@ -1,6 +1,12 @@
 import produce from 'immer';
 import { ProductVO } from '../../models/ProductVO';
-import { ShoppingActions, ActionName, ProductDecreaseAction, ProductIncreaseAction, ProductQuantityChangeAction } from '../actions/ShoppingAction';
+import {
+  ShoppingActions,
+  ActionName,
+  ProductDecreaseAction,
+  ProductIncreaseAction,
+  ProductQuantityChangeAction
+} from '../actions/ShoppingAction';
 import { ProductTypeVO } from '../../models/ProductTypeVO';
 import { remove } from 'lodash';
 
@@ -11,6 +17,7 @@ export interface IShoppingState {
   subtotal: number
   tax: number
   total: number
+  dory?: ProductVO // you know... the fish
 }
 
 const initialShoppingState: IShoppingState = {
@@ -31,11 +38,27 @@ export const shoppingReducer = (state: IShoppingState = initialShoppingState, ac
       case ActionName.ProductDecrease: {
         let decreaseAction = action as ProductDecreaseAction;
         decreaseProduct(decreaseAction.payload.productType, next.products)
+        updateShortTermMemoryIfDeleted(state.products, decreaseAction.payload.productType, next)
         break;
       }
       case ActionName.ProductQuantity: {
         let quantityAction = action as ProductQuantityChangeAction;
         updateProductQuantity(quantityAction.payload.quantity, quantityAction.payload.productType, next.products)
+        if(quantityAction.payload.quantity == 0) {
+          // we've completely removed the item
+          updateShortTermMemory(state.products, quantityAction.payload.productType, next)
+        }
+        break;
+      }
+      case ActionName.ProductUndo: {
+        if(state.dory !== undefined) {
+          updateProductQuantity(state.dory.quantity, state.dory.type, next.products)
+        }
+        next.dory = undefined;
+        break;
+      }
+      case ActionName.ProductUndoExpiration: {
+        next.dory = undefined
         break;
       }
     }
@@ -73,6 +96,20 @@ const updateProductQuantity = (quantity: number, productType: ProductTypeVO, pro
   }
   else {
     products.push({ quantity: quantity, type: productType })
+  }
+}
+
+function updateShortTermMemory(products: ProductVO[], productType: ProductTypeVO, next: IShoppingState) {
+  let product = products.find(p => p.type.id === productType.id)
+  if(product) {
+    next.dory = product // Probably redundant, since product is already "nullable"
+  }
+}
+
+function updateShortTermMemoryIfDeleted(originalProducts: ProductVO[], productType: ProductTypeVO, next: IShoppingState) {
+  let product = originalProducts.find(p => p.type.id === productType.id)
+  if(product && product.quantity == 1) {
+    next.dory = product
   }
 }
 
