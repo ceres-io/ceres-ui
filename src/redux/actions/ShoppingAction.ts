@@ -4,7 +4,9 @@ import { ProductTypeVO } from '../../models/ProductTypeVO';
 export enum ActionName {
   ProductIncrease = '@Shopping/product/increase',
   ProductDecrease = '@Shopping/product/decrease',
-  ProductQuantity = '@Shopping/product/quantity'
+  ProductQuantity = '@Shopping/product/quantity',
+  ProductUndo = '@Shopping/product/undo',
+  ProductUndoExpiration = '@Shopping/product/undo/expire'
 }
 
 export interface IProductIncreasePayload {
@@ -38,4 +40,17 @@ export class ProductQuantityChangeAction implements Action<ActionName> {
   }
 }
 
-export type ShoppingActions = ProductIncreaseAction | ProductDecreaseAction | ProductQuantityChangeAction;
+export class ProductDeletionUndoAction implements Action<ActionName> {
+  type = ActionName.ProductUndo
+  constructor() {
+  }
+}
+
+export class ProductDeletionUndoExpirationAction implements Action<ActionName> {
+  type = ActionName.ProductUndoExpiration
+  constructor() { // Do I need this? IDK
+  }
+}
+
+export type ShoppingActions = ProductIncreaseAction | ProductDecreaseAction | ProductQuantityChangeAction |
+    ProductDeletionUndoAction | ProductDeletionUndoExpirationAction;
