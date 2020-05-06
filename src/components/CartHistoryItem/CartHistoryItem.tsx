@@ -25,7 +25,7 @@ export const CartHistoryItem: FunctionComponent<CartHistoryItemProps> = (props) 
   }
 
   const calculateTotal = (): number => {
-    return props.cart.products.reduce((subtotal, p) => subtotal + (p.quantity * p.type.price), 0)
+    return props.cart.products.reduce((subtotal: number, p) => subtotal + (p.quantity * p.type.price), 0)
   }
 
   const getAddress = (): string => {

@@ -3,7 +3,7 @@ import { Button, Box, makeStyles, Theme, createStyles, Typography } from '@mater
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { HistoryProps } from './History.types';
 import products from '../../resources/products.json';
-import { CartVO } from '../../models/CartVo';
+import { CartVO } from '../../models/CartVO';
 import { ProductVO } from '../../models/ProductVO';
 import { AddressVO } from '../../models/AddressVO';
 import faker from 'faker';
