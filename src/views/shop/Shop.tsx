@@ -9,6 +9,7 @@ import { ShoppingCartSidebar } from '../../components/ShoppingCartSidebar/Shoppi
 import { ShopJoyride } from '../../components/ShopJoyride/ShopJoyride';
 import products from '../../resources/products.json';
 
+
 const useStyles = makeStyles((theme: Theme) => createStyles(
   {
     container: {

@@ -4,6 +4,6 @@ import { AddressVO } from './AddressVO';
 
 export class CartVO {
   products: ProductVO[] = [];
-  deliveryAddress: AddressVO;
-  date: Date;
+  deliveryAddress: AddressVO = new AddressVO();
+  date: Date = new Date();
 }
