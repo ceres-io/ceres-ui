@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       flexGrow: 1
     },
+    zip: {
+      marginRight: theme.spacing(4)
+    },
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: 240,
@@ -52,6 +55,7 @@ export const AppBarHeader: FunctionComponent<AppBarHeaderProps> = (props: AppBar
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const loggedIn = useSelector((store: IApplicationStore) => store.ceres.account.loggedIn);
+  const zipCode = useSelector((store: IApplicationStore) => store.ceres.checkout.zip);
 
   const onShopClick = () => {
     router.navigate(RouteNames.Shop);
@@ -81,6 +85,13 @@ export const AppBarHeader: FunctionComponent<AppBarHeaderProps> = (props: AppBar
         <Typography variant="h6" className={classes.title}>
           Ceres
         </Typography>
+
+        {
+          zipCode &&
+          <Typography variant="body1" className={classes.zip}>
+            Shopping for Zip: 22310
+          </Typography>
+        }
 
         {!loggedIn && <Button color="inherit" onClick={onLoginClick}>Login</Button>}
 
