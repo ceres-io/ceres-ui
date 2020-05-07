@@ -1,5 +1,5 @@
 import { InputAdornment, makeStyles, TextField, Tooltip } from "@material-ui/core";
-import React, {FunctionComponent, useEffect, useState} from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { IValidatedChange, IValidFieldEvents, IValidFieldProps } from "./ResponsiveTextField.types";
 import { CheckCircle } from "@material-ui/icons";
 
@@ -44,7 +44,7 @@ export const ValidatedField: FunctionComponent<IValidFieldProps & IValidFieldEve
   const [prettyInput, setPrettyInput] = useState("");
 
   useEffect(() => {
-    if(props.initialState !== undefined && props.isValid(props.initialState)) {
+    if (props.initialState !== undefined && props.isValid(props.initialState)) {
       setUserInput(props.initialState)
       setParsedInput(props.initialState)
       setPrettyInput(props.initialState)
@@ -151,6 +151,7 @@ export const ValidatedField: FunctionComponent<IValidFieldProps & IValidFieldEve
         variant='outlined'
         helperText={helperText()}
         InputProps={adornment()}
+        autoFocus={Boolean(props.autofocus)}
       />
     </Tooltip>
 

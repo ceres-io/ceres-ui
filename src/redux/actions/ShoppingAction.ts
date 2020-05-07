@@ -1,12 +1,14 @@
 import { Action } from 'redux';
 import { ProductTypeVO } from '../../models/ProductTypeVO';
+import { ProductVO } from '../../models/ProductVO';
 
 export enum ActionName {
   ProductIncrease = '@Shopping/product/increase',
   ProductDecrease = '@Shopping/product/decrease',
   ProductQuantity = '@Shopping/product/quantity',
   ProductUndo = '@Shopping/product/undo',
-  ProductUndoExpiration = '@Shopping/product/undo/expire'
+  ProductUndoExpiration = '@Shopping/product/undo/expire',
+  CartProductOverride = '@Shopping/cart/products'
 }
 
 export interface IProductIncreasePayload {
@@ -40,6 +42,16 @@ export class ProductQuantityChangeAction implements Action<ActionName> {
   }
 }
 
+export interface ICartPayload {
+  products: ProductVO[]
+}
+
+export class CartProductOverrideAction implements Action<ActionName> {
+  type = ActionName.CartProductOverride
+  constructor(public payload: ICartPayload) {
+  }
+}
+
 export class ProductDeletionUndoAction implements Action<ActionName> {
   type = ActionName.ProductUndo
   constructor() {
@@ -53,4 +65,4 @@ export class ProductDeletionUndoExpirationAction implements Action<ActionName> {
 }
 
 export type ShoppingActions = ProductIncreaseAction | ProductDecreaseAction | ProductQuantityChangeAction |
-    ProductDeletionUndoAction | ProductDeletionUndoExpirationAction;
+  ProductDeletionUndoAction | ProductDeletionUndoExpirationAction;

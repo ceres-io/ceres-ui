@@ -6,7 +6,8 @@ export interface IValidFieldProps {
   parse: (userInput: string) => string;
   prettify: (parsedInput: string) => string;
   isValid: (parsedInput: string) => boolean;
-  initialState?: string
+  initialState?: string;
+  autofocus?: boolean;
 }
 
 export interface IValidatedChange {

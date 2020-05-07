@@ -5,7 +5,8 @@ import {
   ActionName,
   ProductDecreaseAction,
   ProductIncreaseAction,
-  ProductQuantityChangeAction
+  ProductQuantityChangeAction,
+  CartProductOverrideAction
 } from '../actions/ShoppingAction';
 import { ProductTypeVO } from '../../models/ProductTypeVO';
 import { remove } from 'lodash';
@@ -44,14 +45,14 @@ export const shoppingReducer = (state: IShoppingState = initialShoppingState, ac
       case ActionName.ProductQuantity: {
         let quantityAction = action as ProductQuantityChangeAction;
         updateProductQuantity(quantityAction.payload.quantity, quantityAction.payload.productType, next.products)
-        if(quantityAction.payload.quantity == 0) {
+        if (quantityAction.payload.quantity == 0) {
           // we've completely removed the item
           updateShortTermMemory(state.products, quantityAction.payload.productType, next)
         }
         break;
       }
       case ActionName.ProductUndo: {
-        if(state.dory !== undefined) {
+        if (state.dory !== undefined) {
           updateProductQuantity(state.dory.quantity, state.dory.type, next.products)
         }
         next.dory = undefined;
@@ -59,6 +60,11 @@ export const shoppingReducer = (state: IShoppingState = initialShoppingState, ac
       }
       case ActionName.ProductUndoExpiration: {
         next.dory = undefined
+        break;
+      }
+      case ActionName.CartProductOverride: {
+        let cartAction = action as CartProductOverrideAction;
+        next.products = cartAction.payload.products;
         break;
       }
     }
@@ -101,14 +107,14 @@ const updateProductQuantity = (quantity: number, productType: ProductTypeVO, pro
 
 function updateShortTermMemory(products: ProductVO[], productType: ProductTypeVO, next: IShoppingState) {
   let product = products.find(p => p.type.id === productType.id)
-  if(product) {
+  if (product) {
     next.dory = product // Probably redundant, since product is already "nullable"
   }
 }
 
 function updateShortTermMemoryIfDeleted(originalProducts: ProductVO[], productType: ProductTypeVO, next: IShoppingState) {
   let product = originalProducts.find(p => p.type.id === productType.id)
-  if(product && product.quantity == 1) {
+  if (product && product.quantity == 1) {
     next.dory = product
   }
 }

@@ -83,7 +83,8 @@ const ZipProps: IValidFieldProps = {
   filter: userInput => extractNumbers(userInput),
   parse: filtered => filtered,
   prettify: parsedInput => parsedInput.substr(0, 5),
-  isValid: parsedInput => parsedInput.length >= 5
+  isValid: parsedInput => parsedInput.length >= 5,
+  autofocus: true
 }
 
 
@@ -195,8 +196,8 @@ export const Home: React.FunctionComponent<HomeProps> = (props) => {
             <Grid item alignItems={"center"}>
               <div className={classes.gridCell}>
                 <Button variant={"contained"}
-                        color={"primary"}
-                        onClick={onShortcutStartClicked}
+                  color={"primary"}
+                  onClick={onShortcutStartClicked}
                 >
                   Continue without Zip Code
                 </Button>

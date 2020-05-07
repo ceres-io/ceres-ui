@@ -45,6 +45,13 @@ const useStyles = makeStyles((theme: Theme) => createStyles(
     media: {
       height: "100%",
       width: "100%",
+    },
+    navButton: {
+      marginLeft: theme.spacing(2),
+      marginRight: theme.spacing(2)
+    },
+    buttonBar: {
+      marginTop: theme.spacing(2)
     }
   }
 ))
@@ -76,6 +83,10 @@ export const Delivery: FunctionComponent<DeliveryProps> = (props) => {
 
   const handleOrderClicked = () => {
     router.navigate(RouteNames.Track)
+  }
+
+  const onBackClick = () => {
+    router.navigate(RouteNames.Checkout)
   }
 
   return (
@@ -118,16 +129,27 @@ export const Delivery: FunctionComponent<DeliveryProps> = (props) => {
               </div>
             </Grid>
             <Grid item xs={12}>
-              <div className={classes.formCell}>
-                <Button color="primary"
-                  variant='contained'
-                  size="large"
-                  disabled={selectedAddress === undefined}
-                  onClick={handleOrderClicked}
-                >
-                  Place Your Order
-                </Button>
-              </div>
+              <Box className={classes.buttonBar} display='flex' flexDirection='row' justifyContent='center'>
+                <Box className={classes.navButton}>
+                  <Button color='primary'
+                    variant='contained'
+                    size='large'
+                    onClick={onBackClick}
+                  >
+                    Back
+                  </Button>
+                </Box>
+                <Box className={classes.navButton}>
+                  <Button color="primary"
+                    variant='contained'
+                    size="large"
+                    disabled={selectedAddress === undefined}
+                    onClick={handleOrderClicked}
+                  >
+                    Place Your Order
+                  </Button>
+                </Box>
+              </Box>
             </Grid>
           </Grid>
         </Box>

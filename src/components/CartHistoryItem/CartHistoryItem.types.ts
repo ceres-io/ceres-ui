@@ -5,7 +5,8 @@ export interface ICartHistoryItemInput {
 }
 
 export interface ICartHistoryItemEvent {
-
+  onStartFromCartClick?: () => void;
+  onOrderAgainClick?: () => void;
 }
 
 export type CartHistoryItemProps = ICartHistoryItemInput & ICartHistoryItemEvent
