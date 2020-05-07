@@ -8,6 +8,8 @@ import { ProductVO } from '../../models/ProductVO';
 import { AddressVO } from '../../models/AddressVO';
 import faker from 'faker';
 import { CartHistoryItem } from '../../components/CartHistoryItem/CartHistoryItem';
+import { useSelector } from 'react-redux';
+import { IApplicationStore } from '../../redux/store/store.types';
 
 const availableProducts = products.products.filter(p => p.imageUrl).slice(0, 200)
 
@@ -49,13 +51,14 @@ const getFakeCarts = (): CartVO[] => {
 export const History: FunctionComponent<HistoryProps> = () => {
 
   const classes = useStyles();
+  const username = useSelector((store: IApplicationStore) => store.ceres.account.username)
 
   return (
     <Container>
       <Box flexDirection='column'>
         <Box className={classes.item}>
           <Typography variant='h4'>
-            Welcome back, Clayton!
+            Welcome back, {username}!
           </Typography>
         </Box>
 
