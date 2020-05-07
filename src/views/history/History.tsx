@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles(
 ))
 
 const getRandomProducts = (): ProductVO[] => {
-  return availableProducts.sort(() => 0.5 - Math.random()).slice(0, Math.random() * 5).map(pt => ({ quantity: Math.floor(Math.random() * 10), type: pt }))
+  return availableProducts.sort(() => 0.5 - Math.random()).slice(0, Math.ceil(Math.random() * 5)).map(pt => ({ quantity: Math.ceil(Math.random() * 10), type: pt }))
 }
 
 const getRandomAddress = (): AddressVO => {
