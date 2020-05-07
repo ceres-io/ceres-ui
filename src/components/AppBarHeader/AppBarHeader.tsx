@@ -72,10 +72,6 @@ export const AppBarHeader: FunctionComponent<AppBarHeaderProps> = (props: AppBar
   const loggedIn = useSelector((store: IApplicationStore) => store.ceres.account.loggedIn);
   const zipCode = useSelector((store: IApplicationStore) => store.ceres.checkout.zip);
 
-  // const onShopClick = () => {
-  //   router.navigate(RouteNames.Shop);
-  // }
-
   const onLoginClick = () => {
     router.navigate(RouteNames.Login);
   }

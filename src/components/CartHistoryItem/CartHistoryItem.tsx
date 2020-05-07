@@ -1,13 +1,26 @@
 import React, { FunctionComponent } from 'react';
 import { CartHistoryItemProps } from './CartHistoryItem.types';
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Paper, Button } from '@material-ui/core';
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Paper, Button, makeStyles, Theme, createStyles, Divider } from '@material-ui/core';
 import { ProductVO } from '../../models/ProductVO';
+import { formatCurrency } from '../../utils/currencyUtil';
 
+
+const useStyles = makeStyles((theme: Theme) => createStyles(
+  {
+    noBottomBorder: {
+      borderBottom: 'none'
+    },
+    productTable: {
+      // marginTop: theme.spacing(1)
+    }
+  }
+))
 
 export const PRODUCT_COLUMNS = 3;
 
 export const CartHistoryItem: FunctionComponent<CartHistoryItemProps> = (props) => {
 
+  const classes = useStyles();
 
   const getRows = (): ProductVO[][] => {
     let allRows: ProductVO[][] = []
@@ -51,15 +64,17 @@ export const CartHistoryItem: FunctionComponent<CartHistoryItemProps> = (props) 
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell>{getDateString()}</TableCell>
-              <TableCell>${calculateTotal()}</TableCell>
-              <TableCell>{getAddress()}</TableCell>
+            <TableRow >
+              <TableCell className={classes.noBottomBorder}>{getDateString()}</TableCell>
+              <TableCell className={classes.noBottomBorder}>{formatCurrency(calculateTotal())}</TableCell>
+              <TableCell className={classes.noBottomBorder}>{getAddress()}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
 
-        <Table size='small'>
+        <Divider />
+
+        <Table size='small' className={classes.productTable}>
           <TableBody>
             {getRows().map(r =>
               <TableRow>
