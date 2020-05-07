@@ -44,6 +44,13 @@ const useStyles = makeStyles((theme: Theme) => createStyles(
       alignItems: "stretch",
       justifyContent: "center"
     },
+    navButton: {
+      marginLeft: theme.spacing(2),
+      marginRight: theme.spacing(2)
+    },
+    buttonBar: {
+      marginTop: theme.spacing(2)
+    }
   }
 ))
 
@@ -95,6 +102,10 @@ export const Checkout: FunctionComponent<CheckoutProps> = (props) => {
     router.navigate(RouteNames.Delivery)
   }
 
+  const onBackClick = () => {
+    router.navigate(RouteNames.Shop)
+  }
+
 
   return (
     <React.Fragment>
@@ -136,16 +147,27 @@ export const Checkout: FunctionComponent<CheckoutProps> = (props) => {
               </div>
             </Grid>
             <Grid item xs={12}>
-              <div className={classes.formCell}>
-                <Button color="primary"
-                  variant='contained'
-                  size="large"
-                  disabled={selectedCard === undefined || selectedAddress === undefined}
-                  onClick={onContinueClick}
-                >
-                  Continue
+              <Box className={classes.buttonBar} display='flex' flexDirection='row' justifyContent='center'>
+                <Box className={classes.navButton}>
+                  <Button color='primary'
+                    variant='contained'
+                    size='large'
+                    onClick={onBackClick}
+                  >
+                    Back
+                  </Button>
+                </Box>
+                <Box className={classes.navButton}>
+                  <Button color="primary"
+                    variant='contained'
+                    size="large"
+                    disabled={selectedCard === undefined || selectedAddress === undefined}
+                    onClick={onContinueClick}
+                  >
+                    Continue
                 </Button>
-              </div>
+                </Box>
+              </Box>
             </Grid>
           </Grid>
         </Box>
@@ -154,7 +176,7 @@ export const Checkout: FunctionComponent<CheckoutProps> = (props) => {
         </Box>
       </Box>
 
-    </React.Fragment>
+    </React.Fragment >
 
   );
 }
