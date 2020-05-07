@@ -106,6 +106,10 @@ export const Home: React.FunctionComponent<HomeProps> = (props) => {
     }
   }
 
+  const onShortcutStartClicked = () => {
+    router.navigate(RouteNames.Shop)
+  }
+
   return (
     <React.Fragment>
       <Box display={"flex"}
@@ -185,6 +189,16 @@ export const Home: React.FunctionComponent<HomeProps> = (props) => {
                   onClick={onStartClicked}
                 >
                   Start a New Cart
+                </Button>
+              </div>
+            </Grid>
+            <Grid item alignItems={"center"}>
+              <div className={classes.gridCell}>
+                <Button variant={"contained"}
+                        color={"primary"}
+                        onClick={onShortcutStartClicked}
+                >
+                  Continue without Zip Code
                 </Button>
               </div>
             </Grid>
