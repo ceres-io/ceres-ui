@@ -89,7 +89,7 @@ export const AppBarHeader: FunctionComponent<AppBarHeaderProps> = (props: AppBar
         {
           zipCode &&
           <Typography variant="body1" className={classes.zip}>
-            Shopping for Zip: 22310
+            {"Shopping for Zip: " + zipCode}
           </Typography>
         }
 

@@ -56,6 +56,7 @@ export const Checkout: FunctionComponent<CheckoutProps> = (props) => {
   const selectedCard = useSelector((store: IApplicationStore) => store.ceres.checkout.selectedCard)
   const addresses = useSelector((store: IApplicationStore) => store.ceres.checkout.addresses)
   const selectedAddress = useSelector((store: IApplicationStore) => store.ceres.checkout.selectedBillingAddress)
+  const zip = useSelector((store: IApplicationStore) => store.ceres.checkout.zip)
 
   const handleNewAddress = (newAddress: IAddress) => {
     dispatch(new AddressAddedAction({ address: newAddress, page: CheckoutPage.Checkout }))
@@ -131,7 +132,7 @@ export const Checkout: FunctionComponent<CheckoutProps> = (props) => {
             </Grid>
             <Grid item xs={6}>
               <div className={classes.formCell}>
-                <NewAddressForm onAddressAdded={address => handleNewAddress(address)} />
+                <NewAddressForm zip={zip} onAddressAdded={address => handleNewAddress(address)} />
               </div>
             </Grid>
             <Grid item xs={12}>

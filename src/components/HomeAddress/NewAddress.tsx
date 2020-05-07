@@ -12,7 +12,7 @@ import {
     Select,
     TextField
 } from "@material-ui/core";
-import React, {FunctionComponent, useState} from "react";
+import React, {FunctionComponent, useEffect, useState} from "react";
 import {Add} from "@material-ui/icons";
 import {IAddress, NewAddressProps} from "./Address.types";
 import {IValidFieldProps} from "../ResponsiveTextField/ResponsiveTextField.types";
@@ -65,6 +65,12 @@ export const NewAddressForm: FunctionComponent<NewAddressProps> = (props) => {
     const [city, setCity] = useState("");
     const [usState, setUsState] = useState("");
     const [zipCode, setZipCode] = useState("");
+
+    useEffect(() => {
+      if(props.zip) {
+        setZipCode(props.zip)
+      }
+    }, [props.zip])
 
     const formComplete = () => {
         return address1 !== "" &&
@@ -172,6 +178,9 @@ export const NewAddressForm: FunctionComponent<NewAddressProps> = (props) => {
 
                     <Grid item xs={4} key={"Zip"}>
                         <ValidatedField {...ZipProps}
+                                        initialState = {
+                                          zipCode === "" ? undefined : zipCode
+                                        }
                                         onValidatedChange={(c) => {
                                             if (c.valid) {
                                                 setZipCode(c.prettyInput)
