@@ -60,6 +60,8 @@ export const History: FunctionComponent<HistoryProps> = () => {
   const username = useSelector((store: IApplicationStore) => store.ceres.account.username)
 
   const onStartNewCartClick = () => {
+    // Clear out any previous products (new cart)
+    dispatch(new CartProductOverrideAction({ products: [] }))
     router.navigate(RouteNames.Shop);
   }
 
