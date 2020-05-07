@@ -1,4 +1,4 @@
-import { CartVO } from "../../models/CartVo";
+import { CartVO } from '../../models/CartVO';
 
 export interface ICartHistoryItemInput {
   cart: CartVO

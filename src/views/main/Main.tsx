@@ -8,6 +8,7 @@ import { Shop } from '../shop/Shop';
 import { Checkout } from '../checkout/Checkout';
 import { Delivery } from '../placeDelivery/Delivery';
 import { Track } from '../trackDelivery/Track';
+import { History } from '../history/History';
 import { useRoute } from 'react-router5';
 
 
@@ -32,6 +33,9 @@ export const Main: FunctionComponent<MainProps> = props => {
     }
     case RouteNames.Login: {
       return <Login />
+    }
+    case RouteNames.History: {
+      return <History />;
     }
     default:
       return <Home />;
