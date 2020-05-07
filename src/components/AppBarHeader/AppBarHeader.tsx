@@ -115,11 +115,11 @@ export const AppBarHeader: FunctionComponent<AppBarHeaderProps> = (props: AppBar
         }
 
         {loggedIn ?
-          <Button color="inherit" onClick={onLoginClick}>Login</Button>
-          :
           <IconButton className={classes.profileIcon} onClick={onProfileClick}>
             <AccountCircleIcon fontSize='large' />
           </IconButton>
+          :
+          <Button color="inherit" onClick={onLoginClick}>Login</Button>
         }
 
         <Drawer
