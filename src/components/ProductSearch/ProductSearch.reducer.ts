@@ -12,10 +12,14 @@ export interface IProductSearchState {
   inputFilter: string
 }
 
+const getRandomProductTypes = (availableProducts: ProductTypeVO[]): ProductTypeVO[] => {
+  return availableProducts.sort(() => 0.5 - Math.random()).slice(0, Math.ceil(Math.random() * 6))
+}
+
 export const getDefaultState = (availableProducts: ProductTypeVO[]): IProductSearchState => {
   return {
     options: availableProducts,
-    filtered: [],
+    filtered: getRandomProductTypes(availableProducts),
     selectedFilters: [],
     inputFilter: ''
   }

@@ -79,8 +79,6 @@ export const ProductSearch: FunctionComponent<ProductSearchProps> = (props) => {
     }
   }
 
-  // TODO - look into using `MultipleValues` type to persist category tags
-  // TODO - clear selected filters etc
   return (
     <Autocomplete<ProductSearchOption>
       multiple
@@ -93,7 +91,7 @@ export const ProductSearch: FunctionComponent<ProductSearchProps> = (props) => {
           <Chip label={`${option.group}: ${option.label}`} {...getTagProps({ index })} />
         ))
       }
-      renderInput={params => <TextField inputRef={props.inputRef} {...params} label='Search for a product or category' variant='filled' />}
+      renderInput={params => <TextField autoFocus inputRef={props.inputRef} {...params} label='Search for a product or category' variant='filled' />}
       inputValue={state.inputFilter}
       onInputChange={onInputChange}
       filterOptions={filterOptions}
