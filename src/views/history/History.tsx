@@ -8,8 +8,11 @@ import { ProductVO } from '../../models/ProductVO';
 import { AddressVO } from '../../models/AddressVO';
 import faker from 'faker';
 import { CartHistoryItem } from '../../components/CartHistoryItem/CartHistoryItem';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { IApplicationStore } from '../../redux/store/store.types';
+import { useRouter } from 'react-router5';
+import { RouteNames } from '../../routes/routes';
+import { CartProductOverrideAction } from '../../redux/actions/ShoppingAction';
 
 const availableProducts = products.products.filter(p => p.imageUrl).slice(0, 200)
 
@@ -51,7 +54,25 @@ const getFakeCarts = (): CartVO[] => {
 export const History: FunctionComponent<HistoryProps> = () => {
 
   const classes = useStyles();
+  const router = useRouter();
+  const dispatch = useDispatch();
+
   const username = useSelector((store: IApplicationStore) => store.ceres.account.username)
+
+  const onStartNewCartClick = () => {
+    router.navigate(RouteNames.Shop);
+  }
+
+  const onStartFromCartClick = (cart: CartVO) => {
+    dispatch(new CartProductOverrideAction({ products: cart.products }))
+    router.navigate(RouteNames.Shop);
+  }
+
+  const onOrderAgainClick = (cart: CartVO) => {
+    dispatch(new CartProductOverrideAction({ products: cart.products }));
+    router.navigate(RouteNames.Track);
+  }
+
 
   return (
     <Container>
@@ -63,7 +84,11 @@ export const History: FunctionComponent<HistoryProps> = () => {
         </Box>
 
         <Box className={classes.item}>
-          <Button variant='contained' color='primary'>
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={onStartNewCartClick}
+          >
             Start a New Cart
           </Button>
         </Box>
@@ -77,7 +102,11 @@ export const History: FunctionComponent<HistoryProps> = () => {
         {
           getFakeCarts().map(c =>
             <Box className={classes.cartItem}>
-              <CartHistoryItem cart={c} />
+              <CartHistoryItem
+                cart={c}
+                onStartFromCartClick={() => onStartFromCartClick(c)}
+                onOrderAgainClick={() => onOrderAgainClick(c)}
+              />
             </Box>
           )
         }

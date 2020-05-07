@@ -50,6 +50,18 @@ export const CartHistoryItem: FunctionComponent<CartHistoryItemProps> = (props) 
     return props.cart.date.toDateString()
   }
 
+  const onOrderAgainClick = () => {
+    if (props.onOrderAgainClick) {
+      props.onOrderAgainClick()
+    }
+  }
+
+  const onStartFromCartClick = () => {
+    if (props.onStartFromCartClick) {
+      props.onStartFromCartClick()
+    }
+  }
+
   return (
     <Paper elevation={2}>
       <TableContainer>
@@ -59,8 +71,8 @@ export const CartHistoryItem: FunctionComponent<CartHistoryItemProps> = (props) 
               <TableCell>Order Date</TableCell>
               <TableCell>Total</TableCell>
               <TableCell>Delivery Details</TableCell>
-              <TableCell><Button variant='contained' color='primary'>Order Again</Button></TableCell>
-              <TableCell><Button variant='contained' color='secondary'>Fill New Cart</Button></TableCell>
+              <TableCell><Button variant='contained' color='primary' onClick={onOrderAgainClick}>Order Again</Button></TableCell>
+              <TableCell><Button variant='contained' color='secondary' onClick={onStartFromCartClick}>Start From Cart</Button></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
