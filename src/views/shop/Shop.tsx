@@ -38,13 +38,6 @@ export const Shop: FunctionComponent<ShopProps> = (props) => {
     setFilteredProducts(productTypes)
   }
 
-  // Autofocus search box upon page entry
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [inputRef.current])
-
   const onRefineSearch = () => {
     if (inputRef.current) {
       inputRef.current.focus();
