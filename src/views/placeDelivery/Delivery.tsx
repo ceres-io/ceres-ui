@@ -56,6 +56,7 @@ export const Delivery: FunctionComponent<DeliveryProps> = (props) => {
 
   const addresses = useSelector((store: IApplicationStore) => store.ceres.checkout.addresses)
   const selectedAddress = useSelector((store: IApplicationStore) => store.ceres.checkout.selectedDeliveryAddress)
+  const zip = useSelector((store: IApplicationStore) => store.ceres.checkout.zip)
 
   const handleNewAddress = (newAddress: IAddress) => {
     dispatch(new AddressAddedAction({ address: newAddress, page: CheckoutPage.Delivery }))
@@ -113,7 +114,7 @@ export const Delivery: FunctionComponent<DeliveryProps> = (props) => {
             </Grid>
             <Grid item xs={6}>
               <div className={classes.formCell}>
-                <NewAddressForm onAddressAdded={handleNewAddress} />
+                <NewAddressForm zip={zip} onAddressAdded={handleNewAddress} />
               </div>
             </Grid>
             <Grid item xs={12}>
