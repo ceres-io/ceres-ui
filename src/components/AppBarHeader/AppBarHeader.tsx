@@ -137,7 +137,9 @@ export const AppBarHeader: FunctionComponent<AppBarHeaderProps> = (props: AppBar
                   key={o.label}
                   onClick={() => onNavigationOptionClick(o)}
                 >
+                  {o.icon &&
                   <ListItemIcon>{o.icon}</ListItemIcon>
+                  }
                   <ListItemText primary={o.label} />
                 </ListItem>
               )}
