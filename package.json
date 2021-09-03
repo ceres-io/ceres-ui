@@ -24,7 +24,7 @@
     "@types/styled-components": "^4.4.3",
     "debounce": "^1.2.0",
     "faker": "^4.1.0",
-    "immer": "^6.0.3",
+    "immer": "^9.0.6",
     "lodash": "^4.17.15",
     "match-sorter": "^4.1.0",
     "react": "^16.12.0",
